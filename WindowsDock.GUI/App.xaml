@@ -1,0 +1,368 @@
+﻿<Application x:Class="WindowsDock.GUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:local="clr-namespace:WindowsDock.GUI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisibility" />
+        <local:InverseBoolToStringConverter x:Key="inverseBoolToString" />
+
+        <LinearGradientBrush x:Key="foregroundBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0" Color="LightGreen"/>
+            <GradientStop Offset="1" Color="DarkGreen"/>
+        </LinearGradientBrush>
+        <Storyboard x:Key="textNoteActiveEffect">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFDDDDDD" />
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Canvas x:Key="folderCanvas" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0">
+            <Path Width="24" Height="19.0834" Canvas.Left="1.5" Canvas.Top="4.41669" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 2,23L 25,23.0001L 25,8.00006L 10.8333,8.00006L 10,4.91669L 2,4.91669L 2,23 Z "/>
+            <Path Width="27" Height="13" Canvas.Left="1.5" Canvas.Top="10.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 2,23L 5,11L 28,11L 25,23L 2,23 Z "/>
+        </Canvas>
+        <Canvas x:Key="clockCanvas" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0">
+            <Path Width="22" Height="20.0834" Canvas.Left="4" Canvas.Top="3.91669" Stretch="Fill" StrokeThickness="1" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 15,4.91669C 20.5229,4.91669 25,8.96478 25,13.9584C 25,18.952 20.5228,23.0001 15,23.0001C 9.47715,23.0001 5,18.952 5,13.9584C 5,8.96478 9.4771,4.91669 15,4.91669 Z "/>
+            <Path Width="5.75" Height="9.99994" Canvas.Left="12.25" Canvas.Top="7.50006" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 12.75,8.00006L 15,14L 17.5,17"/>
+            <Path Width="0.5" Height="1.91663" Canvas.Left="14.75" Canvas.Top="4.66669" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 15,4.91669L 15,6.33331"/>
+            <Path Width="2.5" Height="0.5" Canvas.Left="22.75" Canvas.Top="13.75" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 25,14L 23,14"/>
+            <Path Width="0.5" Height="2.08331" Canvas.Left="14.75" Canvas.Top="21.1667" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 15,23L 15,21.4167"/>
+            <Path Width="2.5" Height="0.5" Canvas.Left="4.75" Canvas.Top="13.75" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 5,14L 7,14"/>
+            <Path Width="1.5" Height="1.58331" Canvas.Left="19.1667" Canvas.Top="6.66669" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 20.4167,6.91669L 19.4167,8"/>
+            <Path Width="1.83333" Height="1.83337" Canvas.Left="21.8828" Canvas.Top="9.03387" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 23.4661,9.28387L 22.1328,10.6172"/>
+            <Path Width="1.91667" Height="1.75" Canvas.Left="21.7311" Canvas.Top="17.0176" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 23.3978,18.5176L 21.9811,17.2676"/>
+            <Path Width="1.5" Height="1.75" Canvas.Left="18.7999" Canvas.Top="20.3748" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 20.0499,21.8748L 19.0499,20.6248"/>
+            <Path Width="1.25" Height="1.91669" Canvas.Left="10.4164" Canvas.Top="20.3709" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 10.6664,22.0376L 11.4164,20.6209"/>
+            <Path Width="1.75" Height="1.33331" Canvas.Left="6.75" Canvas.Top="17.75" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 7,18.8333L 8.25,18"/>
+            <Path Width="1.33333" Height="2" Canvas.Left="9.66667" Canvas.Top="6.25" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 9.91667,6.5L 10.75,8"/>
+            <Path Width="1.91667" Height="2.08337" Canvas.Left="6.0809" Canvas.Top="8.58551" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 6.3309,8.83551L 7.74756,10.4189"/>
+        </Canvas>
+        <Canvas x:Key="paperCanvas" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0">
+            <Rectangle Width="27" Height="22.0834" Canvas.Left="1.5" Canvas.Top="4.41669" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF"/>
+            <Path Width="15" Height=".5" Canvas.Left="10.5" Canvas.Top="7.50006" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 25,8.00006L 11,8.00006"/>
+            <Path Width="21" Height=".5" Canvas.Left="4.5" Canvas.Top="10.5001" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 5,11.0001L 25,11.0001"/>
+            <Path Width="21" Height=".5" Canvas.Left="4.5" Canvas.Top="13.5001" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 25,14.0001L 5,14.0001"/>
+            <Path Width="21" Height=".5" Canvas.Left="4.5" Canvas.Top="16.5001" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 5,17.0001L 25,17.0001"/>
+            <Path Width="21" Height=".5" Canvas.Left="4.5" Canvas.Top="19.5001" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 25,20.0001L 5,20.0001"/>
+            <Path Width="21" Height=".5" Canvas.Left="4.5" Canvas.Top="22.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Data="F1 M 25,23L 5,23"/>
+            <Path Width="17.4375" Height="11" Canvas.Left="1" Canvas.Top="14.5" Stretch="Fill" StrokeThickness="1" StrokeLineJoin="Round" Stroke="#FFFF0000" Fill="#FFFFFFFF" Data="F1 M 2,21.5L 11.75,21.5L 11.75,24.5L 17.4375,20.0001L 11.8125,15.5L 11.8125,18.5L 2,18.5L 2,21.5 Z "/>
+        </Canvas>
+        <Canvas x:Key="desktopCanvas" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0">
+            <Path Width="27" Height="22" Canvas.Left="1.5" Canvas.Top="5.50006" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 2,27.0001L 28,27.0001L 28,6.00006L 12.125,6.00006L 10.0833,6.00006L 2,6.00006L 2,27.0001 Z "/>
+            <Path Width="7" Height="7" Canvas.Left="1.5" Canvas.Top="20.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 8,27L 2,21L 2,26.5"/>
+            <Path Width="12" Height="16" Canvas.Left="9" Canvas.Top="8.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 9.5,9L 9.5,24L 20.5,24L 20.5,12L 17.5,9L 9.5,9 Z "/>
+            <Path Width="3.5" Height="3.5" Canvas.Left="17.25" Canvas.Top="8.75" Stretch="Fill" StrokeThickness="0.5" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FFFFFFFF" Data="F1 M 17.5,9L 17.5,12L 20.5,12L 17.5,9 Z "/>
+            <Path Width="7" Height="7.08331" Canvas.Left="1.5" Canvas.Top="5.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 2,6L 8,6L 2,12.0833L 2,6 Z "/>
+            <Path Width="7" Height="7.04169" Canvas.Left="21.5" Canvas.Top="20.4583" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 22,26.9583L 28,20.9583L 28,27L 22,26.9583 Z "/>
+            <Path Width="7" Height="7.08331" Canvas.Left="21.5" Canvas.Top="5.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 28,12.0833L 28,6L 22,6L 28,12.0833 Z "/>
+        </Canvas>
+        <ControlTemplate x:Key="progressPie" TargetType="{x:Type ProgressBar}">
+            <!-- Resources -->
+            <ControlTemplate.Resources>
+                <local:ValueMinMaxToPointConverter x:Key="converter1"/>
+                <local:ValueMinMaxToIsLargeArcConverter x:Key="converter2"/>
+            </ControlTemplate.Resources>
+            <!-- Visual Tree -->
+            <Viewbox>
+                <!-- Visual State Groups -->
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Determinate"/>
+                        <!-- Nothing to do for this state -->
+                        <VisualState Name="Indeterminate">
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="pie" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
+                                <DoubleAnimation Storyboard.TargetName="backgroundNormal" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
+                                <DoubleAnimation Storyboard.TargetName="backgroundIndeterminate" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Grid Width="20" Height="20">
+                    <Ellipse x:Name="backgroundIndeterminate" Opacity="0" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" Width="20" Height="20">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Offset="0" Color="Yellow"/>
+                                <GradientStop Offset="1" Color="Brown"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse x:Name="backgroundNormal" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" Width="20" Height="20" Fill="{TemplateBinding Background}"/>
+                    <Path x:Name="pie" Fill="{TemplateBinding Foreground}">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathFigure StartPoint="10,10" IsClosed="True">
+                                    <LineSegment Point="10,0"/>
+                                    <ArcSegment Size="10,10" SweepDirection="Clockwise">
+                                        <ArcSegment.Point>
+                                            <MultiBinding Converter="{StaticResource converter1}">
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
+                                            </MultiBinding>
+                                        </ArcSegment.Point>
+                                        <ArcSegment.IsLargeArc>
+                                            <MultiBinding Converter="{StaticResource converter2}">
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
+                                            </MultiBinding>
+                                        </ArcSegment.IsLargeArc>
+                                    </ArcSegment>
+                                </PathFigure>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Grid>
+            </Viewbox>
+            <!-- Only one Trigger -->
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="pie" Property="Fill">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Offset="0" Color="Gray"/>
+                                <GradientStop Offset="1" Color="White"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="shortcutsListView" TargetType="{x:Type ListView}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style TargetType="{x:Type Expander}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Margin" Value="5,10,5,5" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+        </Style>
+        <Style x:Key="baseListView" TargetType="ListView">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListView">
+                        <Border x:Name="Border">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected" />
+                                    <VisualState x:Name="SelectedUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ItemsPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="baseListViewItem" TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="Border">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected" />
+                                    <VisualState x:Name="SelectedUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" ClipToBounds="False" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="textNoteItem" TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Border" Padding="3,1,3,1" SnapsToDevicePixels="true" Background="White" BorderThickness="0,1,0,0" BorderBrush="Gray">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" Storyboard="{StaticResource textNoteActiveEffect}" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected" Storyboard="{StaticResource textNoteActiveEffect}" />
+                                    <VisualState x:Name="SelectedUnfocused" Storyboard="{StaticResource textNoteActiveEffect}" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" ClipToBounds="False" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="shortcutsItem" TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="Border" Padding="1,0,1,0" SnapsToDevicePixels="true">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected" />
+                                    <VisualState x:Name="SelectedUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" ClipToBounds="False" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="shortcut" TargetType="{x:Type Image}">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <!--<Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform />
+                </Setter.Value>
+            </Setter>-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect Opacity="0.5" ShadowDepth="2" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger.Setters>
+                </Trigger>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.2" Duration="0:0:0.125"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.2" Duration="0:0:0.125"/>-->
+                                <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.X" To="5" Duration="0:0:0.125"/>-->
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.125"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.125"/>-->
+                                <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.X" To="0" Duration="0:0:0.125" BeginTime="0:0:0.1"/>-->
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="tinyButton" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Button.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBlock Text="{TemplateBinding Property=Button.Content}" FontWeight="Bold" Foreground="{TemplateBinding Property=Button.Foreground}" Padding="3" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="miniButtonBase" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#80000000" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Foreground" Value="#80FFFFFF" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style x:Key="closeButton" TargetType="{x:Type Button}" BasedOn="{StaticResource miniButtonBase}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Canvas x:Name="cnvIcon" Width="14" Height="14" Canvas.Left="0" Canvas.Top="0" Background="{TemplateBinding Button.Background}">
+                            <Canvas.LayoutTransform>
+                                <ScaleTransform ScaleX="0.9" ScaleY="0.7" />
+                            </Canvas.LayoutTransform>
+                            <Path Width="14.9896" Height="15.0001" Canvas.Left="-0.5" Canvas.Top="-0.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="{TemplateBinding Button.Foreground}" Fill="{TemplateBinding Button.Foreground}" Data="F1 M 4.98958,7L 0,0L 3.98958,6.10352e-005L 6.98958,5L 9.98958,6.10352e-005L 13.9896,0L 8.98958,7L 13.9896,14L 9.98958,14.0001L 6.98958,9L 3.98958,14.0001L 0,13.9688L 4.98958,7 Z "/>
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="configButton" TargetType="{x:Type Button}" BasedOn="{StaticResource miniButtonBase}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Canvas x:Name="cnvIcon" Width="14" Height="14" Margin="0,4,0,0" Background="{TemplateBinding Button.Background}">
+                            <Path Width="8.98958" Height="8.99475" Canvas.Left="5.05208" Canvas.Top="4.98444" Stretch="Fill" StrokeLineJoin="Round" Stroke="{TemplateBinding Button.Foreground}" Fill="{TemplateBinding Button.Foreground}" Data="F1 M 5.55208,7.48444L 11.5312,13.4792L 13.5417,11.4636L 7.55208,5.48444L 5.55208,7.48444 Z "/>
+                            <Path Width="9.20194" Height="9.23246" Canvas.Left="-0.369792" Canvas.Top="-0.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="{TemplateBinding Button.Foreground}" Fill="{TemplateBinding Button.Foreground}" Data="F1 M 5.21875,0C 5.90625,0.40448 6.59375,0.809021 7.28819,1.58075C 7.98264,2.35242 8.68403,3.49133 8.13542,4.93927C 7.58681,6.38715 5.78819,8.1441 4.24566,8.22919C 2.70313,8.31427 1.41667,6.72742 0.130208,5.14063C 1.40972,5.53302 2.68924,5.92535 3.61719,5.7951C 4.54514,5.66492 5.12153,5.01215 5.53819,4.50177C 5.95486,3.99133 6.21181,3.62323 6.26042,3.17188C 6.30903,2.72052 6.14931,2.18573 5.98958,1.65106L 5.21875,0 Z "/>
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="extensionButton" TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ContentPresenter Content="{TemplateBinding Button.Content}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Opacity="0.5" ShadowDepth="2" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="blinking" TargetType="{x:Type Canvas}">
+            <Style.Triggers>
+                <Trigger Property="Canvas.Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" AutoReverse="True" RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="border" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+        </Style>
+    </Application.Resources>
+</Application>

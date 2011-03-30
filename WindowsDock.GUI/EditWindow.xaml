@@ -1,0 +1,160 @@
+﻿<Window x:Class="WindowsDock.GUI.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WindowsDock.GUI"
+        Title="WindowsDock :: Configuration" Height="556" Width="800" x:Name="window" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
+        SizeToContent="Height" ResizeMode="NoResize">
+    <Grid>
+        <DockPanel>
+            <!--<ScrollViewer>-->
+            <StackPanel Margin="5,0,5,5">
+                <Expander x:Name="expShortcuts" Header="Shortcuts" Expanded="Expander_Expanded">
+                    <StackPanel>
+                        <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" Height="280" SelectionChanged="lvwShortcuts_SelectionChanged" SelectionMode="Single" BorderBrush="Gray">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="4">
+                                        <Image Source="{Binding Path=ImageSource}" Margin="0,0,5,0" />
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Path=Path}" />
+                                            <TextBlock Text="{Binding Path=Args}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                <Button x:Name="btnNew" Content="New" Click="btnNew_Click" Margin="0,0,2,0" Padding="2" />
+                            </StackPanel>
+                            <StackPanel x:Name="stpEditButtons" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,2,0,2" IsEnabled="False">
+                                <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnRemove" Content="Remove" Click="btnRemove_Click" Margin="0,0,4,0" Padding="2" />
+                                <Button x:Name="btnMoveUp" Content="Move up" Click="btnMoveUp_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnMoveDown" Content="Move down" Click="btnMoveDown_Click" Padding="2" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+                <Expander x:Name="expExtensions" Header="Extensions" Expanded="Expander_Expanded">
+                    <StackPanel>
+                        <CheckBox Content="Enable TextNotes (Changing this setting, doesn't delete your notes, it only hiddens button with notes)." IsChecked="{Binding Path=TextNotesEnabled}" />
+                        <CheckBox Content="Enable Scripts (Changing this setting, doesn't delete your scripts, it only hiddens button with scripts)." IsChecked="{Binding Path=ScriptsEnabled}" Margin="0,4" />
+                        <CheckBox Content="Enable Browser." IsChecked="{Binding Path=BrowserEnabled}" Margin="0,0,0,4" />
+                        <CheckBox Content="Enable Desktop." IsChecked="{Binding Path=DesktopEnabled}" />
+                    </StackPanel>
+                </Expander>
+                <Expander x:Name="expComands" Header="Commands" Expanded="Expander_Expanded">
+                    <StackPanel>
+                        <ListView x:Name="lvwCommands" ItemsSource="{Binding Path=Commands}" SelectionChanged="lvwCommands_SelectionChanged" BorderBrush="Gray">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=Name}" />
+                                            <TextBlock Text=" [" />
+                                            <TextBlock Text="{Binding Path=Path}" />
+                                            <TextBlock Text="]" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Path=Args}" Foreground="Gray" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                <Button x:Name="btnNewCommand" Content="New" Click="btnNewCommand_Click" Margin="0,0,2,0" Padding="2" />
+                            </StackPanel>
+                            <StackPanel Height="23" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,2">
+                                <Label Content="Default command: " />
+                                <ComboBox MinWidth="120" SelectedItem="{Binding Path=Commands.Default}" DisplayMemberPath="Name" ItemsSource="{Binding Path=Commands}" />
+                            </StackPanel>
+                            <StackPanel x:Name="stpEditCommandButtons" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,2,0,2" IsEnabled="False">
+                                <Button x:Name="btnEditCommand" Content="Edit" Click="btnEditCommand_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnRemoveCommand" Content="Remove" Click="btnRemoveCommand_Click" Margin="0,0,4,0" Padding="2" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+                <Expander x:Name="expMiscelaneous"  Header="Miscelaneous" Expanded="Expander_Expanded">
+                    <Grid Margin="0,0,4,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Label Content="HideDuration:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="0" />
+                        <Label Content="Opacity:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />
+                        <Label Content="Background:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="2" />
+                        <Label Content="AutoHiding:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="3" />
+                        <Label Content="Alarm sound:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="Desktop icons:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
+                        <Label Content="Startup:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,4">
+                            <TextBox Text="{Binding Path=HideDuration}" />
+                            <TextBlock Text="Format: Hours:Minutes:Seconds.Milisecs" VerticalAlignment="Center" Margin="2,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,4">
+                            <TextBox Text="{Binding Path=Opacity}" />
+                            <TextBlock Text="Number from 0 to 1" VerticalAlignment="Center" Margin="2,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,4">
+                            <TextBox Text="{Binding Path=Background}" />
+                            <TextBlock Text="Any valid color definition (Red, Blue, Azure, Green or hexa code like #CCCCCC)" Margin="2,0,0,0" />
+                        </StackPanel>
+                        <CheckBox IsChecked="{Binding Path=AutoHiding}" VerticalAlignment="Center" Margin="0,6,0,4" 
+                                  Content="If checked, panel with icons with automaticly hides when mouse leaves it." 
+                                  Grid.Column="1" Grid.Row="3" />
+                        <DockPanel Grid.Column="1" Grid.Row="4" Margin="0,4">
+                            <Button x:Name="btnBrowse" Content="Browse" Margin="5,0,0,0" Click="btnBrowse_Click" DockPanel.Dock="Right" />
+                            <TextBox Text="{Binding Path=AlarmSound}" IsReadOnly="True" />
+                        </DockPanel>
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="5">
+                            <Button x:Name="btnToggleDesktopIcons" Click="btnToggleDesktopIcons_Click">
+                                <Button.Content>
+                                    <TextBlock Text="{Binding Path=DesktopIconsEnabled, Converter={StaticResource inverseBoolToString}, StringFormat={}{0} desktop icons}" Margin="4,0" />
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="6">
+                            <Button x:Name="btnCreateStartup" Click="btnCreateStartup_Click" Content="Create startup shortcut" Padding="4,0" Margin="0,0,4,0" />
+                            <Button x:Name="btnDeleteStartup" Click="btnDeleteStartup_Click" Content="Delete startup shortcut" Padding="4,0" Margin="0,0,4,0" />
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+                <Expander x:Name="expRestore" Header="Restore defaults" Expanded="Expander_Expanded">
+                    <StackPanel>
+                        <CheckBox x:Name="cbxShotcuts" Content="Delete my shortcuts" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxTextNotes" Content="Delete my text notes" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxScripts" Content="Delete my scripts" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxSettings" Content="Delete my settings" IsChecked="True" Margin="0,2,0,2" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btnRestoreDefaults" Click="btnRestoreDefaults_Click" Content="Restore default settings" Margin="0,2,0,2" />
+                            <TextBlock x:Name="tblRestoredInfo" Text="Restored. Please restart program." Foreground="Green" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" />
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+            <!--</ScrollViewer>-->
+        </DockPanel>
+    </Grid>
+</Window>

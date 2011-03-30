@@ -1,0 +1,28 @@
+﻿<Window x:Class="WindowsDock.GUI.EditScriptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WindowsDock :: Configuration :: Script" Height="130" Width="520" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" x:Name="window" SizeToContent="Height" ShowInTaskbar="False">
+    <Border Style="{StaticResource border}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+            <Label Content="Header:" Grid.Column="0" Grid.Row="0" />
+            <Label Content="Path:" Grid.Column="0" Grid.Row="1" />
+
+            <TextBox x:Name="tbxHeader" Grid.Column="1" Grid.Row="0" Margin="0,4" Text="{Binding Path=Header}" />
+            <DockPanel Grid.Column="1" Grid.Row="1" Margin="0,4">
+                <Button x:Name="btnBrowse" DockPanel.Dock="Right" Content="Browse" Margin="4,0,0,0" Click="btnBrowse_Click" />
+                <TextBox Text="{Binding Path=Path}" IsReadOnly="True" />
+            </DockPanel>
+            <TextBlock Text="Auto saving is enabled, simply close this window and changes will be applied." VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" />
+        </Grid>
+    </Border>
+</Window>

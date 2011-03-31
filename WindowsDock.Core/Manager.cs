@@ -5,10 +5,15 @@ using System.Text;
 using System.Resources;
 using System.Collections;
 using System.Windows.Media;
+using System.Xml;
+using System.IO.IsolatedStorage;
+using System.IO;
+using System.Reflection;
+using System.Windows.Input;
 
 namespace WindowsDock.Core
 {
-    public interface IManager 
+    public interface IManager
     {
         Shortcuts Shortcuts { get; set; }
 
@@ -28,9 +33,11 @@ namespace WindowsDock.Core
 
         double Opacity { get; set; }
 
-        Brush Background { get; set; }
+        string Background { get; set; }
 
         bool AutoHiding { get; set; }
+
+        int HiddenOffset { get; set; }
 
         bool TextNotesEnabled { get; set; }
 
@@ -51,6 +58,10 @@ namespace WindowsDock.Core
 
         void LoadFrom(string path);
 
+        void Replace(string path);
+
+        string GetFullFilePath();
+
         void Restore(bool shortcuts, bool textNotes, bool scripts, bool settings);
     }
 
@@ -70,8 +81,9 @@ namespace WindowsDock.Core
         private TimeSpan hideDuration = TimeSpan.Parse("0:0:0.125");
         private TimeSpan hideDelay = TimeSpan.Parse("0:0:0.25");
         private double opacity = 0.5;
-        private Brush background =  new SolidColorBrush(Color.FromRgb(240, 255, 255));
+        private string background = "#FFF0FFFF";
         private bool autoHiding = true;
+        private int hiddenOffset = 2;
         private bool textNotesEnabled = true;
         private bool scriptsEnabled = true;
         private bool browserEnabled = true;
@@ -121,7 +133,7 @@ namespace WindowsDock.Core
             }
         }
 
-        public Brush Background
+        public string Background
         {
             get { return background; }
             set
@@ -131,12 +143,23 @@ namespace WindowsDock.Core
             }
         }
 
-        public bool AutoHiding {
+        public bool AutoHiding
+        {
             get { return autoHiding; }
             set
             {
                 autoHiding = value;
                 FirePropertyChanged("AutoHiding");
+            }
+        }
+
+        public int HiddenOffset
+        {
+            get { return hiddenOffset; }
+            set
+            {
+                hiddenOffset = value;
+                FirePropertyChanged("HiddenOffset");
             }
         }
 
@@ -201,125 +224,167 @@ namespace WindowsDock.Core
         }
 
 
-        public string DefaultLocation { get { return "WindowsDock.Settings.resx"; } }
+        public virtual string DefaultLocation { get { return "WindowsDock.Settings.resx"; } }
 
         public DefaultManager() { }
 
-        public void SaveTo(string path)
+        public virtual void SaveTo(string path)
         {
-            IResourceWriter rw = new ResXResourceWriter(path);
-            int i = 0;
-            foreach (Shortcut item in Shortcuts)
+            IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
+            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(DefaultLocation, FileMode.Create, f))
+            using (IResourceWriter rw = new ResXResourceWriter(stream))
             {
-                rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path });
-                i++;
+                int i = 0;
+                foreach (Shortcut item in Shortcuts)
+                {
+                    rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path, Key = item.Key });
+                    i++;
+                }
+                i = 0;
+                foreach (TextNote item in TextNotes)
+                {
+                    rw.AddResource(String.Format("TextNote[{0}]", i), new SimpleTextNote() { Header = item.Header, Content = item.Content, Modified = item.Modified, Alarm = item.Alarm });
+                    i++;
+                }
+                i = 0;
+                foreach (Script item in Scripts)
+                {
+                    rw.AddResource(String.Format("Script[{0}]", i), new SimpleScript() { Header = item.Header, Path = item.Path });
+                    i++;
+                }
+                i = 0;
+                foreach (Command item in Commands)
+                {
+                    rw.AddResource(String.Format("Command[{0}]", i), new SimpleCommand() { Name = item.Name, Path = item.Path, Args = item.Args });
+                    i++;
+                }
+                rw.AddResource("CommandDefaultIndex", Commands.DefaultIndex);
+                rw.AddResource("HideDuration", HideDuration);
+                rw.AddResource("Opacity", Opacity);
+                rw.AddResource("Background", Background);
+                rw.AddResource("AutoHiding", AutoHiding);
+                rw.AddResource("HiddenOffset", HiddenOffset);
+                rw.AddResource("TextNotesEnabled", TextNotesEnabled);
+                rw.AddResource("ScriptsEnabled", ScriptsEnabled);
+                rw.AddResource("BrowserEnabled", BrowserEnabled);
+                rw.AddResource("DesktopEnabled", DesktopEnabled);
+                rw.AddResource("AlarmSound", AlarmSound);
+                rw.AddResource("DesktopIconsEnabled", DesktopIconsEnabled);
             }
-            i = 0;
-            foreach (TextNote item in TextNotes)
-            {
-                rw.AddResource(String.Format("TextNote[{0}]", i), new SimpleTextNote() { Header = item.Header, Content = item.Content, Modified = item.Modified, Alarm = item.Alarm });
-                i++;
-            }
-            i = 0;
-            foreach (Script item in Scripts)
-            {
-                rw.AddResource(String.Format("Script[{0}]", i), new SimpleScript() { Header = item.Header, Path = item.Path });
-                i++;
-            }
-            i = 0;
-            foreach (Command item in Commands)
-            {
-                rw.AddResource(String.Format("Command[{0}]", i), new SimpleCommand() { Name = item.Name, Path = item.Path, Args = item.Args });
-                i++;
-            }
-            rw.AddResource("CommandDefaultIndex", Commands.DefaultIndex);
-            rw.AddResource("HideDuration", HideDuration);
-            rw.AddResource("Opacity", Opacity);
-            //TODO: Solve this!!
-            //rw.AddResource("Background", Background);
-            rw.AddResource("AutoHiding", AutoHiding);
-            rw.AddResource("TextNotesEnabled", TextNotesEnabled);
-            rw.AddResource("ScriptsEnabled", ScriptsEnabled);
-            rw.AddResource("BrowserEnabled", BrowserEnabled);
-            rw.AddResource("DesktopEnabled", DesktopEnabled);
-            rw.AddResource("AlarmSound", AlarmSound);
-            rw.AddResource("DesktopIconsEnabled", DesktopIconsEnabled);
-            rw.Close();
         }
 
-        public void LoadFrom(string path)
+        public virtual void LoadFrom(string path)
         {
-            IResourceReader rr = new ResXResourceReader(path);
-            IDictionaryEnumerator en = rr.GetEnumerator();
-            while (en.MoveNext())
+            Shortcuts.Clear();
+            TextNotes.Clear();
+            Commands.Clear();
+            Commands.Clear();
+            Scripts.Clear();
+
+            IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
+            if (f.FileExists(DefaultLocation))
             {
-                string key = (string)en.Key;
-                if (key.Contains("Shortcut["))
+                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(DefaultLocation, FileMode.OpenOrCreate, f))
+                using (IResourceReader rr = new ResXResourceReader(stream))
                 {
-                    SimpleShortcut ss = (SimpleShortcut)en.Value;
-                    Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args });
-                }
-                else if (key.Contains("TextNote["))
-                {
-                    SimpleTextNote stn = (SimpleTextNote)en.Value;
-                    TextNotes.Add(new TextNote(stn.Header, stn.Content, stn.Modified, stn.Alarm));
-                }
-                else if (key.Contains("Script["))
-                {
-                    SimpleScript ss = (SimpleScript)en.Value;
-                    Scripts.Add(new Script(ss.Header, ss.Path));
-                }
-                else if (key.Contains("Command["))
-                {
-                    SimpleCommand sc = (SimpleCommand)en.Value;
-                    Commands.Add(new Command(sc.Name, sc.Path, sc.Args));
-                }
-                else if (key.Contains("CommandDefaultIndex"))
-                {
-                    Commands.DefaultIndex = (int)en.Value;
-                }
-                else if (key.Equals("HideDuration"))
-                {
-                    HideDuration = (TimeSpan) en.Value;
-                }
-                else if (key.Equals("Opacity"))
-                {
-                    Opacity = (double) en.Value;
-                }
-                else if (key.Equals("Background"))
-                {
-                    Background = (Brush)en.Value;
-                }
-                else if (key.Equals("AutoHiding"))
-                {
-                    AutoHiding = (bool)en.Value;
-                }
-                else if (key.Equals("TextNotesEnabled"))
-                {
-                    TextNotesEnabled = (bool)en.Value;
-                }
-                else if (key.Equals("ScriptsEnabled"))
-                {
-                    ScriptsEnabled = (bool)en.Value;
-                }
-                else if (key.Equals("BrowserEnabled"))
-                {
-                    BrowserEnabled = (bool)en.Value;
-                }
-                else if (key.Equals("DesktopEnabled"))
-                {
-                    DesktopEnabled = (bool)en.Value;
-                }
-                else if (key.Equals("AlarmSound"))
-                {
-                    AlarmSound = (string)en.Value;
-                }
-                else if (key.Equals("DesktopIconsEnabled"))
-                {
-                    DesktopIconsEnabled = (bool)en.Value;
+                    IDictionaryEnumerator en = rr.GetEnumerator();
+                    while (en.MoveNext())
+                    {
+                        string key = (string)en.Key;
+                        if (key.Contains("Shortcut["))
+                        {
+                            SimpleShortcut ss = (SimpleShortcut)en.Value;
+                            Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key });
+                        }
+                        else if (key.Contains("TextNote["))
+                        {
+                            SimpleTextNote stn = (SimpleTextNote)en.Value;
+                            TextNotes.Add(new TextNote(stn.Header, stn.Content, stn.Modified, stn.Alarm));
+                        }
+                        else if (key.Contains("Script["))
+                        {
+                            SimpleScript ss = (SimpleScript)en.Value;
+                            Scripts.Add(new Script(ss.Header, ss.Path));
+                        }
+                        else if (key.Contains("Command["))
+                        {
+                            SimpleCommand sc = (SimpleCommand)en.Value;
+                            Commands.Add(new Command(sc.Name, sc.Path, sc.Args));
+                        }
+                        else if (key.Contains("CommandDefaultIndex"))
+                        {
+                            Commands.DefaultIndex = (int)en.Value;
+                        }
+                        else if (key.Equals("HideDuration"))
+                        {
+                            HideDuration = (TimeSpan)en.Value;
+                        }
+                        else if (key.Equals("Opacity"))
+                        {
+                            Opacity = (double)en.Value;
+                        }
+                        else if (key.Equals("Background"))
+                        {
+                            Background = (string)en.Value;
+                        }
+                        else if (key.Equals("AutoHiding"))
+                        {
+                            AutoHiding = (bool)en.Value;
+                        }
+                        else if (key.Equals("HiddenOffset"))
+                        {
+                            HiddenOffset = (int)en.Value;
+                        }
+                        else if (key.Equals("TextNotesEnabled"))
+                        {
+                            TextNotesEnabled = (bool)en.Value;
+                        }
+                        else if (key.Equals("ScriptsEnabled"))
+                        {
+                            ScriptsEnabled = (bool)en.Value;
+                        }
+                        else if (key.Equals("BrowserEnabled"))
+                        {
+                            BrowserEnabled = (bool)en.Value;
+                        }
+                        else if (key.Equals("DesktopEnabled"))
+                        {
+                            DesktopEnabled = (bool)en.Value;
+                        }
+                        else if (key.Equals("AlarmSound"))
+                        {
+                            AlarmSound = (string)en.Value;
+                        }
+                        else if (key.Equals("DesktopIconsEnabled"))
+                        {
+                            DesktopIconsEnabled = (bool)en.Value;
+                        }
+                    }
                 }
             }
-            rr.Close();
+        }
+
+        public void Replace(string path)
+        {
+            IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
+            
+            using (StreamReader source = new StreamReader(File.OpenRead(path)))
+            using (StreamWriter dest = new StreamWriter(new IsolatedStorageFileStream(DefaultLocation, FileMode.Create, f)))
+            {
+                dest.Write(source.ReadToEnd());
+            }
+            LoadFrom(DefaultLocation);
+        }
+
+        public string GetFullFilePath()
+        {
+            string filePath = DefaultLocation;
+            IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
+            using (IsolatedStorageFileStream oStream = new IsolatedStorageFileStream(DefaultLocation, FileMode.Open, f))
+            {
+                filePath = oStream.GetType().GetField("m_FullPath", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(oStream).ToString();
+            }
+            return filePath;
         }
 
         public void Restore(bool shortcuts, bool textNotes, bool scripts, bool settings)
@@ -359,6 +424,7 @@ namespace WindowsDock.Core
     {
         public string Path;
         public string Args;
+        public Key Key;
     }
 
     [Serializable]

@@ -21,7 +21,11 @@
                                     <StackPanel Orientation="Horizontal" Margin="4">
                                         <Image Source="{Binding Path=ImageSource}" Margin="0,0,5,0" />
                                         <StackPanel>
-                                            <TextBlock Text="{Binding Path=Path}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Path=Key, Converter={StaticResource keyToString}, StringFormat=[{0}]}" Foreground="DarkGray" />
+                                                <TextBlock Text=" " />
+                                                <TextBlock Text="{Binding Path=Path}" />
+                                            </StackPanel>
                                             <TextBlock Text="{Binding Path=Args}" />
                                         </StackPanel>
                                     </StackPanel>
@@ -46,7 +50,7 @@
                         <CheckBox Content="Enable TextNotes (Changing this setting, doesn't delete your notes, it only hiddens button with notes)." IsChecked="{Binding Path=TextNotesEnabled}" />
                         <CheckBox Content="Enable Scripts (Changing this setting, doesn't delete your scripts, it only hiddens button with scripts)." IsChecked="{Binding Path=ScriptsEnabled}" Margin="0,4" />
                         <CheckBox Content="Enable Browser." IsChecked="{Binding Path=BrowserEnabled}" Margin="0,0,0,4" />
-                        <CheckBox Content="Enable Desktop." IsChecked="{Binding Path=DesktopEnabled}" />
+                        <CheckBox Content="Enable Desktop browser." IsChecked="{Binding Path=DesktopEnabled}" />
                     </StackPanel>
                 </Expander>
                 <Expander x:Name="expComands" Header="Commands" Expanded="Expander_Expanded">
@@ -100,45 +104,64 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Label Content="HideDuration:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="0" />
                         <Label Content="Opacity:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />
                         <Label Content="Background:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="2" />
                         <Label Content="AutoHiding:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="3" />
-                        <Label Content="Alarm sound:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
-                        <Label Content="Desktop icons:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
-                        <Label Content="Startup:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
+                        <Label Content="Hide offset:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="Alarm sound:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
+                        <Label Content="Desktop icons:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
+                        <Label Content="Startup:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="7" />
+                        <Label Content="Configuration:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="8" />
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,4">
                             <TextBox Text="{Binding Path=HideDuration}" />
-                            <TextBlock Text="Format: Hours:Minutes:Seconds.Milisecs" VerticalAlignment="Center" Margin="2,0,0,0" />
+                            <TextBlock Text="Format: Hours:Minutes:Seconds.Milisecs" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,4">
                             <TextBox Text="{Binding Path=Opacity}" />
-                            <TextBlock Text="Number from 0 to 1" VerticalAlignment="Center" Margin="2,0,0,0" />
+                            <TextBlock Text="Number from 0 to 1" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,4">
                             <TextBox Text="{Binding Path=Background}" />
-                            <TextBlock Text="Any valid color definition (Red, Blue, Azure, Green or hexa code like #CCCCCC)" Margin="2,0,0,0" />
+                            <TextBlock Text="Any valid color definition (Red, Blue, Azure, Green or hexa code like #CCCCCC)" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding Path=AutoHiding}" VerticalAlignment="Center" Margin="0,6,0,4" 
                                   Content="If checked, panel with icons with automaticly hides when mouse leaves it." 
                                   Grid.Column="1" Grid.Row="3" />
-                        <DockPanel Grid.Column="1" Grid.Row="4" Margin="0,4">
+                        <StackPanel Grid.Column="1" Grid.Row="4" Margin="0,4">
+                            <TextBox Text="{Binding Path=HiddenOffset}" />
+                            <TextBlock Text="Number of pixels that are visible even if dock hidden (default: 2)" Margin="2,0,0,0" Foreground="Gray" />
+                        </StackPanel>
+                        <DockPanel Grid.Column="1" Grid.Row="5" Margin="0,4">
                             <Button x:Name="btnBrowse" Content="Browse" Margin="5,0,0,0" Click="btnBrowse_Click" DockPanel.Dock="Right" />
                             <TextBox Text="{Binding Path=AlarmSound}" IsReadOnly="True" />
                         </DockPanel>
-                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="5">
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="6">
                             <Button x:Name="btnToggleDesktopIcons" Click="btnToggleDesktopIcons_Click">
                                 <Button.Content>
                                     <TextBlock Text="{Binding Path=DesktopIconsEnabled, Converter={StaticResource inverseBoolToString}, StringFormat={}{0} desktop icons}" Margin="4,0" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
-                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="6">
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="7">
                             <Button x:Name="btnCreateStartup" Click="btnCreateStartup_Click" Content="Create startup shortcut" Padding="4,0" Margin="0,0,4,0" />
                             <Button x:Name="btnDeleteStartup" Click="btnDeleteStartup_Click" Content="Delete startup shortcut" Padding="4,0" Margin="0,0,4,0" />
                         </StackPanel>
+                        <Grid Height="25" Margin="0,4" Grid.Column="1" Grid.Row="8">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnSaveConfiguration" Click="btnSaveConfiguration_Click" Content="Save" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnLoadConfiguration" Click="btnLoadConfiguration_Click" Content="Load" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnReplaceConfiguration" Click="btnReplaceConfiguration_Click" Content="Replace" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnCopyConfiguration" Click="btnCopyConfiguration_Click" Content="Copy file to clipboard" Margin="0,0,4,0" Style="{StaticResource link}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock x:Name="tbcConfigurationMessage" Text="" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </Expander>
                 <Expander x:Name="expRestore" Header="Restore defaults" Expanded="Expander_Expanded">

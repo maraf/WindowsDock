@@ -52,10 +52,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
     <Compile Include="Helpers\BrowseHelper.cs" />
+    <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\ShortcutHelper.cs" />
     <Compile Include="Models\BrowseItems.cs" />
     <Compile Include="Models\Commands.cs" />
@@ -63,7 +66,7 @@
     <Compile Include="Helpers\DesktopHelper.cs" />
     <Compile Include="Models\DesktopItems.cs" />
     <Compile Include="Helpers\GlassHelper.cs" />
-    <Compile Include="Helpers\Hotkeys.cs" />
+    <Compile Include="Helpers\HotkeyHelper.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

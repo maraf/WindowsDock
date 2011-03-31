@@ -28,13 +28,14 @@ namespace WindowsDock.GUI
     {
         private const double NormalHeight = 44;
         private const double NormalTop = -10;
-        private const double HiddenTop = -52;
+        private const double HiddenTop = -54;
 
         private IManager manager = ManagerFacory.Create();
         private bool currentAutoHiding = true;
         private bool isNewTextNote = false;
         private bool isNewScript = false;
         private ExtensionType currentExtension = ExtensionType.None;
+        private IList<UIElement> hotkeyIgnorables = new List<UIElement>();
 
         public IManager Manager
         {
@@ -50,8 +51,20 @@ namespace WindowsDock.GUI
 
             LoadDefaults();
             RunDispatcher();
+            FindHotkeyIgnorables();
 
             DataContext = Manager;
+        }
+
+        /// <summary>
+        /// Toggle main panel
+        /// </summary>
+        public void ToggleMainPanel()
+        {
+            if (Top == NormalTop && IsActive)
+                HideMainPanel();
+            else
+                ShowMainPanel();
         }
 
         /// <summary>
@@ -62,6 +75,7 @@ namespace WindowsDock.GUI
             DoubleAnimation d = new DoubleAnimation(NormalTop, Manager.HideDuration);
             BeginAnimation(TopProperty, d);
             Focus();
+            Activate();
         }
 
         /// <summary>
@@ -69,7 +83,8 @@ namespace WindowsDock.GUI
         /// </summary>
         public void HideMainPanel()
         {
-            DoubleAnimation d = new DoubleAnimation(HiddenTop, Manager.HideDuration);
+            double top = HiddenTop + Manager.HiddenOffset;
+            DoubleAnimation d = new DoubleAnimation(top > -10 ? -10 : top, Manager.HideDuration);
             d.BeginTime = Manager.HideDelay;
             BeginAnimation(TopProperty, d);
         }
@@ -114,6 +129,16 @@ namespace WindowsDock.GUI
             }
             else if (extension == ExtensionType.Desktop)
             {
+                if (Manager.DesktopItems.Count == 0)
+                {
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    foreach (string item in Directory.EnumerateFiles(path))
+                    {
+                        string name = item.Substring(BrowseHelper.LastIndexOfSlash(item) + 1);
+                        ImageSource source = IconHelper.GetIcon(item);
+                        Manager.DesktopItems.Add(new DesktopItem(name, source));
+                    }
+                }
                 grdDesktop.Visibility = Visibility.Visible;
                 currentExtension = ExtensionType.Desktop;
                 tbxDesktopFilter.Focus();
@@ -140,6 +165,7 @@ namespace WindowsDock.GUI
                 HideMainPanel();
 
             //currentAutoHiding = true;
+            FocusManager.SetFocusedElement(this, this);
             currentExtension = ExtensionType.None;
         }
 
@@ -250,6 +276,25 @@ namespace WindowsDock.GUI
             view.Filter = (o) => { return (o as DesktopItem).Name.Contains(tbxDesktopFilter.Text); };
         }
 
+        private void FindHotkeyIgnorables()
+        {
+            hotkeyIgnorables.Add(tbxBrowsePath);
+            hotkeyIgnorables.Add(tbxDesktopFilter);
+            hotkeyIgnorables.Add(tbxNewTextNoteHeader);
+            hotkeyIgnorables.Add(tbxTextNotesFilter);
+        }
+
+        private void RunShortcut(Shortcut shortcut)
+        {
+            string path = shortcut.Path;
+            Process p = new Process();
+            p.StartInfo.FileName = path;
+            p.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
+            p.Start();
+
+            HideMainPanel();
+        }
+
         private void Dispatcher_Tick(object sender, EventArgs e)
         {
             //TODO: Check Notes!!
@@ -268,31 +313,23 @@ namespace WindowsDock.GUI
             }
 
         }
-
+        
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
 
             WindowHelper.HideFromWindowList(this);
-        }
 
-        private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (lvwShortcuts.SelectedItem != null)
-            {
-                System.Diagnostics.Process.Start((lvwShortcuts.SelectedItem as Shortcut).Path);
-                lvwShortcuts.SelectedItem = null;
-            }
+            HotkeyHelper.RegisterHotKey(this, Key.W, HotkeyHelper.Win, delegate { ToggleMainPanel(); });
         }
 
         private void btnShortcut_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(((sender as Button).Tag as Shortcut).Path);
+            RunShortcut((sender as Button).Tag as Shortcut);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Manager.SaveTo(Manager.DefaultLocation);
             Close();
         }
 
@@ -454,17 +491,6 @@ namespace WindowsDock.GUI
 
         private void btnDesktop_Click(object sender, RoutedEventArgs e)
         {
-            if (Manager.DesktopItems.Count == 0)
-            {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                foreach (string item in Directory.EnumerateFiles(path))
-                {
-                    string name = item.Substring(BrowseHelper.LastIndexOfSlash(item) + 1);
-                    ImageSource source = IconHelper.GetIcon(item);
-                    Manager.DesktopItems.Add(new DesktopItem(name, source));
-                }
-            }
-
             ToggleExtension(ExtensionType.Desktop);
         }
 
@@ -494,6 +520,35 @@ namespace WindowsDock.GUI
         {
             if (e.Key == Key.Enter)
                 FilterDesktop();
+        }
+
+        private void window_Closed(object sender, EventArgs e)
+        {
+            Manager.SaveTo(Manager.DefaultLocation);
+        }
+
+        private void window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (FocusManager.GetFocusedElement(this) is TextBox)
+                return;
+
+            switch (e.Key)
+            {
+                case Key.B: ToggleExtension(ExtensionType.Browser); break;
+                case Key.D: ToggleExtension(ExtensionType.Desktop); break;
+                case Key.S: ToggleExtension(ExtensionType.Scripts); break;
+                case Key.T: ToggleExtension(ExtensionType.TextNotes); break;
+                case Key.X: Close(); break;
+                case Key.Z: btnConfig_Click(sender, e); break;
+            }
+
+            foreach (Shortcut item in Manager.Shortcuts)
+            {
+                if (item.Key != Key.None && item.Key == e.Key)
+                    RunShortcut(item);
+            }
+
+            e.Handled = true;
         }
     }
 }

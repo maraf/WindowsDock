@@ -87,6 +87,8 @@ namespace WindowsDock.Core
             set
             {
                 alarm = value;
+                Modified = DateTime.Now;
+                IsAlarming = false;
                 FirePropertyChanged("Alarm");
             }
         }

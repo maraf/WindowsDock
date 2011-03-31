@@ -52,5 +52,10 @@ namespace WindowsDock.GUI
                 Shortcut.Path = file.FileName;
             }
         }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = Shortcuts.PermitedKeys.Contains((Key)e.Item);
+        }
     }
 }

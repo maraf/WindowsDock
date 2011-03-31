@@ -9,11 +9,19 @@ using System.Windows.Interop;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Collections;
+using System.Windows.Input;
 
 namespace WindowsDock.Core
 {
     public class Shortcuts : ObservableCollection<Shortcut>
     {
+        public static readonly Key[] PermitedKeys = new Key[] {
+            Key.None,
+            Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9, Key.D0, 
+            Key.A, Key.C, Key.E, Key.F, Key.G, Key.H, Key.I, Key.J, Key.K, Key.L, 
+            Key.M, Key.N, Key.O, Key.P, Key.Q, Key.R, Key.U, Key.V, Key.W, Key.Y
+        };
+
         public new void Add(Shortcut item)
         {
             base.Add(item);
@@ -44,6 +52,7 @@ namespace WindowsDock.Core
         private string path;
         private string args;
         private ImageSource imageSource;
+        private Key key = Key.None;
 
         public Shortcut() { }
 
@@ -88,21 +97,15 @@ namespace WindowsDock.Core
                 FirePropertyChanged("ImageSource");
             }
         }
-    }
 
-    public class IconHelper
-    {
-        public static ImageSource GetIcon(string filename)
+        public Key Key
         {
-            System.Drawing.Icon extractedIcon = System.Drawing.Icon.ExtractAssociatedIcon(filename);
-            ImageSource imgs;
-
-            using (System.Drawing.Icon i = System.Drawing.Icon.FromHandle(extractedIcon.ToBitmap().GetHicon()))
+            get { return key; }
+            set
             {
-                imgs = Imaging.CreateBitmapSourceFromHIcon(i.Handle, new Int32Rect(0, 0, 32, 32), BitmapSizeOptions.FromEmptyOptions());
+                key = value;
+                FirePropertyChanged("Key");
             }
-
-            return imgs;
         }
     }
 }

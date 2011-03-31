@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="MainWindow" d:DesignHeight="200" d:DesignWidth="500" WindowStyle="None" ResizeMode="NoResize" SizeToContent="Width"
         Topmost="True" AllowsTransparency="True" x:Name="window" Background="Transparent" ShowInTaskbar="False" ClipToBounds="False"
-        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" AllowDrop="True">
+        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closed="window_Closed" PreviewKeyDown="window_PreviewKeyDown" AllowDrop="True">
     <StackPanel>
         <Grid VerticalAlignment="Top" ClipToBounds="False">
             <Rectangle Fill="{Binding Path=Background}" RadiusX="10" RadiusY="10" Opacity="{Binding Path=Opacity}" />
@@ -27,7 +27,12 @@
                             <Button x:Name="btnShortcut" Click="btnShortcut_Click" Tag="{Binding}" ClipToBounds="False">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <Image Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
+                                        <Grid>
+                                            <Image Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
+                                            <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="2" Background="White" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Path=Key, Converter={StaticResource keyToVisibility}}">
+                                                <TextBlock Margin="2,0" Text="{Binding Path=Key, Converter={StaticResource keyToString}}" Foreground="Black" FontSize="8" />
+                                            </Border>
+                                        </Grid>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WindowsDock.Core;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace WindowsDock.GUI
 {
@@ -33,6 +35,8 @@ namespace WindowsDock.GUI
             Manager = manager;
 
             DataContext = Manager;
+
+            expShortcuts.IsExpanded = true;
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -178,6 +182,48 @@ namespace WindowsDock.GUI
         private void btnDeleteStartup_Click(object sender, RoutedEventArgs e)
         {
             ShortcutHelper.DeleteStartupShortcut();
+        }
+
+        private void btnSaveConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            Manager.SaveTo(Manager.DefaultLocation);
+
+            watch.Stop();
+            tbcConfigurationMessage.Text = String.Format("Saving took {0}ms", watch.ElapsedMilliseconds);
+        }
+
+        private void btnLoadConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            Manager.LoadFrom(Manager.DefaultLocation);
+
+            watch.Stop();
+            tbcConfigurationMessage.Text = String.Format("Loading took {0}ms", watch.ElapsedMilliseconds);
+        }
+
+        private void btnCopyConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            StringCollection collection = new StringCollection();
+            collection.Add(Manager.GetFullFilePath());
+            Clipboard.SetFileDropList(collection);
+        }
+
+        private void btnReplaceConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog file = new System.Windows.Forms.OpenFileDialog();
+            file.CheckFileExists = true;
+            file.Multiselect = false;
+            file.Filter = "WindowsDock Resource file (*.resx)|WindowsDock.Settings.resx";
+            file.Title = "Select existing WindowsDock Resource file";
+            if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Manager.Replace(file.FileName);
+            }
         }
     }
 }

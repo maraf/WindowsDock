@@ -6,11 +6,9 @@
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibility" />
         <local:InverseBoolToStringConverter x:Key="inverseBoolToString" />
+        <local:KeyToStringConverter x:Key="keyToString" />
+        <local:KeyToVisibilityConverter x:Key="keyToVisibility" />
 
-        <LinearGradientBrush x:Key="foregroundBrush" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0" Color="LightGreen"/>
-            <GradientStop Offset="1" Color="DarkGreen"/>
-        </LinearGradientBrush>
         <Storyboard x:Key="textNoteActiveEffect">
             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
                 <EasingColorKeyFrame KeyTime="0" Value="#FFDDDDDD" />
@@ -55,80 +53,7 @@
             <Path Width="7" Height="7.08331" Canvas.Left="1.5" Canvas.Top="5.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 2,6L 8,6L 2,12.0833L 2,6 Z "/>
             <Path Width="7" Height="7.04169" Canvas.Left="21.5" Canvas.Top="20.4583" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 22,26.9583L 28,20.9583L 28,27L 22,26.9583 Z "/>
             <Path Width="7" Height="7.08331" Canvas.Left="21.5" Canvas.Top="5.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF000000" Data="F1 M 28,12.0833L 28,6L 22,6L 28,12.0833 Z "/>
-        </Canvas>
-        <ControlTemplate x:Key="progressPie" TargetType="{x:Type ProgressBar}">
-            <!-- Resources -->
-            <ControlTemplate.Resources>
-                <local:ValueMinMaxToPointConverter x:Key="converter1"/>
-                <local:ValueMinMaxToIsLargeArcConverter x:Key="converter2"/>
-            </ControlTemplate.Resources>
-            <!-- Visual Tree -->
-            <Viewbox>
-                <!-- Visual State Groups -->
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup Name="CommonStates">
-                        <VisualState Name="Determinate"/>
-                        <!-- Nothing to do for this state -->
-                        <VisualState Name="Indeterminate">
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="pie" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
-                                <DoubleAnimation Storyboard.TargetName="backgroundNormal" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
-                                <DoubleAnimation Storyboard.TargetName="backgroundIndeterminate" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                            </Storyboard>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-                <Grid Width="20" Height="20">
-                    <Ellipse x:Name="backgroundIndeterminate" Opacity="0" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" Width="20" Height="20">
-                        <Ellipse.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0" Color="Yellow"/>
-                                <GradientStop Offset="1" Color="Brown"/>
-                            </LinearGradientBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse x:Name="backgroundNormal" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" Width="20" Height="20" Fill="{TemplateBinding Background}"/>
-                    <Path x:Name="pie" Fill="{TemplateBinding Foreground}">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathFigure StartPoint="10,10" IsClosed="True">
-                                    <LineSegment Point="10,0"/>
-                                    <ArcSegment Size="10,10" SweepDirection="Clockwise">
-                                        <ArcSegment.Point>
-                                            <MultiBinding Converter="{StaticResource converter1}">
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
-                                            </MultiBinding>
-                                        </ArcSegment.Point>
-                                        <ArcSegment.IsLargeArc>
-                                            <MultiBinding Converter="{StaticResource converter2}">
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
-                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
-                                            </MultiBinding>
-                                        </ArcSegment.IsLargeArc>
-                                    </ArcSegment>
-                                </PathFigure>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                </Grid>
-            </Viewbox>
-            <!-- Only one Trigger -->
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter TargetName="pie" Property="Fill">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0" Color="Gray"/>
-                                <GradientStop Offset="1" Color="White"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
+        </Canvas>
 
         <Style x:Key="shortcutsListView" TargetType="{x:Type ListView}">
             <Setter Property="Background" Value="Transparent" />
@@ -363,6 +288,19 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Background" Value="White" />
             <Setter Property="CornerRadius" Value="5" />
+        </Style>
+        <Style x:Key="link" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="Blue" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="{TemplateBinding Button.Foreground}" Padding="{TemplateBinding Button.Padding}" Margin="{TemplateBinding Button.Margin}">
+                            <TextBlock Text="{TemplateBinding Button.Content}" Foreground="{TemplateBinding Button.Foreground}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

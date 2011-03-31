@@ -15,14 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3D5BE1164FC95C976B52615C01F5AC73"
+        "MsmKey" = "8:_33C1163534C140CD878BF75598624B23"
         "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3D5BE1164FC95C976B52615C01F5AC73"
-        "OwnerKey" = "8:_73510B3C13188EDCE3D1438998D653BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,25 +28,7 @@
         "Entry"
         {
         "MsmKey" = "8:_52641F6CE703D1159FC70BD0C6B406FC"
-        "OwnerKey" = "8:_539F30ED6691C58F207CDAF236839AD1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_539F30ED6691C58F207CDAF236839AD1"
-        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_539F30ED6691C58F207CDAF236839AD1"
-        "OwnerKey" = "8:_73510B3C13188EDCE3D1438998D653BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_73510B3C13188EDCE3D1438998D653BC"
-        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -63,14 +39,38 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9E04439812B140D88C1B3D654FB53436"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D8EE37C97047AB3EB1D80447C71E870D"
-        "OwnerKey" = "8:_3D5BE1164FC95C976B52615C01F5AC73"
+        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,19 +82,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_73510B3C13188EDCE3D1438998D653BC"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3D5BE1164FC95C976B52615C01F5AC73"
+        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_539F30ED6691C58F207CDAF236839AD1"
+        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -122,6 +122,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -146,6 +159,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -176,20 +202,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3D5BE1164FC95C976B52615C01F5AC73"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_33C1163534C140CD878BF75598624B23"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:WindowsDock.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3D5BE1164FC95C976B52615C01F5AC73"
+                    "_33C1163534C140CD878BF75598624B23"
                     {
-                    "Name" = "8:Interop.Shell32.dll"
+                    "Name" = "8:WindowsDock.Core.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Interop.Shell32.dll"
+            "SourcePath" = "8:WindowsDock.Core.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
@@ -227,14 +253,34 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_539F30ED6691C58F207CDAF236839AD1"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E722D8A784941C79F0E92F6A3A931ED"
+            {
+            "SourcePath" = "8:..\\WindowsDock.GUI\\Sounds\\alarm.wav"
+            "TargetName" = "8:alarm.wav"
+            "Tag" = "8:"
+            "Folder" = "8:_BC91E86603A44D4CB94A76AAA5E046CA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9002C88155E808A676B00369C6AC5BCF"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_539F30ED6691C58F207CDAF236839AD1"
+                    "_9002C88155E808A676B00369C6AC5BCF"
                     {
                     "Name" = "8:Interop.IWshRuntimeLibrary.dll"
                     "Attributes" = "3:512"
@@ -258,57 +304,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_73510B3C13188EDCE3D1438998D653BC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WindowsDock.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_73510B3C13188EDCE3D1438998D653BC"
-                    {
-                    "Name" = "8:WindowsDock.Core.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:WindowsDock.Core.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E722D8A784941C79F0E92F6A3A931ED"
-            {
-            "SourcePath" = "8:..\\WindowsDock.GUI\\Sounds\\alarm.wav"
-            "TargetName" = "8:alarm.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_BC91E86603A44D4CB94A76AAA5E046CA"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9E04439812B140D88C1B3D654FB53436"
             {
             "SourcePath" = "8:..\\WindowsDock.GUI\\Scripts\\opencmd.cmd"
@@ -327,6 +322,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F5BA9E22305212213663D034A1BAD13"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_9F5BA9E22305212213663D034A1BAD13"
+                    {
+                    "Name" = "8:Interop.Shell32.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Interop.Shell32.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8EE37C97047AB3EB1D80447C71E870D"
@@ -428,7 +454,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
         "ProductCode" = "8:{116B0B9C-9297-415F-8E80-7C7B953A7FE8}"
-        "PackageCode" = "8:{C2F3248D-E1A8-412A-8B4D-518FD1F71FBB}"
+        "PackageCode" = "8:{924CC910-3200-432C-8C6D-31C189A4D9B6}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -949,7 +975,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_44781DCADD474DBA830A9D754AA59DE3"
             {
-            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Debug\\WindowsDock.GUI.exe"
+            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Release\\WindowsDock.GUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"

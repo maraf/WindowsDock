@@ -51,9 +51,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColourSliderLibrary">
-      <HintPath>..\..\Samples\WpfColourSlider1_1\ColourSliderLibrary\bin\Release\ColourSliderLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

@@ -111,7 +111,7 @@
                         <Label Content="Opacity:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />
                         <Label Content="Background:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="2" />
                         <Label Content="AutoHiding:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="3" />
-                        <Label Content="Hide offset:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="Hidden offset:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
                         <Label Content="Alarm sound:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
                         <Label Content="Desktop icons:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
                         <Label Content="Startup:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="7" />

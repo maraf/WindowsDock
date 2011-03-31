@@ -454,7 +454,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
         "ProductCode" = "8:{116B0B9C-9297-415F-8E80-7C7B953A7FE8}"
-        "PackageCode" = "8:{924CC910-3200-432C-8C6D-31C189A4D9B6}"
+        "PackageCode" = "8:{CAFB47B2-B88D-433C-AE5C-2B35D273880E}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

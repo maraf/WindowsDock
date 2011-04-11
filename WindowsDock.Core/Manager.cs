@@ -13,6 +13,10 @@ using System.Windows.Input;
 
 namespace WindowsDock.Core
 {
+    public class UnableToLoadConfigurationException : Exception {
+        public UnableToLoadConfigurationException(Exception e) : base("Unable to load configuration file!", e) { }
+    }
+
     public interface IManager
     {
         Shortcuts Shortcuts { get; set; }
@@ -249,7 +253,7 @@ namespace WindowsDock.Core
                 i = 0;
                 foreach (Script item in Scripts)
                 {
-                    rw.AddResource(String.Format("Script[{0}]", i), new SimpleScript() { Header = item.Header, Path = item.Path });
+                    rw.AddResource(String.Format("Script[{0}]", i), new SimpleScript() { Header = item.Header, Path = item.Path, WorkingDirectory = item.WorkingDirectory });
                     i++;
                 }
                 i = 0;
@@ -284,82 +288,89 @@ namespace WindowsDock.Core
             IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
             if (f.FileExists(DefaultLocation))
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(DefaultLocation, FileMode.OpenOrCreate, f))
-                using (IResourceReader rr = new ResXResourceReader(stream))
+                try
                 {
-                    IDictionaryEnumerator en = rr.GetEnumerator();
-                    while (en.MoveNext())
+                    using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(DefaultLocation, FileMode.OpenOrCreate, f))
+                    using (IResourceReader rr = new ResXResourceReader(stream))
                     {
-                        string key = (string)en.Key;
-                        if (key.Contains("Shortcut["))
+                        IDictionaryEnumerator en = rr.GetEnumerator();
+                        while (en.MoveNext())
                         {
-                            SimpleShortcut ss = (SimpleShortcut)en.Value;
-                            Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key });
-                        }
-                        else if (key.Contains("TextNote["))
-                        {
-                            SimpleTextNote stn = (SimpleTextNote)en.Value;
-                            TextNotes.Add(new TextNote(stn.Header, stn.Content, stn.Modified, stn.Alarm));
-                        }
-                        else if (key.Contains("Script["))
-                        {
-                            SimpleScript ss = (SimpleScript)en.Value;
-                            Scripts.Add(new Script(ss.Header, ss.Path));
-                        }
-                        else if (key.Contains("Command["))
-                        {
-                            SimpleCommand sc = (SimpleCommand)en.Value;
-                            Commands.Add(new Command(sc.Name, sc.Path, sc.Args));
-                        }
-                        else if (key.Contains("CommandDefaultIndex"))
-                        {
-                            Commands.DefaultIndex = (int)en.Value;
-                        }
-                        else if (key.Equals("HideDuration"))
-                        {
-                            HideDuration = (TimeSpan)en.Value;
-                        }
-                        else if (key.Equals("Opacity"))
-                        {
-                            Opacity = (double)en.Value;
-                        }
-                        else if (key.Equals("Background"))
-                        {
-                            Background = (string)en.Value;
-                        }
-                        else if (key.Equals("AutoHiding"))
-                        {
-                            AutoHiding = (bool)en.Value;
-                        }
-                        else if (key.Equals("HiddenOffset"))
-                        {
-                            HiddenOffset = (int)en.Value;
-                        }
-                        else if (key.Equals("TextNotesEnabled"))
-                        {
-                            TextNotesEnabled = (bool)en.Value;
-                        }
-                        else if (key.Equals("ScriptsEnabled"))
-                        {
-                            ScriptsEnabled = (bool)en.Value;
-                        }
-                        else if (key.Equals("BrowserEnabled"))
-                        {
-                            BrowserEnabled = (bool)en.Value;
-                        }
-                        else if (key.Equals("DesktopEnabled"))
-                        {
-                            DesktopEnabled = (bool)en.Value;
-                        }
-                        else if (key.Equals("AlarmSound"))
-                        {
-                            AlarmSound = (string)en.Value;
-                        }
-                        else if (key.Equals("DesktopIconsEnabled"))
-                        {
-                            DesktopIconsEnabled = (bool)en.Value;
+                            string key = (string)en.Key;
+                            if (key.Contains("Shortcut["))
+                            {
+                                SimpleShortcut ss = (SimpleShortcut)en.Value;
+                                Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key });
+                            }
+                            else if (key.Contains("TextNote["))
+                            {
+                                SimpleTextNote stn = (SimpleTextNote)en.Value;
+                                TextNotes.Add(new TextNote(stn.Header, stn.Content, stn.Modified, stn.Alarm));
+                            }
+                            else if (key.Contains("Script["))
+                            {
+                                SimpleScript ss = (SimpleScript)en.Value;
+                                Scripts.Add(new Script(ss.Header, ss.Path, ss.WorkingDirectory));
+                            }
+                            else if (key.Contains("Command["))
+                            {
+                                SimpleCommand sc = (SimpleCommand)en.Value;
+                                Commands.Add(new Command(sc.Name, sc.Path, sc.Args));
+                            }
+                            else if (key.Contains("CommandDefaultIndex"))
+                            {
+                                Commands.DefaultIndex = (int)en.Value;
+                            }
+                            else if (key.Equals("HideDuration"))
+                            {
+                                HideDuration = (TimeSpan)en.Value;
+                            }
+                            else if (key.Equals("Opacity"))
+                            {
+                                Opacity = (double)en.Value;
+                            }
+                            else if (key.Equals("Background"))
+                            {
+                                Background = (string)en.Value;
+                            }
+                            else if (key.Equals("AutoHiding"))
+                            {
+                                AutoHiding = (bool)en.Value;
+                            }
+                            else if (key.Equals("HiddenOffset"))
+                            {
+                                HiddenOffset = (int)en.Value;
+                            }
+                            else if (key.Equals("TextNotesEnabled"))
+                            {
+                                TextNotesEnabled = (bool)en.Value;
+                            }
+                            else if (key.Equals("ScriptsEnabled"))
+                            {
+                                ScriptsEnabled = (bool)en.Value;
+                            }
+                            else if (key.Equals("BrowserEnabled"))
+                            {
+                                BrowserEnabled = (bool)en.Value;
+                            }
+                            else if (key.Equals("DesktopEnabled"))
+                            {
+                                DesktopEnabled = (bool)en.Value;
+                            }
+                            else if (key.Equals("AlarmSound"))
+                            {
+                                AlarmSound = (string)en.Value;
+                            }
+                            else if (key.Equals("DesktopIconsEnabled"))
+                            {
+                                DesktopIconsEnabled = (bool)en.Value;
+                            }
                         }
                     }
+                }
+                catch (XmlException e)
+                {
+                    throw new UnableToLoadConfigurationException(e);
                 }
             }
         }
@@ -441,6 +452,7 @@ namespace WindowsDock.Core
     {
         public string Header;
         public string Path;
+        public string WorkingDirectory;
     }
 
     [Serializable]

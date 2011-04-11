@@ -211,6 +211,7 @@ namespace WindowsDock.GUI
             StringCollection collection = new StringCollection();
             collection.Add(Manager.GetFullFilePath());
             Clipboard.SetFileDropList(collection);
+            tbcConfigurationMessage.Text = "File copied.";
         }
 
         private void btnReplaceConfiguration_Click(object sender, RoutedEventArgs e)

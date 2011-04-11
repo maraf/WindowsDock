@@ -23,10 +23,6 @@ namespace WindowsDock.GUI
 
         public Script Script { get { return script; } protected set { script = value; } }
 
-        public event EditButtonHandler SaveButtonClicked;
-
-        public event EditButtonHandler CancelButtonClicked;
-
         public EditScriptWindow(Script script)
         {
             InitializeComponent();
@@ -48,12 +44,16 @@ namespace WindowsDock.GUI
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog file = new System.Windows.Forms.OpenFileDialog();
+            file.FileName = System.IO.Path.GetFileName(Script.Path);
+            file.InitialDirectory = System.IO.Path.GetDirectoryName(script.Path);
             file.CheckFileExists = true;
             file.Multiselect = false;
             file.Title = "Select script file";
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Script.Path = file.FileName;
+                if (String.IsNullOrEmpty(Script.WorkingDirectory))
+                    Script.WorkingDirectory = System.IO.Path.GetDirectoryName(file.FileName);
             }
         }
     }

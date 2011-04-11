@@ -47,7 +47,14 @@ namespace WindowsDock.GUI
             InitializeComponent();
 
             DoPosition();
-            Manager.LoadFrom(Manager.DefaultLocation);
+            try
+            {
+                Manager.LoadFrom(Manager.DefaultLocation);
+            }
+            catch (UnableToLoadConfigurationException e)
+            {
+                MessageBox.Show("WindowsDock", "Unable to load configuration file, propably because it is damaged. Go to configuration and load one from backup (if have any) or start with this plain one.");
+            }
 
             LoadDefaults();
             RunDispatcher();

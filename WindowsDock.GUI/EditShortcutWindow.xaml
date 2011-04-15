@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=WindowsBase"
-        Title="WindowsDock :: Configuration :: Shortcut" Height="140" Width="500" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="WindowsDock :: Configuration :: Shortcut" Height="170" Width="600" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
         <ObjectDataProvider x:Key="keys" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -22,17 +22,20 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Label Content="Path:" Grid.Column="0" Grid.Row="0" Margin="2,0,0,0" />
             <Label Content="Args:" Grid.Column="0" Grid.Row="1" Margin="2,0,0,0" />
-            <Label Content="Key:" Grid.Column="0" Grid.Row="2" Margin="2,0,0,0" />
+            <Label Content="Working dir:" Grid.Column="0" Grid.Row="2" Margin="2,0,0,0" />
+            <Label Content="Key:" Grid.Column="0" Grid.Row="3" Margin="2,0,0,0" />
             
             <DockPanel Margin="0,0,0,4" Grid.Column="1" Grid.Row="0">
                 <Button x:Name="btnBrowse" Content="Browse..." Click="btnBrowse_Click" Height="22" DockPanel.Dock="Right" Margin="4,0,0,0" Padding="4,0" />
                 <TextBox x:Name="tbxPath" IsReadOnly="True" Height="22" Text="{Binding Path=Path}" />
             </DockPanel>
             <TextBox x:Name="tbxArgs" Height="22" Text="{Binding Path=Args}" Margin="0,0,0,4" Grid.Column="1" Grid.Row="1" />
-            <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keysCollection}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" Grid.Column="1" Grid.Row="2" />
+            <TextBox x:Name="tbxWorkingDirectory" Margin="0,4" Text="{Binding Path=WorkingDirectory}" Grid.Column="1" Grid.Row="2" />
+            <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keysCollection}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" Grid.Column="1" Grid.Row="3" />
         </Grid>
     </Border>
 </Window>

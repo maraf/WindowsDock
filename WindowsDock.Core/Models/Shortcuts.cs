@@ -37,11 +37,17 @@ namespace WindowsDock.Core
 
         public Shortcut Swap(Shortcut item1, Shortcut item2)
         {
-            Shortcut item = new Shortcut(item1.Path, item1.ImageSource);
+            Shortcut item = new Shortcut(item1.Path, item1.ImageSource, item1.Args, item1.WorkingDirectory, item1.Key);
             item1.Path = item2.Path;
             item1.ImageSource = item2.ImageSource;
+            item1.Args = item2.Args;
+            item1.WorkingDirectory = item2.WorkingDirectory;
+            item1.Key = item2.Key;
             item2.Path = item.Path;
             item2.ImageSource = item.ImageSource;
+            item2.Args = item.Args;
+            item2.WorkingDirectory = item.WorkingDirectory;
+            item2.Key = item.Key;
 
             return item2;
         }
@@ -51,6 +57,7 @@ namespace WindowsDock.Core
     {
         private string path;
         private string args;
+        private string workingDirectory;
         private ImageSource imageSource;
         private Key key = Key.None;
 
@@ -59,12 +66,16 @@ namespace WindowsDock.Core
         public Shortcut(string path)
         {
             Path = path;
+            WorkingDirectory = System.IO.Path.GetDirectoryName(Path);
         }
 
-        public Shortcut(string path, ImageSource icon)
+        public Shortcut(string path, ImageSource icon, string args, string workingDirectory, Key key)
         {
             Path = path;
+            WorkingDirectory = workingDirectory;
             ImageSource = icon;
+            Args = args;
+            Key = key;
         }
 
         public string Path
@@ -105,6 +116,19 @@ namespace WindowsDock.Core
             {
                 key = value;
                 FirePropertyChanged("Key");
+            }
+        }
+
+        public string WorkingDirectory
+        {
+            get { return workingDirectory; }
+            set
+            {
+                if(!String.IsNullOrEmpty(value) && !String.IsNullOrWhiteSpace(value))
+                {
+                    workingDirectory = value;
+                    FirePropertyChanged("WorkingDirectory");
+                }
             }
         }
     }

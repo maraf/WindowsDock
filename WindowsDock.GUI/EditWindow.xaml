@@ -10,7 +10,8 @@
             <StackPanel Margin="5,0,5,5">
                 <Expander x:Name="expShortcuts" Header="Shortcuts" Expanded="Expander_Expanded">
                     <StackPanel>
-                        <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" Height="280" SelectionChanged="lvwShortcuts_SelectionChanged" SelectionMode="Single" BorderBrush="Gray">
+                        <TextBlock Text="When shortcut list is focused, you can use ENTER, to open detail, DELETE, to delete shortcut or SHIFT+UP/DOWN to move shortcut up/down" Margin="0,0,0,4" />
+                        <ListView x:Name="lvwShortcuts" MouseDoubleClick="lvwShortcuts_MouseDoubleClick" PreviewKeyDown="lvwShortcuts_PreviewKeyDown" ItemsSource="{Binding Path=Shortcuts}" Height="280" SelectionChanged="lvwShortcuts_SelectionChanged" SelectionMode="Single" BorderBrush="Gray">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel />
@@ -25,8 +26,10 @@
                                                 <TextBlock Text="{Binding Path=Key, Converter={StaticResource keyToString}, StringFormat=[{0}]}" Foreground="DarkGray" />
                                                 <TextBlock Text=" " />
                                                 <TextBlock Text="{Binding Path=Path}" />
+                                                <TextBlock Text=" " />
+                                                <TextBlock Text="{Binding Path=Args}" Foreground="DarkGray" />
                                             </StackPanel>
-                                            <TextBlock Text="{Binding Path=Args}" />
+                                            <TextBlock Text="{Binding Path=WorkingDirectory}" Foreground="DarkGray" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>

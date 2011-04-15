@@ -56,6 +56,8 @@ namespace WindowsDock.GUI
                 MessageBox.Show("WindowsDock", "Unable to load configuration file, propably because it is damaged. Go to configuration and load one from backup (if have any) or start with this plain one.");
             }
 
+            DesktopHelper.ShowIcons(Manager.DesktopIconsEnabled);
+            
             LoadDefaults();
             RunDispatcher();
             FindHotkeyIgnorables();
@@ -296,7 +298,7 @@ namespace WindowsDock.GUI
             string path = shortcut.Path;
             Process p = new Process();
             p.StartInfo.FileName = path;
-            p.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
+            p.StartInfo.WorkingDirectory = shortcut.WorkingDirectory;
             p.Start();
 
             HideMainPanel();
@@ -556,6 +558,15 @@ namespace WindowsDock.GUI
             }
 
             e.Handled = true;
+        }
+
+        private void btnDesktopGo_Click(object sender, RoutedEventArgs e)
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = "explorer";
+            p.StartInfo.Arguments = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            p.Start();
+            ToggleExtension(ExtensionType.Desktop, true);
         }
     }
 }

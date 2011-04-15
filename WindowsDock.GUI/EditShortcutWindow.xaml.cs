@@ -50,6 +50,8 @@ namespace WindowsDock.GUI
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Shortcut.Path = file.FileName;
+                if (String.IsNullOrEmpty(Shortcut.WorkingDirectory))
+                    Shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(file.FileName);
             }
         }
 

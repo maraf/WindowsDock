@@ -241,7 +241,7 @@ namespace WindowsDock.Core
                 int i = 0;
                 foreach (Shortcut item in Shortcuts)
                 {
-                    rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path, Key = item.Key });
+                    rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path, Key = item.Key, WorkingDirectory = item.WorkingDirectory });
                     i++;
                 }
                 i = 0;
@@ -300,7 +300,7 @@ namespace WindowsDock.Core
                             if (key.Contains("Shortcut["))
                             {
                                 SimpleShortcut ss = (SimpleShortcut)en.Value;
-                                Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key });
+                                Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key, WorkingDirectory = ss.WorkingDirectory });
                             }
                             else if (key.Contains("TextNote["))
                             {
@@ -435,6 +435,7 @@ namespace WindowsDock.Core
     {
         public string Path;
         public string Args;
+        public string WorkingDirectory;
         public Key Key;
     }
 

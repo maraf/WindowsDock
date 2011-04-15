@@ -72,12 +72,7 @@ namespace WindowsDock.GUI
             edit.ShowDialog();
         }
 
-        private void lvwShortcuts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            stpEditButtons.IsEnabled = lvwShortcuts.SelectedItem != null;
-        }
-
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        protected void OpenCurrentShortcut()
         {
             if (lvwShortcuts.SelectedItem != null)
             {
@@ -86,25 +81,59 @@ namespace WindowsDock.GUI
             }
         }
 
+        protected void DeleteCurrentShortcut()
+        {
+            if (lvwShortcuts.SelectedItem != null)
+            {
+                Manager.Shortcuts.Remove(lvwShortcuts.SelectedItem as Shortcut);
+            }
+        }
+
+        protected void MoveUpCurrentShortcut()
+        {
+            if (lvwShortcuts.SelectedItem != null)
+            {
+                if (lvwShortcuts.SelectedIndex != 0)
+                    lvwShortcuts.SelectedItem = Manager.Shortcuts.Swap(lvwShortcuts.SelectedItem as Shortcut, lvwShortcuts.Items[lvwShortcuts.SelectedIndex - 1] as Shortcut);
+                lvwShortcuts.ScrollIntoView(lvwShortcuts.SelectedItem);
+                lvwShortcuts.Focus();
+            }
+        }
+
+        protected void MoveDownCurrentShortcut()
+        {
+            if (lvwShortcuts.SelectedItem != null)
+            {
+                if (lvwShortcuts.SelectedIndex != lvwShortcuts.Items.Count - 1)
+                    lvwShortcuts.SelectedItem = Manager.Shortcuts.Swap(lvwShortcuts.SelectedItem as Shortcut, lvwShortcuts.Items[lvwShortcuts.SelectedIndex + 1] as Shortcut);
+                lvwShortcuts.ScrollIntoView(lvwShortcuts.SelectedItem);
+                lvwShortcuts.Focus();
+            }
+        }
+
+        private void lvwShortcuts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            stpEditButtons.IsEnabled = lvwShortcuts.SelectedItem != null;
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCurrentShortcut();
+        }
+
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            Manager.Shortcuts.Remove(lvwShortcuts.SelectedItem as Shortcut);
+            DeleteCurrentShortcut();
         }
 
         private void btnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            if (lvwShortcuts.SelectedIndex != 0)
-                lvwShortcuts.SelectedItem = Manager.Shortcuts.Swap(lvwShortcuts.SelectedItem as Shortcut, lvwShortcuts.Items[lvwShortcuts.SelectedIndex - 1] as Shortcut);
-            lvwShortcuts.ScrollIntoView(lvwShortcuts.SelectedItem);
-            lvwShortcuts.Focus();
+            MoveUpCurrentShortcut();
         }
 
         private void btnMoveDown_Click(object sender, RoutedEventArgs e)
         {
-            if (lvwShortcuts.SelectedIndex != lvwShortcuts.Items.Count - 1)
-                lvwShortcuts.SelectedItem = Manager.Shortcuts.Swap(lvwShortcuts.SelectedItem as Shortcut, lvwShortcuts.Items[lvwShortcuts.SelectedIndex + 1] as Shortcut);
-            lvwShortcuts.ScrollIntoView(lvwShortcuts.SelectedItem);
-            lvwShortcuts.Focus();
+            MoveDownCurrentShortcut();
         }
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
@@ -136,15 +165,17 @@ namespace WindowsDock.GUI
 
         private void Expander_Expanded(object sender, RoutedEventArgs e)
         {
-            if (sender as Expander != expShortcuts)
+            Expander ex = sender as Expander;
+
+            if (ex != expShortcuts)
                 expShortcuts.IsExpanded = false;
-            if (sender as Expander != expExtensions)
+            if (ex != expExtensions)
                 expExtensions.IsExpanded = false;
-            if (sender as Expander != expComands)
+            if (ex != expComands)
                 expComands.IsExpanded = false;
-            if (sender as Expander != expMiscelaneous)
+            if (ex != expMiscelaneous)
                 expMiscelaneous.IsExpanded = false;
-            if (sender as Expander != expRestore)
+            if (ex != expRestore)
                 expRestore.IsExpanded = false;
         }
 
@@ -224,6 +255,38 @@ namespace WindowsDock.GUI
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Manager.Replace(file.FileName);
+            }
+        }
+
+        private void lvwShortcuts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenCurrentShortcut();
+        }
+
+        private void lvwShortcuts_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    OpenCurrentShortcut();
+                    break;
+                case Key.Delete:
+                    DeleteCurrentShortcut();
+                    break;
+                case Key.Up:
+                    if (Keyboard.Modifiers == ModifierKeys.Shift)
+                    {
+                        MoveUpCurrentShortcut();
+                        e.Handled = true;
+                    }
+                    break;
+                case Key.Down:
+                    if (Keyboard.Modifiers == ModifierKeys.Shift)
+                    {
+                        MoveDownCurrentShortcut();
+                        e.Handled = true;
+                    }
+                    break;
             }
         }
     }

@@ -300,7 +300,8 @@ namespace WindowsDock.Core
                             if (key.Contains("Shortcut["))
                             {
                                 SimpleShortcut ss = (SimpleShortcut)en.Value;
-                                Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key, WorkingDirectory = ss.WorkingDirectory });
+                                if (File.Exists(ss.Path))
+                                    Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key, WorkingDirectory = ss.WorkingDirectory });
                             }
                             else if (key.Contains("TextNote["))
                             {

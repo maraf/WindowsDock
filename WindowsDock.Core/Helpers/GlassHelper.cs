@@ -28,8 +28,7 @@ namespace WindowsDock.Core
     public class GlassHelper
     {
         [DllImport("dwmapi.dll", PreserveSig = false)]
-        static extern void DwmExtendFrameIntoClientArea(
-            IntPtr hWnd, ref MARGINS pMarInset);
+        static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
         [DllImport("dwmapi.dll", PreserveSig = false)]
         static extern bool DwmIsCompositionEnabled();
 
@@ -40,8 +39,7 @@ namespace WindowsDock.Core
 
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
             if (hwnd == IntPtr.Zero)
-                throw new InvalidOperationException(
-                "The Window must be shown before extending glass.");
+                throw new InvalidOperationException("The Window must be shown before extending glass.");
 
             // Set the background to transparent from both the WPF and Win32 perspectives
             window.Background = Brushes.Transparent;

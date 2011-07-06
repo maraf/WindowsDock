@@ -186,7 +186,7 @@ namespace WindowsDock.GUI
 #if DEBUG
             if (Manager.Shortcuts.Count == 0)
             {
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\chrome.exe"));
+                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\chrome-win32\chrome.exe"));
                 Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\Chromium-Updater.exe"));
                 Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\My\Scheduling\Scheduling.exe"));
                 Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Utils\Kaxaml\Kaxaml.exe"));

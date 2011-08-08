@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WindowsDock.Core;
 using System.Windows.Controls.Primitives;
 using System.Diagnostics;
+using DesktopCore;
 
 namespace WindowsDock.GUI
 {
@@ -37,6 +38,11 @@ namespace WindowsDock.GUI
             DataContext = Manager;
 
             expShortcuts.IsExpanded = true;
+            tblVersion.Text = String.Format("build {0} v{1}", Version.BuildDate.ToShortDateString(), Version.Current);
+
+            coxPosition.ItemsSource = Enum.GetValues(typeof(WindowPosition));
+            coxAlign.ItemsSource = Enum.GetValues(typeof(WindowAlign));
+            coxLanguages.ItemsSource = DesktopCore.Resources.GetSupportedLocales("Resources/Resources", "en-US");
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -185,7 +191,7 @@ namespace WindowsDock.GUI
             file.CheckFileExists = true;
             file.Multiselect = false;
             file.Filter = "WAV file (*.wav)|*.wav";
-            file.Title = "Select alarm sound file";
+            file.Title = Resource.Get("Edit.AlarmFile");
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Manager.AlarmSound = file.FileName;
@@ -223,7 +229,7 @@ namespace WindowsDock.GUI
             Manager.SaveTo(Manager.DefaultLocation);
 
             watch.Stop();
-            tbcConfigurationMessage.Text = String.Format("Saving took {0}ms", watch.ElapsedMilliseconds);
+            tbcConfigurationMessage.Text = String.Format(Resource.Get("Edit.SavingTimeFormat"), watch.ElapsedMilliseconds);
         }
 
         private void btnLoadConfiguration_Click(object sender, RoutedEventArgs e)
@@ -234,7 +240,7 @@ namespace WindowsDock.GUI
             Manager.LoadFrom(Manager.DefaultLocation);
 
             watch.Stop();
-            tbcConfigurationMessage.Text = String.Format("Loading took {0}ms", watch.ElapsedMilliseconds);
+            tbcConfigurationMessage.Text = String.Format(Resource.Get("Edit.LoadingTimeFormat"), watch.ElapsedMilliseconds);
         }
 
         private void btnCopyConfiguration_Click(object sender, RoutedEventArgs e)
@@ -242,7 +248,7 @@ namespace WindowsDock.GUI
             StringCollection collection = new StringCollection();
             collection.Add(Manager.GetFullFilePath());
             Clipboard.SetFileDropList(collection);
-            tbcConfigurationMessage.Text = "File copied.";
+            tbcConfigurationMessage.Text = Resource.Get("Edit.Copied");
         }
 
         private void btnReplaceConfiguration_Click(object sender, RoutedEventArgs e)
@@ -251,7 +257,7 @@ namespace WindowsDock.GUI
             file.CheckFileExists = true;
             file.Multiselect = false;
             file.Filter = "WindowsDock Resource file (*.resx)|WindowsDock.Settings.resx";
-            file.Title = "Select existing WindowsDock Resource file";
+            file.Title = Resource.Get("Edit.ResourceFile");
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Manager.Replace(file.FileName);
@@ -288,6 +294,37 @@ namespace WindowsDock.GUI
                     }
                     break;
             }
+        }
+
+        private void tbxAlignOffset_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Down && e.Key != Key.Up)
+                return;
+
+            TextBox source = sender as TextBox;
+            if (source != null)
+            {
+                int add = e.Key == Key.LeftShift ? 10 : 1;
+
+                if (e.Key == Key.Up)
+                    Manager.AlignOffset += add;
+                else if (e.Key == Key.Down)
+                    Manager.AlignOffset -= add;
+            }
+        }
+
+        private void btnPickBackground_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Manager.Background = String.Format(dialog.Color.IsKnownColor ? "{0}" : "#{0}", dialog.Color.Name);
+            }
+        }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = Shortcuts.PermitedKeys.Contains((Key)e.Item);
         }
     }
 }

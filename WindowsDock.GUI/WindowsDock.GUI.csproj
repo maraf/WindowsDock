@@ -51,6 +51,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DesktopCore">
+      <HintPath>..\..\DesktopCore\DesktopCore\bin\Release\DesktopCore.dll</HintPath>
+    </Reference>
+    <Reference Include="DesktopCore.Resources">
+      <HintPath>..\..\DesktopCore\DesktopCore.Resources\bin\Release\DesktopCore.Resources.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -88,6 +94,7 @@
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters.cs" />
+    <Compile Include="Version.cs" />
     <Page Include="EditCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,6 +160,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Resources_cs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Resources.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\alarm.wav" />
   </ItemGroup>
   <ItemGroup>

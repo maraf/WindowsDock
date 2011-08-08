@@ -2,15 +2,25 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WindowsDock.GUI"
-        Title="WindowsDock :: Configuration" Height="556" Width="800" x:Name="window" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
+        xmlns:c="clr-namespace:DesktopCore;assembly=DesktopCore.Resources"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=WindowsBase"
+        Title="{c:Resource Edit.Title}" Height="556" Width="800" x:Name="window" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
         SizeToContent="Height" ResizeMode="NoResize">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="keys" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="input:Key" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
     <Grid>
         <DockPanel>
             <!--<ScrollViewer>-->
             <StackPanel Margin="5,0,5,5">
-                <Expander x:Name="expShortcuts" Header="Shortcuts" Expanded="Expander_Expanded">
+                <Expander x:Name="expShortcuts" Header="{c:Resource Edit.Shortcuts}" Expanded="Expander_Expanded">
                     <StackPanel>
-                        <TextBlock Text="When shortcut list is focused, you can use ENTER, to open detail, DELETE, to delete shortcut or SHIFT+UP/DOWN to move shortcut up/down" Margin="0,0,0,4" />
+                        <TextBlock Text="{c:Resource Edit.ShortcutsHint}" Margin="0,0,0,4" />
                         <ListView x:Name="lvwShortcuts" MouseDoubleClick="lvwShortcuts_MouseDoubleClick" PreviewKeyDown="lvwShortcuts_PreviewKeyDown" ItemsSource="{Binding Path=Shortcuts}" Height="280" SelectionChanged="lvwShortcuts_SelectionChanged" SelectionMode="Single" BorderBrush="Gray">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -37,26 +47,44 @@
                         </ListView>
                         <Grid>
                             <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
-                                <Button x:Name="btnNew" Content="New" Click="btnNew_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnNew" Content="{c:Resource Edit.New}" Click="btnNew_Click" Margin="0,0,2,0" Padding="2" />
                             </StackPanel>
                             <StackPanel x:Name="stpEditButtons" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,2,0,2" IsEnabled="False">
-                                <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click" Margin="0,0,2,0" Padding="2" />
-                                <Button x:Name="btnRemove" Content="Remove" Click="btnRemove_Click" Margin="0,0,4,0" Padding="2" />
-                                <Button x:Name="btnMoveUp" Content="Move up" Click="btnMoveUp_Click" Margin="0,0,2,0" Padding="2" />
-                                <Button x:Name="btnMoveDown" Content="Move down" Click="btnMoveDown_Click" Padding="2" />
+                                <Button x:Name="btnEdit" Content="{c:Resource Edit.Edit}" Click="btnEdit_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnRemove" Content="{c:Resource Edit.Remove}" Click="btnRemove_Click" Margin="0,0,4,0" Padding="2" />
+                                <Button x:Name="btnMoveUp" Content="{c:Resource Edit.MoveUp}" Click="btnMoveUp_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnMoveDown" Content="{c:Resource Edit.MoveDown}" Click="btnMoveDown_Click" Padding="2" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Expander>
-                <Expander x:Name="expExtensions" Header="Extensions" Expanded="Expander_Expanded">
-                    <StackPanel>
-                        <CheckBox Content="Enable TextNotes (Changing this setting, doesn't delete your notes, it only hiddens button with notes)." IsChecked="{Binding Path=TextNotesEnabled}" />
-                        <CheckBox Content="Enable Scripts (Changing this setting, doesn't delete your scripts, it only hiddens button with scripts)." IsChecked="{Binding Path=ScriptsEnabled}" Margin="0,4" />
-                        <CheckBox Content="Enable Browser." IsChecked="{Binding Path=BrowserEnabled}" Margin="0,0,0,4" />
-                        <CheckBox Content="Enable Desktop browser." IsChecked="{Binding Path=DesktopEnabled}" />
-                    </StackPanel>
+                <Expander x:Name="expExtensions" Header="{c:Resource Edit.Extensions}" Expanded="Expander_Expanded">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <CheckBox Content="{c:Resource Edit.Ext.TextNotes}" IsChecked="{Binding Path=TextNotesEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding TextNotesKey}" Margin="0,4" IsEnabled="{Binding TextNotesEnabled}" Grid.Column="1" Grid.Row="0" />
+
+                        <CheckBox Content="{c:Resource Edit.Ext.Scripts}" IsChecked="{Binding Path=ScriptsEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding ScriptsKey}" Margin="0,4" IsEnabled="{Binding ScriptsEnabled}" Grid.Column="1" Grid.Row="1" />
+
+                        <CheckBox Content="{c:Resource Edit.Ext.FolderBrowser}" IsChecked="{Binding Path=BrowserEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding FolderBrowserKey}" Margin="0,4" IsEnabled="{Binding BrowserEnabled}" Grid.Column="1" Grid.Row="2" />
+
+                        <CheckBox Content="{c:Resource Edit.Ext.DesktopBrowser}" IsChecked="{Binding Path=DesktopEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding DesktopBrowserKey}" Margin="0,4" IsEnabled="{Binding DesktopEnabled}" Grid.Column="1" Grid.Row="3" />
+                    </Grid>
                 </Expander>
-                <Expander x:Name="expComands" Header="Commands" Expanded="Expander_Expanded">
+                <Expander x:Name="expComands" Header="{c:Resource Edit.Commands}" Expanded="Expander_Expanded">
                     <StackPanel>
                         <ListView x:Name="lvwCommands" ItemsSource="{Binding Path=Commands}" SelectionChanged="lvwCommands_SelectionChanged" BorderBrush="Gray">
                             <ListView.ItemsPanel>
@@ -80,20 +108,30 @@
                         </ListView>
                         <Grid>
                             <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
-                                <Button x:Name="btnNewCommand" Content="New" Click="btnNewCommand_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnNewCommand" Content="{c:Resource Edit.New}" Click="btnNewCommand_Click" Margin="0,0,2,0" Padding="2" />
                             </StackPanel>
                             <StackPanel Height="23" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,2">
-                                <Label Content="Default command: " />
+                                <Label Content="{c:Resource Edit.DefaultCommand}" Margin="0,0,4,0" />
                                 <ComboBox MinWidth="120" SelectedItem="{Binding Path=Commands.Default}" DisplayMemberPath="Name" ItemsSource="{Binding Path=Commands}" />
                             </StackPanel>
                             <StackPanel x:Name="stpEditCommandButtons" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,2,0,2" IsEnabled="False">
-                                <Button x:Name="btnEditCommand" Content="Edit" Click="btnEditCommand_Click" Margin="0,0,2,0" Padding="2" />
-                                <Button x:Name="btnRemoveCommand" Content="Remove" Click="btnRemoveCommand_Click" Margin="0,0,4,0" Padding="2" />
+                                <Button x:Name="btnEditCommand" Content="{c:Resource Edit.Edit}" Click="btnEditCommand_Click" Margin="0,0,2,0" Padding="2" />
+                                <Button x:Name="btnRemoveCommand" Content="{c:Resource Edit.Remove}" Click="btnRemoveCommand_Click" Margin="0,0,4,0" Padding="2" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Expander>
-                <Expander x:Name="expMiscelaneous"  Header="Miscelaneous" Expanded="Expander_Expanded">
+                <Expander x:Name="expMiscelaneous"  Expanded="Expander_Expanded">
+                    <Expander.Header>
+                        <Grid Width="732">
+                            <StackPanel>
+                                <TextBlock Text="{c:Resource Edit.Misc}" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+                                <TextBlock x:Name="tblVersion" />
+                            </StackPanel>
+                        </Grid>
+                    </Expander.Header>
                     <Grid Margin="0,0,4,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -109,57 +147,96 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Label Content="HideDuration:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="0" />
-                        <Label Content="Opacity:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />
-                        <Label Content="Background:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="2" />
-                        <Label Content="AutoHiding:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="3" />
-                        <Label Content="Hidden offset:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
-                        <Label Content="Alarm sound:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
-                        <Label Content="Desktop icons:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
-                        <Label Content="Startup:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="7" />
-                        <Label Content="Configuration:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="8" />
+                        <Label Content="{c:Resource Edit.Position}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="0" />
+                        <Label Content="{c:Resource Edit.Align}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />
+                        <Label Content="{c:Resource Edit.HideDuration}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="2" />
+                        <!--<Label Content="Opacity:" Margin="0,2,0,0" Grid.Column="0" Grid.Row="1" />-->
+                        <Label Content="{c:Resource Edit.ApplicationKeys}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="3" />
+                        <Label Content="{c:Resource Edit.Background}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="{c:Resource Edit.AutoHiding}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="5" />
+                        <Label Content="{c:Resource Edit.StartHidden}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="6" />
+                        <Label Content="{c:Resource Edit.HiddenOffset}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="7" />
+                        <Label Content="{c:Resource Edit.AlarmSound}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="8" />
+                        <Label Content="{c:Resource Edit.Language}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="9" />
+                        <Label Content="{c:Resource Edit.DesktopIcons}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="10" />
+                        <Label Content="{c:Resource Edit.Startup}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="11" />
+                        <Label Content="{c:Resource Edit.Configuration}" Margin="0,2,0,0" Grid.Column="0" Grid.Row="12" />
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,4">
-                            <TextBox Text="{Binding Path=HideDuration}" />
-                            <TextBlock Text="Format: Hours:Minutes:Seconds.Milisecs" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
+                            <ComboBox x:Name="coxPosition" HorizontalAlignment="Left" SelectedItem="{Binding Position}" Width="200" />
+                            <TextBlock Text="{c:Resource Edit.PositionHint}" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,4">
-                            <TextBox Text="{Binding Path=Opacity}" />
-                            <TextBlock Text="Number from 0 to 1" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox x:Name="coxAlign" HorizontalAlignment="Left" SelectedItem="{Binding Align}" Width="200" Margin="0,2" />
+                                <Label Content="{c:Resource Edit.AlignOffset}" Margin="5,0" />
+                                <TextBox x:Name="tbxAlignOffset" Text="{Binding AlignOffset, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="tbxAlignOffset_PreviewKeyDown" Width="50" Margin="0,2" />
+                                <TextBlock Text="{c:Resource Edit.AlignOffsetHint}" Margin="5,0" Foreground="Gray" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Text="{c:Resource Edit.AlignHint}" Foreground="Gray" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,4">
-                            <TextBox Text="{Binding Path=Background}" />
-                            <TextBlock Text="Any valid color definition (Red, Blue, Azure, Green or hexa code like #CCCCCC)" Margin="2,0,0,0" Foreground="Gray" />
+                            <TextBox Text="{Binding Path=HideDuration, Converter={StaticResource milisecsToTimespan}}" />
+                            <TextBlock Text="{c:Resource Edit.HideDurationHint}" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
+                        </StackPanel>
+                        <!--<StackPanel Grid.Column="1" Grid.Row="1" Margin="0,4">
+                            <TextBox Text="{Binding Path=Opacity}" />
+                            <TextBlock Text="Number from 0 to 1" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="Gray" />
+                        </StackPanel>-->
+                        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,4">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{c:Resource Edit.ConfigKey}" />
+                                <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding ConfigKey}" Margin="5,2" Width="50" />
+                                <Label Content="{c:Resource Edit.CloseKey}" Margin="5,0,0,0" />
+                                <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding CloseKey}" Margin="5,2" Width="50" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="4" Margin="0,4">
+                            <DockPanel>
+                                <Button x:Name="btnPickBackground" Margin="4,0,0,0" Content="{c:Resource Edit.PickColor}" Click="btnPickBackground_Click" DockPanel.Dock="Right" />
+                                <TextBox Text="{Binding Path=Background}" />
+                            </DockPanel>
+                            <TextBlock Text="{c:Resource Edit.BackgroundHint}" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding Path=AutoHiding}" VerticalAlignment="Center" Margin="0,6,0,4" 
-                                  Content="If checked, panel with icons with automaticly hides when mouse leaves it." 
-                                  Grid.Column="1" Grid.Row="3" />
-                        <StackPanel Grid.Column="1" Grid.Row="4" Margin="0,4">
+                                  Content="{c:Resource Edit.AutoHidingHint}" Grid.Column="1" Grid.Row="5" />
+                        <CheckBox IsChecked="{Binding Path=StartHidden}" VerticalAlignment="Center" Margin="0,6,0,4" 
+                                  Content="{c:Resource Edit.StartHiddenHint}" Grid.Column="1" Grid.Row="6" />
+                        <StackPanel Grid.Column="1" Grid.Row="7" Margin="0,4">
                             <TextBox Text="{Binding Path=HiddenOffset}" />
-                            <TextBlock Text="Number of pixels that are visible even if dock hidden (default: 2)" Margin="2,0,0,0" Foreground="Gray" />
+                            <TextBlock Text="{c:Resource Edit.HiddenOffsetHint}" Margin="2,0,0,0" Foreground="Gray" />
                         </StackPanel>
-                        <DockPanel Grid.Column="1" Grid.Row="5" Margin="0,4">
-                            <Button x:Name="btnBrowse" Content="Browse" Margin="5,0,0,0" Click="btnBrowse_Click" DockPanel.Dock="Right" />
+                        <DockPanel Grid.Column="1" Grid.Row="8" Margin="0,4">
+                            <Button x:Name="btnBrowse" Content="{c:Resource Edit.Browse}" Margin="5,0,0,0" Click="btnBrowse_Click" DockPanel.Dock="Right" />
                             <TextBox Text="{Binding Path=AlarmSound}" IsReadOnly="True" />
                         </DockPanel>
-                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="6">
+                        <StackPanel Margin="0,4" Grid.Column="1" Grid.Row="9">
+                            <ComboBox x:Name="coxLanguages" HorizontalAlignment="Left" DisplayMemberPath="NativeName" SelectedItem="{Binding Locale}" Width="200" />
+                            <TextBlock Text="{c:Resource Edit.LanguageHint}" Margin="2,0,0,0" Foreground="Gray" />
+                        </StackPanel>
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="10">
                             <Button x:Name="btnToggleDesktopIcons" Click="btnToggleDesktopIcons_Click">
                                 <Button.Content>
-                                    <TextBlock Text="{Binding Path=DesktopIconsEnabled, Converter={StaticResource inverseBoolToString}, StringFormat={}{0} desktop icons}" Margin="4,0" />
+                                    <TextBlock Text="{Binding Path=DesktopIconsEnabled, Converter={StaticResource inverseBoolToString}, StringFormat={c:Resource Edit.DesktopIconsFormat}}" Margin="4,0" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
-                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="7">
-                            <Button x:Name="btnCreateStartup" Click="btnCreateStartup_Click" Content="Create startup shortcut" Padding="4,0" Margin="0,0,4,0" />
-                            <Button x:Name="btnDeleteStartup" Click="btnDeleteStartup_Click" Content="Delete startup shortcut" Padding="4,0" Margin="0,0,4,0" />
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,4" Grid.Column="1" Grid.Row="11">
+                            <Button x:Name="btnCreateStartup" Click="btnCreateStartup_Click" Content="{c:Resource Edit.CreateStartup}" Padding="4,0" Margin="0,0,4,0" />
+                            <Button x:Name="btnDeleteStartup" Click="btnDeleteStartup_Click" Content="{c:Resource Edit.DeleteStartup}" Padding="4,0" Margin="0,0,4,0" />
                         </StackPanel>
-                        <Grid Height="25" Margin="0,4" Grid.Column="1" Grid.Row="8">
+                        <Grid Height="25" Margin="0,4" Grid.Column="1" Grid.Row="12">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btnSaveConfiguration" Click="btnSaveConfiguration_Click" Content="Save" Padding="4,0" Margin="0,0,4,0" />
-                                <Button x:Name="btnLoadConfiguration" Click="btnLoadConfiguration_Click" Content="Load" Padding="4,0" Margin="0,0,4,0" />
-                                <Button x:Name="btnReplaceConfiguration" Click="btnReplaceConfiguration_Click" Content="Replace" Padding="4,0" Margin="0,0,4,0" />
-                                <Button x:Name="btnCopyConfiguration" Click="btnCopyConfiguration_Click" Content="Copy file to clipboard" Margin="0,0,4,0" Style="{StaticResource link}" />
+                                <Button x:Name="btnSaveConfiguration" Click="btnSaveConfiguration_Click" Content="{c:Resource Save}" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnLoadConfiguration" Click="btnLoadConfiguration_Click" Content="{c:Resource Load}" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnReplaceConfiguration" Click="btnReplaceConfiguration_Click" Content="{c:Resource Replace}" Padding="4,0" Margin="0,0,4,0" />
+                                <Button x:Name="btnCopyConfiguration" Click="btnCopyConfiguration_Click" Content="{c:Resource CopyToClipboard}" Margin="0,0,4,0" Style="{StaticResource link}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <TextBlock x:Name="tbcConfigurationMessage" Text="" VerticalAlignment="Center" />
@@ -167,15 +244,15 @@
                         </Grid>
                     </Grid>
                 </Expander>
-                <Expander x:Name="expRestore" Header="Restore defaults" Expanded="Expander_Expanded">
+                <Expander x:Name="expRestore" Header="{c:Resource Edit.Defaults}" Expanded="Expander_Expanded">
                     <StackPanel>
-                        <CheckBox x:Name="cbxShotcuts" Content="Delete my shortcuts" Margin="0,2,0,2" />
-                        <CheckBox x:Name="cbxTextNotes" Content="Delete my text notes" Margin="0,2,0,2" />
-                        <CheckBox x:Name="cbxScripts" Content="Delete my scripts" Margin="0,2,0,2" />
-                        <CheckBox x:Name="cbxSettings" Content="Delete my settings" IsChecked="True" Margin="0,2,0,2" />
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="btnRestoreDefaults" Click="btnRestoreDefaults_Click" Content="Restore default settings" Margin="0,2,0,2" />
-                            <TextBlock x:Name="tblRestoredInfo" Text="Restored. Please restart program." Foreground="Green" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" />
+                        <CheckBox x:Name="cbxShotcuts" Content="{c:Resource Edit.Def.Shortcuts}" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxTextNotes" Content="{c:Resource Edit.Def.TextNotes}" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxScripts" Content="{c:Resource Edit.Def.Scripts}" Margin="0,2,0,2" />
+                        <CheckBox x:Name="cbxSettings" Content="{c:Resource Edit.Def.Settings}" IsChecked="True" Margin="0,2,0,2" />
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <Button x:Name="btnRestoreDefaults" Click="btnRestoreDefaults_Click" Content="{c:Resource Edit.Restore}" Margin="0,2,0,2" />
+                            <TextBlock x:Name="tblRestoredInfo" Text="{c:Resource Edit.RestoreSuccess}" Foreground="Green" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" />
                         </StackPanel>
                     </StackPanel>
                 </Expander>

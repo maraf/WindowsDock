@@ -1,13 +1,16 @@
 ﻿<Application x:Class="WindowsDock.GUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:local="clr-namespace:WindowsDock.GUI"
+             xmlns:dd="clr-namespace:DesktopCore.Data;assembly=DesktopCore"
+             xmlns:local="clr-namespace:WindowsDock.GUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibility" />
         <local:InverseBoolToStringConverter x:Key="inverseBoolToString" />
         <local:KeyToStringConverter x:Key="keyToString" />
         <local:KeyToVisibilityConverter x:Key="keyToVisibility" />
+        <local:MiliSecsToTimespanConverter x:Key="milisecsToTimespan" />
+        <dd:DateTimeFormatConverter x:Key="dateTimeToString" />
 
         <Storyboard x:Key="textNoteActiveEffect">
             <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">

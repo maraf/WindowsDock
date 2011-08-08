@@ -10,6 +10,9 @@ using System.IO.IsolatedStorage;
 using System.IO;
 using System.Reflection;
 using System.Windows.Input;
+using System.Globalization;
+using System.Threading;
+using DesktopCore;
 
 namespace WindowsDock.Core
 {
@@ -31,6 +34,12 @@ namespace WindowsDock.Core
 
         DesktopItems DesktopItems { get; set; }
 
+        WindowPosition Position { get; set; }
+
+        WindowAlign Align { get; set; }
+
+        int AlignOffset { get; set; }
+
         TimeSpan HideDuration { get; set; }
 
         TimeSpan HideDelay { get; set; }
@@ -40,6 +49,8 @@ namespace WindowsDock.Core
         string Background { get; set; }
 
         bool AutoHiding { get; set; }
+
+        bool StartHidden { get; set; }
 
         int HiddenOffset { get; set; }
 
@@ -54,6 +65,15 @@ namespace WindowsDock.Core
         string AlarmSound { get; set; }
 
         bool DesktopIconsEnabled { get; set; }
+
+        CultureInfo Locale { get; set; }
+
+        Key ConfigKey { get; set; }
+        Key CloseKey { get; set; }
+        Key TextNotesKey { get; set; }
+        Key ScriptsKey { get; set; }
+        Key FolderBrowserKey { get; set; }
+        Key DesktopBrowserKey { get; set; }
 
 
         string DefaultLocation { get; }
@@ -82,11 +102,15 @@ namespace WindowsDock.Core
         private Commands commands = new Commands();
         private Scripts scripts = new Scripts();
         private DesktopItems desktopItems = new DesktopItems();
+        private WindowPosition position = WindowPosition.Top;
+        private WindowAlign align = WindowAlign.Center;
+        private int alignOffset = 0;
         private TimeSpan hideDuration = TimeSpan.Parse("0:0:0.125");
         private TimeSpan hideDelay = TimeSpan.Parse("0:0:0.25");
         private double opacity = 0.5;
         private string background = "#FFF0FFFF";
         private bool autoHiding = true;
+        private bool startHidden = false;
         private int hiddenOffset = 2;
         private bool textNotesEnabled = true;
         private bool scriptsEnabled = true;
@@ -94,6 +118,15 @@ namespace WindowsDock.Core
         private bool desktopEnabled = true;
         private string alarmSound = "Sounds/alarm.wav";
         private bool desktopIconsEnabled = true;
+        private CultureInfo locale = Thread.CurrentThread.CurrentCulture;
+
+        private Key configKey = Key.Z;
+        private Key closeKey = Key.X;
+        private Key textNotesKey = Key.T;
+        private Key scriptsKey = Key.S;
+        private Key folderBrowserKey = Key.B;
+        private Key desktopBrowserKey = Key.D;
+
 
         public Shortcuts Shortcuts { get { return shortcuts; } set { shortcuts = value; } }
 
@@ -106,6 +139,36 @@ namespace WindowsDock.Core
         public Commands Commands { get { return commands; } set { commands = value; } }
 
         public DesktopItems DesktopItems { get { return desktopItems; } set { desktopItems = value; } }
+
+        public WindowPosition Position
+        {
+            get { return position; }
+            set
+            {
+                position = value;
+                FirePropertyChanged("Position");
+            }
+        }
+
+        public WindowAlign Align
+        {
+            get { return align; }
+            set
+            {
+                align = value;
+                FirePropertyChanged("Align");
+            }
+        }
+
+        public int AlignOffset
+        {
+            get { return alignOffset; }
+            set
+            {
+                alignOffset = value;
+                FirePropertyChanged("AlignOffset");
+            }
+        }
 
         public TimeSpan HideDuration
         {
@@ -154,6 +217,16 @@ namespace WindowsDock.Core
             {
                 autoHiding = value;
                 FirePropertyChanged("AutoHiding");
+            }
+        }
+
+        public bool StartHidden
+        {
+            get { return startHidden; }
+            set
+            {
+                startHidden = value;
+                FirePropertyChanged("StartHidden");
             }
         }
 
@@ -227,6 +300,80 @@ namespace WindowsDock.Core
             }
         }
 
+        public CultureInfo Locale
+        {
+            get { return locale; }
+            set
+            {
+                locale = value;
+                FirePropertyChanged("Locale");
+            }
+        }
+
+        #region Keys
+
+        public Key ConfigKey
+        {
+            get { return configKey; }
+            set
+            {
+                configKey = value;
+                FirePropertyChanged("ConfigKey");
+            }
+        }
+
+        public Key CloseKey
+        {
+            get { return closeKey; }
+            set
+            {
+                closeKey = value;
+                FirePropertyChanged("CloseKey");
+            }
+        }
+
+        public Key TextNotesKey
+        {
+            get { return textNotesKey; }
+            set
+            {
+                textNotesKey = value;
+                FirePropertyChanged("TextNotesKey");
+            }
+        }
+
+        public Key ScriptsKey
+        {
+            get { return scriptsKey; }
+            set
+            {
+                scriptsKey = value;
+                FirePropertyChanged("ScriptsKey");
+            }
+        }
+
+        public Key FolderBrowserKey
+        {
+            get { return folderBrowserKey; }
+            set
+            {
+                folderBrowserKey = value;
+                FirePropertyChanged("FolderBrowserKey");
+            }
+        }
+
+        public Key DesktopBrowserKey
+        {
+            get { return desktopBrowserKey; }
+            set
+            {
+                desktopBrowserKey = value;
+                FirePropertyChanged("DesktopBrowserKey");
+            }
+        }
+
+        #endregion
+
 
         public virtual string DefaultLocation { get { return "WindowsDock.Settings.resx"; } }
 
@@ -267,6 +414,7 @@ namespace WindowsDock.Core
                 rw.AddResource("Opacity", Opacity);
                 rw.AddResource("Background", Background);
                 rw.AddResource("AutoHiding", AutoHiding);
+                rw.AddResource("StartHidden", StartHidden);
                 rw.AddResource("HiddenOffset", HiddenOffset);
                 rw.AddResource("TextNotesEnabled", TextNotesEnabled);
                 rw.AddResource("ScriptsEnabled", ScriptsEnabled);
@@ -274,6 +422,17 @@ namespace WindowsDock.Core
                 rw.AddResource("DesktopEnabled", DesktopEnabled);
                 rw.AddResource("AlarmSound", AlarmSound);
                 rw.AddResource("DesktopIconsEnabled", DesktopIconsEnabled);
+                rw.AddResource("Locale", Locale);
+                rw.AddResource("Position", Position);
+                rw.AddResource("Align", Align);
+                rw.AddResource("AlignOffset", AlignOffset);
+
+                rw.AddResource("ConfigKey", ConfigKey);
+                rw.AddResource("CloseKey", CloseKey);
+                rw.AddResource("TextNotesKey", TextNotesKey);
+                rw.AddResource("ScriptsKey", ScriptsKey);
+                rw.AddResource("FolderBrowseKey", FolderBrowserKey);
+                rw.AddResource("DesktopBrowserKey", DesktopBrowserKey);
             }
         }
 
@@ -338,6 +497,10 @@ namespace WindowsDock.Core
                             {
                                 AutoHiding = (bool)en.Value;
                             }
+                            else if (key.Equals("StartHidden"))
+                            {
+                                StartHidden = (bool)en.Value;
+                            }
                             else if (key.Equals("HiddenOffset"))
                             {
                                 HiddenOffset = (int)en.Value;
@@ -366,6 +529,47 @@ namespace WindowsDock.Core
                             {
                                 DesktopIconsEnabled = (bool)en.Value;
                             }
+                            else if (key.Equals("Locale"))
+                            {
+                                Locale = (CultureInfo)en.Value;
+                                Thread.CurrentThread.CurrentCulture = Locale;
+                            }
+                            else if (key.Equals("Position"))
+                            {
+                                Position = (WindowPosition)en.Value;
+                            }
+                            else if (key.Equals("Align"))
+                            {
+                                Align = (WindowAlign)en.Value;
+                            }
+                            else if (key.Equals("AlignOffset"))
+                            {
+                                AlignOffset = (int)en.Value;
+                            }
+                            else if (key.Equals("ConfigKey"))
+                            {
+                                ConfigKey = (Key)en.Value;
+                            }
+                            else if (key.Equals("CloseKey"))
+                            {
+                                CloseKey = (Key)en.Value;
+                            }
+                            else if (key.Equals("TextNotesKey"))
+                            {
+                                TextNotesKey = (Key)en.Value;
+                            }
+                            else if (key.Equals("ScriptsKey"))
+                            {
+                                ScriptsKey = (Key)en.Value;
+                            }
+                            else if (key.Equals("FolderBrowserKey"))
+                            {
+                                FolderBrowserKey = (Key)en.Value;
+                            }
+                            else if (key.Equals("DesktopBrowserKey"))
+                            {
+                                DesktopBrowserKey = (Key)en.Value;
+                            }
                         }
                     }
                 }
@@ -374,6 +578,8 @@ namespace WindowsDock.Core
                     throw new UnableToLoadConfigurationException(e);
                 }
             }
+
+            Resource.Load("Resources/Resources");
         }
 
         public void Replace(string path)
@@ -422,14 +628,20 @@ namespace WindowsDock.Core
                 Opacity = newManager.Opacity;
                 Background = newManager.Background;
                 AutoHiding = newManager.AutoHiding;
+                StartHidden = newManager.StartHidden;
+                HiddenOffset = newManager.HiddenOffset;
                 TextNotesEnabled = newManager.TextNotesEnabled;
                 ScriptsEnabled = newManager.ScriptsEnabled;
                 BrowserEnabled = newManager.BrowserEnabled;
                 DesktopEnabled = newManager.DesktopEnabled;
                 AlarmSound = newManager.AlarmSound;
+                DesktopIconsEnabled = newManager.DesktopIconsEnabled;
+                Locale = newManager.Locale;
             }
         }
     }
+
+    #region IO
 
     [Serializable]
     struct SimpleShortcut
@@ -464,4 +676,6 @@ namespace WindowsDock.Core
         public string Path;
         public string Args;
     }
+
+    #endregion
 }

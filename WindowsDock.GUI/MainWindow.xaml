@@ -3,188 +3,175 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="clr-namespace:DesktopCore;assembly=DesktopCore.Resources"
         mc:Ignorable="d"
         Title="MainWindow" d:DesignHeight="200" d:DesignWidth="500" WindowStyle="None" ResizeMode="NoResize" SizeToContent="Width"
         Topmost="True" AllowsTransparency="True" x:Name="window" Background="Transparent" ShowInTaskbar="False" ClipToBounds="False"
         MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closed="window_Closed" PreviewKeyDown="window_PreviewKeyDown" AllowDrop="True">
-    <StackPanel>
+    <StackPanel x:Name="stpMain">
         <Grid VerticalAlignment="Top" ClipToBounds="False">
-            <Rectangle Fill="{Binding Path=Background}" RadiusX="10" RadiusY="10" Opacity="{Binding Path=Opacity}" />
-            <Grid x:Name="grdIconsPanel" Margin="5,10,5,0" ClipToBounds="False">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" ItemContainerStyle="{StaticResource shortcutsItem}" Style="{StaticResource shortcutsListView}" Grid.Column="0" ClipToBounds="False">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" ClipToBounds="False" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Button x:Name="btnShortcut" Click="btnShortcut_Click" Tag="{Binding}" ClipToBounds="False">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Image Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
-                                            <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="2" Background="White" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Path=Key, Converter={StaticResource keyToVisibility}}">
-                                                <TextBlock Margin="2,0" Text="{Binding Path=Key, Converter={StaticResource keyToString}}" Foreground="Black" FontSize="8" />
-                                            </Border>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5,0,0,0">
-                    <Button x:Name="btnBrowser" Content="{StaticResource folderCanvas}" ToolTip="Browser" Click="btnBrowser_Click"  Style="{StaticResource extensionButton}" Visibility="{Binding Path=BrowserEnabled, Converter={StaticResource boolToVisibility}}" />
-                    <Button x:Name="btnTextNotes" Content="{StaticResource clockCanvas}" ToolTip="Text notes &amp; alarms" Click="btnTextNotes_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=TextNotesEnabled, Converter={StaticResource boolToVisibility}}" />
-                    <Button x:Name="btnScripts" Content="{StaticResource paperCanvas}" ToolTip="Scripts" Click="btnScripts_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=ScriptsEnabled, Converter={StaticResource boolToVisibility}}" />
-                    <Button x:Name="btnDesktop" Content="{StaticResource desktopCanvas}" ToolTip="Desktop" Click="btnDesktop_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=DesktopEnabled, Converter={StaticResource boolToVisibility}}" />
-                    <StackPanel Margin="4,8,0,0">
-                        <Button Style="{StaticResource closeButton}" Click="btnClose_Click" />
-                        <Button Style="{StaticResource configButton}" Click="btnConfig_Click" Margin="0,2,0,0" />
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-        </Grid>
-        <Grid x:Name="grdTextNotes" Width="300" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
-            <Grid Opacity="{Binding Path=Opacity}">
-                <Rectangle Fill="{Binding Path=Background}" VerticalAlignment="Top" Height="10" />
-                <Rectangle Fill="{Binding Path=Background}" RadiusX="5" RadiusY="5" />
-            </Grid>
-            <StackPanel Margin="5">
-                <DockPanel Margin="0,0,0,5">
-                    <Button x:Name="btnTextNotesFilter" Content="Filter" Click="btnTextNotesFilter_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
-                    <TextBox x:Name="tbxTextNotesFilter" PreviewKeyDown="tbxTextNotesFilter_PreviewKeyDown" />
-                </DockPanel>
-                <ListView x:Name="lvwTextNotes" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=TextNotes}" SelectionChanged="lvwTextNotes_SelectionChanged" ItemContainerStyle="{StaticResource textNoteItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Cursor="Hand">
-                                <Canvas Width="5" Style="{StaticResource blinking}" Background="Red" Margin="0,0,2,0" DockPanel.Dock="Left" Visibility="{Binding Path=IsAlarming, Converter={StaticResource boolToVisibility}}" />
-                                <Button x:Name="btnRemoveTextNote" Click="btnRemoveTextNote_Click" Content="X" Tag="{Binding}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" Style="{StaticResource tinyButton}" />
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Path=Header}" />
-                                        <TextBlock Text="{Binding Path=Alarm}" Margin="3,0,0,0"  Foreground="Red" />
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Path=Modified}" Foreground="Gray" />
-                                </StackPanel>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <DockPanel Margin="0,4,0,0">
-                    <Button x:Name="btnNewTextNoteFull" Content="+" Click="btnNewTextNoteFull_Click" DockPanel.Dock="Right" ToolTip="Create new note" Margin="4,0,0,0" />
-                    <TextBox x:Name="tbxNewTextNoteHeader" KeyUp="tbxNewTextNoteHeader_KeyUp" ToolTip="Create quick new note, press Enter for save" />
-                </DockPanel>
-            </StackPanel>
-        </Grid>
-        <Grid x:Name="grdScripts" Width="300" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
-            <Grid Opacity="{Binding Path=Opacity}">
-                <Rectangle Fill="{Binding Path=Background}" VerticalAlignment="Top" Height="10" />
-                <Rectangle Fill="{Binding Path=Background}" RadiusX="5" RadiusY="5" />
-            </Grid>
-            <StackPanel Margin="5">
-                <ListView x:Name="lvwScripts" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=Scripts}" ItemContainerStyle="{StaticResource textNoteItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Cursor="Hand">
-                                <Button x:Name="btnRemoveScript" Click="btnRemoveScript_Click" Content="X" Tag="{Binding}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" Style="{StaticResource tinyButton}" />
-                                <Button x:Name="btnRunScript" Click="btnRunScript_Click" Content="Run" Tag="{Binding}" Style="{StaticResource tinyButton}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" />
-                                <Button x:Name="btnEditScript" Click="btnEditScript_Click" Tag="{Binding}">
-                                    <Button.Template>
-                                        <ControlTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Path=Header}" />
-                                                <TextBlock Text="{Binding Path=Modified}" Foreground="Gray" />
-                                            </StackPanel>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackPanel Orientation="Horizontal" Margin="0,4" HorizontalAlignment="Right">
-                    <Button x:Name="btnNewScript" Content="+" Click="btnNewScript_Click" ToolTip="Create script" Margin="4,0,0,0" />
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-        <Grid x:Name="grdBrowse" MinWidth="400" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
-            <Grid Opacity="{Binding Path=Opacity}">
-                <Rectangle Fill="{Binding Path=Background}" VerticalAlignment="Top" Height="10" />
-                <Rectangle Fill="{Binding Path=Background}" RadiusX="5" RadiusY="5" />
-            </Grid>
-            <StackPanel Margin="5">
-                <DockPanel>
-                    <Button x:Name="btnClearBrowse" Margin="0,4,4,4" Content="X" Click="btnClearBrowse_Click" DockPanel.Dock="Left" />
-                    <ListView x:Name="lvwCommands" IsEnabled="False" ItemsSource="{Binding Path=Commands}" BorderThickness="0" Background="Transparent" Style="{StaticResource baseListView}" ItemContainerStyle="{StaticResource baseListViewItem}" DockPanel.Dock="Right">
+            <Border x:Name="brdBackground" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+                <StackPanel x:Name="stpMainPanelItems" Orientation="Horizontal" Margin="5,0">
+                    <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" ItemContainerStyle="{StaticResource shortcutsItem}" Style="{StaticResource shortcutsListView}" ClipToBounds="False" Grid.Row="0">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" ClipToBounds="False" />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Button x:Name="btnCommandOpen" Click="btnCommandOpen_Click" Content="{Binding Path=Name}" Tag="{Binding}" VerticalAlignment="Center" Margin="4,0,0,0" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <TextBox x:Name="tbxBrowsePath" MinWidth="300" Margin="0,4" KeyUp="tbxBrowsePath_KeyUp" PreviewKeyDown="tbxBrowsePath_PreviewKeyDown" />
-                </DockPanel>
-                <ListView x:Name="lvwBrowse" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=BrowseItems}" ItemContainerStyle="{StaticResource textNoteItem}" MaxHeight="500">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel Cursor="Hand">
-                                <Button x:Name="btnBrowseOpen" Click="btnBrowseOpen_Click" Tag="{Binding}">
+                                <Button x:Name="btnShortcut" Click="btnShortcut_Click" Tag="{Binding}" ClipToBounds="False">
                                     <Button.Template>
                                         <ControlTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Path=Name}" />
-                                                <TextBlock Text="{Binding Path=Path}" Foreground="Gray" />
-                                            </StackPanel>
+                                            <Grid>
+                                                <Image Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
+                                                <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="2" Background="White" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Path=Key, Converter={StaticResource keyToVisibility}}">
+                                                    <TextBlock Margin="2,0" Text="{Binding Path=Key, Converter={StaticResource keyToString}}" Foreground="Black" FontSize="8" />
+                                                </Border>
+                                            </Grid>
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button x:Name="btnBrowser" Content="{StaticResource folderCanvas}" ToolTip="{c:Resource Main.FolderBrowser}" Click="btnBrowser_Click"  Style="{StaticResource extensionButton}" Visibility="{Binding Path=BrowserEnabled, Converter={StaticResource boolToVisibility}}" />
+                    <Button x:Name="btnTextNotes" Content="{StaticResource clockCanvas}" ToolTip="{c:Resource Main.TextNotes}" Click="btnTextNotes_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=TextNotesEnabled, Converter={StaticResource boolToVisibility}}" />
+                    <Button x:Name="btnScripts" Content="{StaticResource paperCanvas}" ToolTip="{c:Resource Main.Scripts}" Click="btnScripts_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=ScriptsEnabled, Converter={StaticResource boolToVisibility}}" />
+                    <Button x:Name="btnDesktop" Content="{StaticResource desktopCanvas}" ToolTip="{c:Resource Main.DesktopBrowser}" Click="btnDesktop_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=DesktopEnabled, Converter={StaticResource boolToVisibility}}" />
+                    <StackPanel x:Name="stpApplicationButtons" Margin="4,8,0,0">
+                        <Button x:Name="btnClose" Style="{StaticResource closeButton}" Click="btnClose_Click" ToolTip="{c:Resource Main.Close}" />
+                        <Button x:Name="btnConfig" Style="{StaticResource configButton}" Click="btnConfig_Click" ToolTip="{c:Resource Main.Config}" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid x:Name="grdTextNotes" Width="300" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
+            <Border x:Name="brdTextNotes" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+                <StackPanel Margin="5">
+                    <DockPanel Margin="0,0,0,5">
+                        <Button x:Name="btnTextNotesFilter" Content="Filter" Click="btnTextNotesFilter_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
+                        <TextBox x:Name="tbxTextNotesFilter" PreviewKeyDown="tbxTextNotesFilter_PreviewKeyDown" />
+                    </DockPanel>
+                    <ListView x:Name="lvwTextNotes" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=TextNotes}" SelectionChanged="lvwTextNotes_SelectionChanged" ItemContainerStyle="{StaticResource textNoteItem}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Cursor="Hand">
+                                    <Canvas Width="5" Style="{StaticResource blinking}" Background="Red" Margin="0,0,2,0" DockPanel.Dock="Left" Visibility="{Binding Path=IsAlarming, Converter={StaticResource boolToVisibility}}" />
+                                    <Button x:Name="btnRemoveTextNote" Click="btnRemoveTextNote_Click" Content="{c:Resource Main.DeleteNote}" Tag="{Binding}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" Style="{StaticResource tinyButton}" />
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=Header}" />
+                                            <TextBlock Text="{Binding Path=Alarm, Converter={StaticResource dateTimeToString}}" Margin="3,0,0,0"  Foreground="Red" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Path=Modified, Converter={StaticResource dateTimeToString}}" Foreground="Gray" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <DockPanel Margin="0,4,0,0">
+                        <Button x:Name="btnNewTextNoteFull" Content="{c:Resource Main.AddFullNote}" Click="btnNewTextNoteFull_Click" DockPanel.Dock="Right" ToolTip="{c:Resource Main.AddNote}" Margin="4,0,0,0" />
+                        <TextBox x:Name="tbxNewTextNoteHeader" KeyUp="tbxNewTextNoteHeader_KeyUp" ToolTip="{c:Resource Main.AddQuickNoteHint}" />
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid x:Name="grdScripts" Width="300" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
+            <Border x:Name="brdScripts" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+                <StackPanel Margin="5">
+                    <ListView x:Name="lvwScripts" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=Scripts}" ItemContainerStyle="{StaticResource textNoteItem}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Cursor="Hand">
+                                    <Button x:Name="btnRemoveScript" Click="btnRemoveScript_Click" Content="{c:Resource Main.DeleteScript}" Tag="{Binding}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" Style="{StaticResource tinyButton}" />
+                                    <Button x:Name="btnRunScript" Click="btnRunScript_Click" Content="{c:Resource Main.RunScrpt}" Tag="{Binding}" Style="{StaticResource tinyButton}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="4" />
+                                    <Button x:Name="btnEditScript" Click="btnEditScript_Click" Tag="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Path=Header}" />
+                                                    <TextBlock Text="{Binding Path=Modified, Converter={StaticResource dateTimeToString}}" Foreground="Gray" />
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel Orientation="Horizontal" Margin="0,4" HorizontalAlignment="Right">
+                        <Button x:Name="btnNewScript" Content="{c:Resource Main.AddScript}" Click="btnNewScript_Click" ToolTip="Create script" Margin="4,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid x:Name="grdBrowse" MinWidth="400" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
+            <Border x:Name="brdBrowse" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+                <StackPanel Margin="5">
+                    <DockPanel>
+                        <Button x:Name="btnClearBrowse" Margin="0,4,4,4" Content="{c:Resource Main.ClearFolderBrowser}" Click="btnClearBrowse_Click" DockPanel.Dock="Left" />
+                        <ListView x:Name="lvwCommands" IsEnabled="False" ItemsSource="{Binding Path=Commands}" BorderThickness="0" Background="Transparent" Style="{StaticResource baseListView}" ItemContainerStyle="{StaticResource baseListViewItem}" DockPanel.Dock="Right">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnCommandOpen" Click="btnCommandOpen_Click" Content="{Binding Path=Name}" Tag="{Binding}" VerticalAlignment="Center" Margin="4,0,0,0" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <TextBox x:Name="tbxBrowsePath" MinWidth="300" Margin="0,4" KeyUp="tbxBrowsePath_KeyUp" PreviewKeyDown="tbxBrowsePath_PreviewKeyDown" />
+                    </DockPanel>
+                    <ListView x:Name="lvwBrowse" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=BrowseItems}" ItemContainerStyle="{StaticResource textNoteItem}" MaxHeight="500">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Cursor="Hand">
+                                    <Button x:Name="btnBrowseOpen" Click="btnBrowseOpen_Click" Tag="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                    <TextBlock Text="{Binding Path=Path}" Foreground="Gray" />
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
         </Grid>
         <Grid x:Name="grdDesktop" Width="300" d:DesignHeight="50" HorizontalAlignment="Right" Margin="10,0,10,0" Visibility="Collapsed">
-            <Grid Opacity="{Binding Path=Opacity}">
-                <Rectangle Fill="{Binding Path=Background}" VerticalAlignment="Top" Height="10" />
-                <Rectangle Fill="{Binding Path=Background}" RadiusX="5" RadiusY="5" />
-            </Grid>
-            <StackPanel Margin="5">
-                <DockPanel Margin="0,0,0,5">
-                    <Button x:Name="btnDesktopGo" Content="Go!" Click="btnDesktopGo_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
-                    <Button x:Name="btnDesktopFilter" Content="Filter" Click="btnDesktopFilter_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
-                    <TextBox x:Name="tbxDesktopFilter" PreviewKeyDown="tbxDesktopFilter_PreviewKeyDown" />
-                </DockPanel>
-                <ListView x:Name="lvwDesktop" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=DesktopItems}" ItemContainerStyle="{StaticResource textNoteItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Button x:Name="btnDesktopOpen" Click="btnDesktopOpen_Click" Cursor="Hand" Tag="{Binding}" >
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <DockPanel>
-                                            <Image Source="{Binding Path=ImageSource}" Width="16" Height="16" DockPanel.Dock="Left" />
-                                            <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Margin="4,0,0,0"/>
-                                        </DockPanel>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+            <Border x:Name="brdDesktop" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+                <StackPanel Margin="5">
+                    <DockPanel Margin="0,0,0,5">
+                        <Button x:Name="btnDesktopGo" Content="{c:Resource Main.OpenDesktop}" Click="btnDesktopGo_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
+                        <Button x:Name="btnDesktopFilter" Content="{c:Resource Main.FilderDesktop}" Click="btnDesktopFilter_Click" DockPanel.Dock="Right" Margin="5,0,0,0" />
+                        <TextBox x:Name="tbxDesktopFilter" PreviewKeyDown="tbxDesktopFilter_PreviewKeyDown" />
+                    </DockPanel>
+                    <ListView x:Name="lvwDesktop" Background="Transparent" BorderThickness="0,0,0,1" ItemsSource="{Binding Path=DesktopItems}" ItemContainerStyle="{StaticResource textNoteItem}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Button x:Name="btnDesktopOpen" Click="btnDesktopOpen_Click" Cursor="Hand" Tag="{Binding}" >
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <DockPanel>
+                                                <Image Source="{Binding Path=ImageSource}" Width="16" Height="16" DockPanel.Dock="Left" />
+                                                <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                            </DockPanel>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
         </Grid>
     </StackPanel>
 </Window>

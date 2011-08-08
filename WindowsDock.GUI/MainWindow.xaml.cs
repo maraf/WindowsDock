@@ -14,21 +14,22 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.Windows.Interop;
 using System.Diagnostics;
-using WindowsDock.Core;
 using System.IO;
 using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using System.Media;
 using System.Windows.Threading;
 using System.ComponentModel;
+using WindowsDock.Core;
 
 namespace WindowsDock.GUI
 {
     public partial class MainWindow : Window
     {
+        //private const double NormalHeight = 44;
         private const double NormalHeight = 44;
-        private const double NormalTop = -10;
-        private const double HiddenTop = -54;
+        private const double NormalTop = 0;
+        private const double HiddenTop = -44;
 
         private IManager manager = ManagerFacory.Create();
         private bool currentAutoHiding = true;
@@ -42,19 +43,28 @@ namespace WindowsDock.GUI
             get { return manager; }
         }
 
+        public bool IsShown
+        {
+            get { return PositionHelper.GetEdgeValue(this, Manager.Position) == NormalTop; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            DoPosition();
             try
             {
+                (Manager as NotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(Manager_PropertyChanged);
                 Manager.LoadFrom(Manager.DefaultLocation);
             }
             catch (UnableToLoadConfigurationException e)
             {
                 MessageBox.Show("WindowsDock", "Unable to load configuration file, propably because it is damaged. Go to configuration and load one from backup (if have any) or start with this plain one.");
             }
+            DoPosition();
+
+            if (Manager.StartHidden)
+                HideMainPanel();
 
             DesktopHelper.ShowIcons(Manager.DesktopIconsEnabled);
             
@@ -66,11 +76,41 @@ namespace WindowsDock.GUI
         }
 
         /// <summary>
+        /// Handler for setuping right view based on value of Manager.Position
+        /// </summary>
+        /// <param name="sender">Manager</param>
+        /// <param name="e">EventArgs</param>
+        public void Manager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Position")
+            {
+                switch (Manager.Position)
+                {
+                    case WindowPosition.Top:
+                        SetupTopView();
+                        break;
+                    case WindowPosition.Left:
+                        SetupLeftView();
+                        break;
+                    case WindowPosition.Right:
+                        SetupRightView();
+                        break;
+
+                }
+                DoPosition();
+            }
+            else if (e.PropertyName == "Align" || e.PropertyName == "AlignOffset")
+            {
+                DoCentralization();
+            }
+        }
+
+        /// <summary>
         /// Toggle main panel
         /// </summary>
         public void ToggleMainPanel()
         {
-            if (Top == NormalTop && IsActive)
+            if (IsShown && IsActive)
                 HideMainPanel();
             else
                 ShowMainPanel();
@@ -81,8 +121,9 @@ namespace WindowsDock.GUI
         /// </summary>
         public void ShowMainPanel()
         {
+            DoCentralization();
             DoubleAnimation d = new DoubleAnimation(NormalTop, Manager.HideDuration);
-            BeginAnimation(TopProperty, d);
+            BeginAnimation(PositionHelper.GetEdgeProperty(Manager.Position), d);
             Focus();
             Activate();
         }
@@ -93,9 +134,9 @@ namespace WindowsDock.GUI
         public void HideMainPanel()
         {
             double top = HiddenTop + Manager.HiddenOffset;
-            DoubleAnimation d = new DoubleAnimation(top > -10 ? -10 : top, Manager.HideDuration);
+            DoubleAnimation d = new DoubleAnimation(top, Manager.HideDuration);
             d.BeginTime = Manager.HideDelay;
-            BeginAnimation(TopProperty, d);
+            BeginAnimation(PositionHelper.GetEdgeProperty(Manager.Position), d);
         }
 
         /// <summary>
@@ -186,13 +227,13 @@ namespace WindowsDock.GUI
 #if DEBUG
             if (Manager.Shortcuts.Count == 0)
             {
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\chrome-win32\chrome.exe"));
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\Chromium-Updater.exe"));
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\My\Scheduling\Scheduling.exe"));
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Utils\Kaxaml\Kaxaml.exe"));
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\MediaPlayers\AIMP2\AIMP2.exe"));
+                //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\chrome-win32\chrome.exe"));
+                //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Browsers\Chromium Auto-Updater\Chromium-Updater.exe"));
+                //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\My\Scheduling\Scheduling.exe"));
+                //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Utils\Kaxaml\Kaxaml.exe"));
+                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\MediaPlayers\AIMP3\AIMP3.exe"));
                 Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\RapidShareManager\RapidShareManager.exe"));
-                Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\VMware\VMware Workstation\vmware.exe"));
+                //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\VMware\VMware Workstation\vmware.exe"));
                 //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Neptuo DEV\FileBackuper\FileBackuper.GUI.exe"));
                 //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Neptuo DEV\LinkExtractor\LinkExtractor.exe"));
                 //Manager.Shortcuts.Add(new Shortcut(@"C:\Program Files (x86)\Utils\MyUtilities\ImagePreviewer.GUI.exe"));
@@ -226,9 +267,80 @@ namespace WindowsDock.GUI
         /// </summary>
         private void DoPosition()
         {
-            Top = NormalTop;
-            Left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
-            grdIconsPanel.Height = NormalHeight;
+            double position;
+            if (Manager.StartHidden)
+                position = HiddenTop;
+            else
+                position = NormalTop;
+
+            PositionHelper.SetPosition(position, NormalHeight, Manager.Position, this, stpMainPanelItems);
+            DoCentralization();
+        }
+
+        /// <summary>
+        /// Centers main window
+        /// </summary>
+        private void DoCentralization()
+        {
+            if (Manager.Align == WindowAlign.Center)
+                PositionHelper.SetToCenter(Manager.Position, this);
+            else
+                PositionHelper.SetAlign(Manager.Position, Manager.Align, Manager.AlignOffset, this);
+        }
+
+        private void SetupTopView()
+        {
+            SizeToContent = SizeToContent.Width;
+            stpMain.Orientation = Orientation.Vertical;
+
+            brdBackground.CornerRadius = new CornerRadius(0, 0, 10, 10);
+            stpMainPanelItems.Margin = new Thickness(5, 0, 5, 0);
+            stpMainPanelItems.Orientation = Orientation.Horizontal;
+
+            FrameworkElementFactory panelFactory = new FrameworkElementFactory(typeof(StackPanel));
+            panelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Horizontal);
+            panelFactory.SetValue(StackPanel.ClipToBoundsProperty, false);
+            lvwShortcuts.ItemsPanel = new ItemsPanelTemplate(panelFactory);
+
+            stpApplicationButtons.Margin = new Thickness(4, 8, 0, 0);
+            stpApplicationButtons.Orientation = Orientation.Vertical;
+
+            btnConfig.Margin = new Thickness(0, 2, 0, 0);
+
+            brdBrowse.CornerRadius = new CornerRadius(0, 0, 10, 10);
+            brdTextNotes.CornerRadius = new CornerRadius(0, 0, 10, 10);
+            brdScripts.CornerRadius = new CornerRadius(0, 0, 10, 10);
+            brdDesktop.CornerRadius = new CornerRadius(0, 0, 10, 10);
+        }
+
+        private void SetupLeftView()
+        {
+            SizeToContent = SizeToContent.Height;
+            stpMain.Orientation = Orientation.Horizontal;
+
+            brdBackground.CornerRadius = new CornerRadius(0, 10, 10, 0);
+            stpMainPanelItems.Margin = new Thickness(0, 5, 0, 5);
+            stpMainPanelItems.Orientation = Orientation.Vertical;
+
+            FrameworkElementFactory panelFactory = new FrameworkElementFactory(typeof(StackPanel));
+            panelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
+            panelFactory.SetValue(StackPanel.ClipToBoundsProperty, false);
+            lvwShortcuts.ItemsPanel = new ItemsPanelTemplate(panelFactory);
+
+            stpApplicationButtons.Margin = new Thickness(8, 4, 0, 0);
+            stpApplicationButtons.Orientation = Orientation.Horizontal;
+
+            btnConfig.Margin = new Thickness(2, 0, 0, 0);
+
+            brdBrowse.CornerRadius = new CornerRadius(10);
+            brdTextNotes.CornerRadius = new CornerRadius(10);
+            brdScripts.CornerRadius = new CornerRadius(10);
+            brdDesktop.CornerRadius = new CornerRadius(10);
+        }
+
+        private void SetupRightView()
+        {
+
         }
 
         /// <summary>
@@ -328,7 +440,6 @@ namespace WindowsDock.GUI
             base.OnSourceInitialized(e);
 
             WindowHelper.HideFromWindowList(this);
-
             HotkeyHelper.RegisterHotKey(this, Key.W, HotkeyHelper.Win, delegate { ToggleMainPanel(); });
         }
 
@@ -364,7 +475,7 @@ namespace WindowsDock.GUI
 
         private void window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            DoPosition();
+            DoCentralization();
         }
 
         private void btnTextNotes_Click(object sender, RoutedEventArgs e)
@@ -538,24 +649,25 @@ namespace WindowsDock.GUI
 
         private void window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (FocusManager.GetFocusedElement(this) is TextBox)
+            if (FocusManager.GetFocusedElement(this) is TextBox || !IsShown)
                 return;
 
-            switch (e.Key)
-            {
-                case Key.B: ToggleExtension(ExtensionType.Browser); break;
-                case Key.D: ToggleExtension(ExtensionType.Desktop); break;
-                case Key.S: ToggleExtension(ExtensionType.Scripts); break;
-                case Key.T: ToggleExtension(ExtensionType.TextNotes); break;
-                case Key.X: Close(); break;
-                case Key.Z: btnConfig_Click(sender, e); break;
-            }
-
-            foreach (Shortcut item in Manager.Shortcuts)
-            {
-                if (item.Key != Key.None && item.Key == e.Key)
-                    RunShortcut(item);
-            }
+            if (e.Key == Manager.CloseKey)
+                Close();
+            else if (e.Key == Manager.ConfigKey)
+                btnConfig_Click(sender, e); 
+            else if (e.Key == Manager.FolderBrowserKey && Manager.BrowserEnabled)
+                ToggleExtension(ExtensionType.Browser);
+            else if (e.Key == Manager.DesktopBrowserKey && Manager.DesktopEnabled)
+                ToggleExtension(ExtensionType.Desktop);
+            else if (e.Key == Manager.TextNotesKey && Manager.TextNotesEnabled)
+                ToggleExtension(ExtensionType.TextNotes);
+            else if (e.Key == Manager.ScriptsKey && Manager.ScriptsEnabled)
+                ToggleExtension(ExtensionType.Scripts);
+            else
+                foreach (Shortcut item in Manager.Shortcuts)
+                    if (item.Key != Key.None && item.Key == e.Key)
+                        RunShortcut(item);
 
             e.Handled = true;
         }

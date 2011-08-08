@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8599BA7C91D44C71AA309726F7A4EE09"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8E722D8A784941C79F0E92F6A3A931ED"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -69,6 +75,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B75680D1D76848759EFB0B2AC03BD9FD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D8EE37C97047AB3EB1D80447C71E870D"
         "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
         "MsmSig" = "8:_UNDEFINED"
@@ -95,6 +125,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -253,6 +295,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8599BA7C91D44C71AA309726F7A4EE09"
+            {
+            "SourcePath" = "8:..\\WindowsDock.GUI\\Resources\\Resources.txt"
+            "TargetName" = "8:Resources.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_B7D8CC37645C4E18BE2570348754C692"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E722D8A784941C79F0E92F6A3A931ED"
             {
             "SourcePath" = "8:..\\WindowsDock.GUI\\Sounds\\alarm.wav"
@@ -355,6 +417,88 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DesktopCore.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+                    {
+                    "Name" = "8:DesktopCore.Resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DesktopCore.Resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B75680D1D76848759EFB0B2AC03BD9FD"
+            {
+            "SourcePath" = "8:..\\WindowsDock.GUI\\Resources\\Resources_cs.txt"
+            "TargetName" = "8:Resources_cs.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_B7D8CC37645C4E18BE2570348754C692"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B8A3C0448DC9535924DF1E9DC8E65F18"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DesktopCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_B8A3C0448DC9535924DF1E9DC8E65F18"
+                    {
+                    "Name" = "8:DesktopCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DesktopCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8EE37C97047AB3EB1D80447C71E870D"
             {
             "SourcePath" = "8:shell32.dll"
@@ -398,6 +542,17 @@
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_C4DD2B4C4073467BB3AAD8F829D71034"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_B7D8CC37645C4E18BE2570348754C692"
+                    {
+                    "Name" = "8:Resources"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_AEDCAF421B55417BADB371CD01FDCC59"
                         "Folders"
                         {
                         }
@@ -453,15 +608,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
-        "ProductCode" = "8:{8C25ABF9-F8FD-4BB3-BE6C-6341B98880F3}"
-        "PackageCode" = "8:{4EB66652-3AF1-4C79-98EE-6A400980B57E}"
+        "ProductCode" = "8:{6B9183F7-7C24-4046-B78B-1AB549EC34C3}"
+        "PackageCode" = "8:{9D2375CA-C837-4100-896C-6F62B9DF556F}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.3"
+        "ProductVersion" = "8:1.0.9"
         "Manufacturer" = "8:Neptuo DEV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://dev.neptuo.com/support"
@@ -975,7 +1130,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_44781DCADD474DBA830A9D754AA59DE3"
             {
-            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Release\\WindowsDock.GUI.exe"
+            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Debug\\WindowsDock.GUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"

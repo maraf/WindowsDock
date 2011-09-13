@@ -9,6 +9,23 @@ namespace WindowsDock.Core
 {
     public class PositionHelper
     {
+        public static bool IsShown(Window window, WindowPosition position, double edgeValue, double hiddenOffset) 
+        {
+            switch (position)
+            {
+                case WindowPosition.Top:
+                    return window.Top == edgeValue;
+                case WindowPosition.Left:
+                    return window.Left == edgeValue;
+                case WindowPosition.Right:
+                    return GetEdgeValue(window, position) != (edgeValue - hiddenOffset);
+                case WindowPosition.Bottom:
+                    return GetEdgeValue(window, position) != (edgeValue - hiddenOffset);
+                default:
+                    return false;
+            }
+        }
+
         public static double GetEdgeValue(Window window, WindowPosition position)
         {
             switch (position)
@@ -17,8 +34,26 @@ namespace WindowsDock.Core
                     return window.Top;
                 case WindowPosition.Left:
                     return window.Left;
-                //case WindowPosition.Right:
-                //    return SystemParameters.PrimaryScreenWidth - window.Left;
+                case WindowPosition.Right:
+                    return SystemParameters.PrimaryScreenWidth - window.Left;
+                case WindowPosition.Bottom:
+                    return SystemParameters.PrimaryScreenHeight - window.Top;
+                default:
+                    return Double.NaN;
+            }
+        }
+
+        public static double GetComputedEgdeValue(WindowPosition position, double normalEdge, double hiddenEdge)
+        {
+            switch (position)
+            {
+                case WindowPosition.Top:
+                case WindowPosition.Left:
+                    return normalEdge;
+                case WindowPosition.Right:
+                    return SystemParameters.PrimaryScreenWidth + hiddenEdge;
+                case WindowPosition.Bottom:
+                    return SystemParameters.PrimaryScreenHeight + hiddenEdge;
                 default:
                     return Double.NaN;
             }
@@ -29,11 +64,11 @@ namespace WindowsDock.Core
             switch (position)
             {
                 case WindowPosition.Top:
+                case WindowPosition.Bottom:
                     return Window.TopProperty;
                 case WindowPosition.Left:
+                case WindowPosition.Right:
                     return Window.LeftProperty;
-                //case WindowPosition.Right:
-                //    return null;
                 default:
                     return null;
             }
@@ -44,10 +79,12 @@ namespace WindowsDock.Core
             switch (windowPosition)
             {
                 case WindowPosition.Top:
+                case WindowPosition.Bottom:
                     window.Top = position;
                     panel.Height = height;
                     break;
                 case WindowPosition.Left:
+                case WindowPosition.Right:
                     window.Left = position;
                     panel.Width = height;
                     break;
@@ -65,9 +102,11 @@ namespace WindowsDock.Core
             switch (windowPosition)
             {
                 case WindowPosition.Top:
+                case WindowPosition.Bottom:
                     window.Left = position;
                     break;
                 case WindowPosition.Left:
+                case WindowPosition.Right:
                     window.Top = position;
                     break;
             }
@@ -75,7 +114,7 @@ namespace WindowsDock.Core
 
         public static void SetAlign(WindowPosition position, WindowAlign align, int offset, Window window)
         {
-            if (position == WindowPosition.Top)
+            if (position == WindowPosition.Top || position == WindowPosition.Bottom)
             {
                 if (align == WindowAlign.Left)
                     window.Left = offset;

@@ -33,6 +33,15 @@ Edit.Browse=...
 Edit.DesktopIconsFormat={0} desktop icons
 Edit.CreateStartup=Create startup shortcut
 Edit.DeleteStartup=Delete startup shortcut
+
+Edit.Visuals=Visuals
+Edit.CornerRadius=Corner radius
+Edit.CornerRadiusHint=Corner radius of main window and extensions (in px)
+Edit.Border=Border
+Edit.BorderHint=MainWindow border setup
+Edit.BorderThickness=Thickness (in px)
+Edit.BorderColor=Color
+
 Edit.Defaults=Restore defaults
 Edit.Def.Shortcuts=Delete my shortcuts
 Edit.Def.TextNotes=Delete my text notes
@@ -45,15 +54,18 @@ Edit.LoadingTimeFormat=Loading took {0}ms
 Edit.Copied=File copied.
 Edit.ResourceFile=Select existing WindowsDock Resource file
 Edit.Language=Language
-Edit.LanguageHint=After changing language, (manualy save configuration and) restart application
+Edit.LanguageHint=After changing language, nearly all resources are changed immediately, but some are changed after app restart
 Edit.Position=Window position
-Edit.PositionHint=Setups window position relative to primary screen edges (top,left,right - not yet supported). Restart needed!
+Edit.PositionHint=Setups window position relative to primary screen edges. In some cases nedds app restart!
 Edit.Align=Align
 Edit.AlignHint=Window align on the screen egde, if position is left (or right), then this left means top and right means bottom.
 Edit.AlignOffset=Align offset
 Edit.AlignOffsetHint=Number in pixels (Hint: use up/down)
 Edit.PickColor=Pick
 Edit.ApplicationKeys=Keys
+Edit.ActivationKey=Activation:
+Edit.ActivationKeyHint=For activation key setup, click 'Apply' button.
+Edit.WinKey=Win+
 Edit.ConfigKey=Open configuration
 Edit.CloseKey=Close application
 
@@ -63,8 +75,10 @@ Save=Save
 Load=Load
 Replace=Replace
 CopyToClipboard=Copy file to clipboard
+Apply=Apply
 
 Command.Title=WindowsDock :: Configuration :: Command
+Command.Hint=These commands are used in folder browser extension and enables to run custom apps with selected folder as parameter.
 Command.Name=Name:
 Command.Path=Path:
 Command.Args=Args:
@@ -75,12 +89,14 @@ Script.Name=Header:
 Script.Path=Path:
 Script.Dir=Working Dir:
 Script.SaveHint=Auto saving is enabled, simply close this window and changes will be applied.
+Script.SelectFile=Select script file
 
 Shortcut.Title=WindowsDock :: Configuration :: Shortcut
 Shortcut.Path=Path:
 Shortcut.Args=Args:
 Shortcut.Dir=Working dir:
 Shortcut.Key=Key:
+Shortcut.SelectFile=Select file (any) to add
 
 TextNote.Title=WindowsDock :: Configuration :: TextNote
 TextNote.Name=Header:
@@ -104,3 +120,17 @@ Main.AddScript=+
 Main.ClearFolderBrowser=X
 Main.OpenDesktop=Go!
 Main.FilderDesktop=Filter
+
+Validation.NotPositiveNumber=Pouze kladné celé číslo!
+
+WindowPosition.Top=Top
+WindowPosition.Left=Left
+WindowPosition.Right=Right
+WindowPosition.Bottom=Bottom
+
+WindowAlign.Left=Left/Top
+WindowAlign.Center=Center
+WindowAlign.Right=Right/Bottom
+
+Error.UnableToBindGlobalHotkeyFormat=Unable to bind global hotkey, this may be caused by Win+{0} is already in use!
+Error.UnableToLoadConfig=Unable to load configuration file!

@@ -10,6 +10,7 @@
         <local:KeyToStringConverter x:Key="keyToString" />
         <local:KeyToVisibilityConverter x:Key="keyToVisibility" />
         <local:MiliSecsToTimespanConverter x:Key="milisecsToTimespan" />
+        <local:IntToMainWindowThicknessValueConverter x:Key="windowThickness" />
         <dd:DateTimeFormatConverter x:Key="dateTimeToString" />
 
         <Storyboard x:Key="textNoteActiveEffect">

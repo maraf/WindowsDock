@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Collections;
 using System.Windows.Input;
+using DesktopCore;
 
 namespace WindowsDock.Core
 {

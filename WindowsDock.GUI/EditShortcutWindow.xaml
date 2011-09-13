@@ -4,14 +4,10 @@
         xmlns:c="clr-namespace:DesktopCore;assembly=DesktopCore.Resources"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=WindowsBase"
+        xmlns:local="clr-namespace:WindowsDock.GUI"
         Title="{c:Resource Shortcut.Title}" Height="170" Width="600" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
-        <ObjectDataProvider x:Key="keys" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="input:Key" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <CollectionViewSource x:Key="keysCollection" Source="{StaticResource keys}" Filter="CollectionViewSource_Filter" />
+        <ObjectDataProvider x:Key="keys" MethodName="GetPermittedKeys" ObjectType="{x:Type local:EditWindow}" />
     </Window.Resources>
     <Border Style="{StaticResource border}">
         <Grid Margin="10">
@@ -36,7 +32,7 @@
             </DockPanel>
             <TextBox x:Name="tbxArgs" Height="22" Text="{Binding Path=Args}" Margin="0,0,0,4" Grid.Column="1" Grid.Row="1" />
             <TextBox x:Name="tbxWorkingDirectory" Margin="0,4" Text="{Binding Path=WorkingDirectory}" Grid.Column="1" Grid.Row="2" />
-            <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keysCollection}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" Grid.Column="1" Grid.Row="3" />
+            <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" Grid.Column="1" Grid.Row="3" />
         </Grid>
     </Border>
 </Window>

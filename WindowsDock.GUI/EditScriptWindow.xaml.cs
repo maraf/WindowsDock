@@ -49,7 +49,7 @@ namespace WindowsDock.GUI
             file.InitialDirectory = System.IO.Path.GetDirectoryName(script.Path);
             file.CheckFileExists = true;
             file.Multiselect = false;
-            file.Title = "Select script file";
+            file.Title = Resource.Get("Script.SelectFile");
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Script.Path = file.FileName;

@@ -21,6 +21,21 @@ namespace WindowsDock.Core
             mappings.Add(new HotkeyMapping(window, modifiers, (uint)KeyInterop.VirtualKeyFromKey(key), deleg));
         }
 
+        public static void UnRegisterHotKey(Window window)
+        {
+            HotkeyMapping mapping = null;
+            foreach (HotkeyMapping mpp in mappings)
+            {
+                if (mpp.Window == window)
+                    mapping = mpp;
+            }
+            if (mapping != null)
+            {
+                mappings.Remove(mapping);
+                mapping.UnRegister();
+            }
+        }
+
         public const int Alt = 1;
         public const int Control = 2;
         public const int Shift = 4;
@@ -29,41 +44,41 @@ namespace WindowsDock.Core
 
     internal class HotkeyMapping
     {
-        private Window window;
-        private HwndSource hWndSource;
-        private short atom;
-        private event OnHotkeyPress onHotkey;
+        public Window Window { get; protected set; }
+        public HwndSource HWndSource { get; protected set; }
+        public short Atom { get; protected set; }
+        public event OnHotkeyPress onHotkey;
 
         public HotkeyMapping(Window win, uint fsModifiers, uint vk, OnHotkeyPress deleg)
         {
-            window = win;
+            Window = win;
 
-            window.Closed += new EventHandler(Window_Closed);
+            Window.Closed += new EventHandler(Window_Closed);
             onHotkey += deleg;
 
-            WindowInteropHelper wih = new WindowInteropHelper(window);
-            hWndSource = HwndSource.FromHwnd(wih.Handle);
-            hWndSource.AddHook(MainWindowProc);
+            WindowInteropHelper wih = new WindowInteropHelper(Window);
+            HWndSource = HwndSource.FromHwnd(wih.Handle);
+            HWndSource.AddHook(MainWindowProc);
 
-            atom = Win32.GlobalAddAtom(window.GetType().ToString());
+            Atom = Win32.GlobalAddAtom(Window.GetType().ToString());
 
-            if (atom == 0)
-            {
+            if (Atom == 0)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
 
-            if (!Win32.RegisterHotKey(wih.Handle, atom, fsModifiers, vk))
-            {
+            if (!Win32.RegisterHotKey(wih.Handle, Atom, fsModifiers, vk))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
+        }
+
+        public void UnRegister()
+        {
+            if (Atom != 0)
+                Win32.UnregisterHotKey(HWndSource.Handle, Atom);
         }
 
         public void Window_Closed(object sender, EventArgs e)
         {
-            if (atom != 0)
-            {
-                Win32.UnregisterHotKey(hWndSource.Handle, atom);
-            }
+            if (Atom != 0)
+                Win32.UnregisterHotKey(HWndSource.Handle, Atom);
         }
 
         public IntPtr MainWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

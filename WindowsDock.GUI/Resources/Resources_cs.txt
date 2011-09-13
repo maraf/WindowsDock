@@ -33,6 +33,15 @@ Edit.Browse=...
 Edit.DesktopIconsFormat={0} ikony na ploše
 Edit.CreateStartup=Vytvořit zástupce po spuštění
 Edit.DeleteStartup=Smazat zástupce po spuštění
+
+Edit.Visuals=Zobrazení
+Edit.CornerRadius=Zaoblení
+Edit.CornerRadiusHint=Zaoblení rohů hlavního okna (v px)
+Edit.Border=Rámeček
+Edit.BorderHint=Nastavení rámečku hlavního okna
+Edit.BorderThickness=Tloušťka (v px)
+Edit.BorderColor=Barva
+
 Edit.Defaults=Obdovit výchozí
 Edit.Def.Shortcuts=Smazat mé zkratky
 Edit.Def.TextNotes=Smazat mé poznámky
@@ -45,17 +54,20 @@ Edit.LoadingTimeFormat=Nahrání zabralo {0}ms
 Edit.Copied=Soubor zkopírován.
 Edit.ResourceFile=Vyberte existující soubor s nastavením aplikace WindowsDock
 Edit.Language=Jazyk
-Edit.LanguageHint=Po změně jazyku, je nutné (manuálné uložit konfiguraci a) aplikaci restartovat
+Edit.LanguageHint=Po změně jazyku jsou téměř všechny zdroje změněny ihned, pár jich je změněno až po restartu aplikace
 Edit.Position=Pozice okna
-Edit.PositionHint=Nastaví pozici okna vzhledem k okrajům primárního monitoru (top,left,right - zatím nepodporováno). Nutný restart
+Edit.PositionHint=Nastaví pozici okna vzhledem k okrajům primárního monitoru. Občas vyžaduje restart aplikace!
 Edit.Align=Zarovnání
-Edit.AlignHint=Zarovnání okna k okraji monitoru, pokud je pozice okna vybrána jako left nebo right, pak zde left je nahoře a right dole.
+Edit.AlignHint=Zarovnání okna k okraji monitoru, pokud je pozice okna vybrána jako 'Vlevo' nebo 'Vpravo', pak zde 'Vlevo' je nahoře a 'Vpravo' dole.
 Edit.AlignOffset=Odsazení
 Edit.AlignOffsetHint=Číslo v pixelech (Hint: klávesa nahoru/dolu)
 Edit.PickColor=Vyber
-Edit.ApplicationKeys=Klávesy
-Edit.ConfigKey=Otevřít konfiguraci
-Edit.CloseKey=Zavřít aplikaci
+Edit.ApplicationKeys=Klávesy:
+Edit.ActivationKey=Aktivace:
+Edit.ActivationKeyHint=Pro nastavení aktivační klávesy je nutné stisknout tlačítko 'Nastav'.
+Edit.WinKey=Win+
+Edit.ConfigKey=Otevřít konfiguraci:
+Edit.CloseKey=Zavřít aplikaci:
 
 Show=Zobrazit
 Hide=Skrýt
@@ -63,8 +75,10 @@ Save=Uložit
 Load=Nahrát
 Replace=Nahradit
 CopyToClipboard=Zkopírovat do schránky
+Apply=Nastav
 
 Command.Title=WindowsDock :: Konfigurace :: Příkazy
+Command.Hint=Příkazy jsou používany v rozšíření pro procházení složek a umožňují spouštět různé aplikace s cestou k vybrané složce jako parametr.
 Command.Name=Jméno:
 Command.Path=Cesta:
 Command.Args=Argumenty:
@@ -74,19 +88,21 @@ Script.Title=WindowsDock :: Konfigurace :: Skript
 Script.Name=Jméno:
 Script.Path=Cesta:
 Script.Dir=Pracovní složky:
-Script.SaveHint=Automatické ulokládání, stačí zavřít okno a změny budou uloženy.
+Script.SaveHint=Automatické ukládání, stačí zavřít okno a změny budou uloženy.
+Script.SelectFile=Vyberte soubor
 
 Shortcut.Title=WindowsDock :: Konfigurace :: Zkratky
 Shortcut.Path=Cesta:
 Shortcut.Args=Argumenty:
 Shortcut.Dir=Pracovní složka:
 Shortcut.Key=Klávesa:
+Shortcut.SelectFile=Vyberte soubor
 
 TextNote.Title=WindowsDock :: Konfigurace :: Poznámky
 TextNote.Name=Jméno:
 TextNote.Content=Obsah:
 TextNote.Alarm=Alarm:
-TextNote.AutoSaveHint=Automatické ulokládání, stačí zavřít okno a změny budou uloženy.
+TextNote.AutoSaveHint=Automatické ukládání, stačí zavřít okno a změny budou uloženy.
 
 Main.FolderBrowser=Prohlížeč složek
 Main.TextNotes=Poznámky a alarmy
@@ -104,3 +120,17 @@ Main.AddScript=+
 Main.ClearFolderBrowser=X
 Main.OpenDesktop=Otevřít
 Main.FilderDesktop=Hledat
+
+Validation.NotPositiveNumber=Pouze kladné celé číslo!
+
+WindowPosition.Top=Nahoře
+WindowPosition.Left=Vlevo
+WindowPosition.Right=Vpravo
+WindowPosition.Bottom=Dole
+
+WindowAlign.Left=Vlevo/Nahoře
+WindowAlign.Center=Vystředěný
+WindowAlign.Right=Vpravo/Dole
+
+Error.UnableToBindGlobalHotkeyFormat=Nelze nastavit globální klávesovou zkrátku, toto je pravděpodobně způsobeno tím, že Win+{0} již je použito jiným programem!
+Error.UnableToLoadConfig=Nelze načíst konfigurační soubor, pravděpodobně je poškozen.

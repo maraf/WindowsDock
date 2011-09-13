@@ -1,0 +1,41 @@
+1.0.5
+ - Fix of show/hide bug
+ - Removed opacity (use alpha channel in background color
+ - After start "autohide"
+
+1.0.6
+ - Space added as posible key to shortcut assignment
+ - Some minor fixes
+
+1.0.7
+ - Localization
+
+1.0.8
+ - Posibility to place dock on left side of primary screen
+ - Added window align to left,right or center + offset
+
+1.0.9
+ - Setup for application keys
+
+1.0.10
+ - Border setup (thickness & color
+ - Corner Radius
+
+1.0.11
+ - Fixed: Restart not needed after position changed (top,left)
+ - Minor configuration window changes
+
+1.0.12
+ - Translated items in configuration dropdowns
+
+1.0.13
+ - FIXED: Program doesn't crash when one instance is running and you try to run another (caused by binding global hotkey)
+ - Minor internal changes
+
+1.0.14
+ - Ability to configure activation key (Win+selected key)
+ - App restart after locale change nearly not needed (with exception for some resources - like datetime pattern)
+ - Partial internal configuration changes
+
+1.0.15
+ - Added support for pin to right and bottom edge of primary screen

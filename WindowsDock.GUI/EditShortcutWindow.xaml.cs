@@ -47,18 +47,13 @@ namespace WindowsDock.GUI
             System.Windows.Forms.OpenFileDialog file = new System.Windows.Forms.OpenFileDialog();
             file.CheckFileExists = true;
             file.Multiselect = false;
-            file.Title = "Select file (any) to add";
+            file.Title = Resource.Get("Shortcut.SelectFile");
             if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Shortcut.Path = file.FileName;
                 if (String.IsNullOrEmpty(Shortcut.WorkingDirectory))
                     Shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(file.FileName);
             }
-        }
-
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            e.Accepted = Shortcuts.PermitedKeys.Contains((Key)e.Item);
         }
     }
 }

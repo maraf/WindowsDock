@@ -7,8 +7,8 @@ namespace WindowsDock.GUI
 {
     public class Version
     {
-        public static readonly string Current = "1.0.9";
+        public static readonly System.Version Current = new System.Version(1, 0, 15);
 
-        public static readonly DateTime BuildDate = new DateTime(2011, 8, 6);
+        public static readonly DateTime BuildDate = new DateTime(2011, 9, 6);
     }
 }

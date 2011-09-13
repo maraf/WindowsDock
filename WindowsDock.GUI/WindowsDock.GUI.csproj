@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App_Code\DockHelper.cs" />
     <Compile Include="EditCommandWindow.xaml.cs">
       <DependentUpon>EditCommandWindow.xaml</DependentUpon>
     </Compile>
@@ -93,8 +94,9 @@
     <Compile Include="EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters.cs" />
-    <Compile Include="Version.cs" />
+    <Compile Include="App_Code\Validation.cs" />
+    <Compile Include="App_Code\ValueConverters.cs" />
+    <Compile Include="App_Code\Version.cs" />
     <Page Include="EditCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,7 +195,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

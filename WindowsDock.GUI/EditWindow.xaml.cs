@@ -26,22 +26,31 @@ namespace WindowsDock.GUI
         private bool isNew = false;
         private bool isNewCommand = false;
         private IManager manager;
+        private MainWindow mainWindow;
 
         public IManager Manager { get { return manager; } protected set { manager = value; } }
+        public MainWindow MainWindow { get { return mainWindow; } protected set { mainWindow = value; } }
 
-        public EditWindow(IManager manager)
+        public EditWindow(MainWindow mainWindow, IManager manager)
         {
             InitializeComponent();
 
             Manager = manager;
+            MainWindow = mainWindow;
 
             DataContext = Manager;
+
+#if DEBUG
+            btnDev.Visibility = Visibility.Visible;
+#else
+            btnDev.Visibility = Visibility.Collapsed;
+#endif
 
             expShortcuts.IsExpanded = true;
             tblVersion.Text = String.Format("build {0} v{1}", Version.BuildDate.ToShortDateString(), Version.Current);
 
-            coxPosition.ItemsSource = Enum.GetValues(typeof(WindowPosition));
-            coxAlign.ItemsSource = Enum.GetValues(typeof(WindowAlign));
+            coxPosition.ItemsSource = ResourceHelper.GetEnum<WindowPosition>(Resource.Resources);
+            coxAlign.ItemsSource = ResourceHelper.GetEnum<WindowAlign>(Resource.Resources);
             coxLanguages.ItemsSource = DesktopCore.Resources.GetSupportedLocales("Resources/Resources", "en-US");
         }
 
@@ -49,6 +58,11 @@ namespace WindowsDock.GUI
         {
             base.OnSourceInitialized(e);
             GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
+        }
+
+        public static Key[] GetPermittedKeys()
+        {
+            return Shortcuts.PermitedKeys;
         }
 
         protected void OpenDetail(Shortcut shortcut)
@@ -117,6 +131,15 @@ namespace WindowsDock.GUI
             }
         }
 
+        protected string PickColor()
+        {
+            System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                return String.Format(dialog.Color.IsKnownColor ? "{0}" : "#{0}", dialog.Color.Name);
+
+            return null;
+        }
+
         private void lvwShortcuts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             stpEditButtons.IsEnabled = lvwShortcuts.SelectedItem != null;
@@ -181,6 +204,8 @@ namespace WindowsDock.GUI
                 expComands.IsExpanded = false;
             if (ex != expMiscelaneous)
                 expMiscelaneous.IsExpanded = false;
+            if (ex != expVisuals)
+                expVisuals.IsExpanded = false;
             if (ex != expRestore)
                 expRestore.IsExpanded = false;
         }
@@ -201,6 +226,10 @@ namespace WindowsDock.GUI
         private void btnRestoreDefaults_Click(object sender, RoutedEventArgs e)
         {
             Manager.Restore(cbxShotcuts.IsChecked.Value, cbxTextNotes.IsChecked.Value, cbxScripts.IsChecked.Value, cbxSettings.IsChecked.Value);
+            
+            HotkeyHelper.UnRegisterHotKey(MainWindow);
+            MainWindow.Helper.RegisterActivationHotkey(Manager.ActivationKey);
+
             tblRestoredInfo.Visibility = Visibility.Visible;
         }
 
@@ -317,14 +346,32 @@ namespace WindowsDock.GUI
         {
             System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
                 Manager.Background = String.Format(dialog.Color.IsKnownColor ? "{0}" : "#{0}", dialog.Color.Name);
-            }
         }
 
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             e.Accepted = Shortcuts.PermitedKeys.Contains((Key)e.Item);
+        }
+
+        private void btnPickBorder_Click(object sender, RoutedEventArgs e)
+        {
+            string color = PickColor();
+            if (color != null)
+                Manager.BorderColor = color;
+        }
+
+        private void btnApplyActivation_Click(object sender, RoutedEventArgs e)
+        {
+            HotkeyHelper.UnRegisterHotKey(MainWindow);
+            Key newKey = (Key)coxActivationKey.SelectedItem;
+            if (MainWindow.Helper.RegisterActivationHotkey(newKey))
+                Manager.ActivationKey = newKey;
+        }
+
+        private void btnDev_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

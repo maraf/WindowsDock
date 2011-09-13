@@ -99,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D8EE37C97047AB3EB1D80447C71E870D"
         "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
         "MsmSig" = "8:_UNDEFINED"
@@ -608,15 +614,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
-        "ProductCode" = "8:{6B9183F7-7C24-4046-B78B-1AB549EC34C3}"
-        "PackageCode" = "8:{9D2375CA-C837-4100-896C-6F62B9DF556F}"
+        "ProductCode" = "8:{14695C19-EAD8-4FAD-9E7E-631705944068}"
+        "PackageCode" = "8:{DA7D9F5B-E2C5-4534-B047-9709D4EE55DA}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.9"
+        "ProductVersion" = "8:1.0.15"
         "Manufacturer" = "8:Neptuo DEV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://dev.neptuo.com/support"
@@ -1130,7 +1136,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_44781DCADD474DBA830A9D754AA59DE3"
             {
-            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Debug\\WindowsDock.GUI.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"

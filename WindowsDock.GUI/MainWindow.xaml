@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="clr-namespace:DesktopCore;assembly=DesktopCore.Resources"
         mc:Ignorable="d"
-        Title="MainWindow" d:DesignHeight="200" d:DesignWidth="500" WindowStyle="None" ResizeMode="NoResize" SizeToContent="Width"
-        Topmost="True" AllowsTransparency="True" x:Name="window" Background="Transparent" ShowInTaskbar="False" ClipToBounds="False"
-        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closed="window_Closed" PreviewKeyDown="window_PreviewKeyDown" AllowDrop="True">
+        Title="MainWindow" d:DesignHeight="200" d:DesignWidth="500" WindowStyle="None" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Topmost="True" AllowsTransparency="True" x:Name="window" Background="Transparent" ShowInTaskbar="False" ClipToBounds="False" AllowDrop="True"
+        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closed="window_Closed" PreviewKeyDown="window_PreviewKeyDown">
     <StackPanel x:Name="stpMain">
         <Grid VerticalAlignment="Top" ClipToBounds="False">
-            <Border x:Name="brdBackground" CornerRadius="0,0,10,10" Background="{Binding Path=Background}">
+            <Border x:Name="brdBackground" CornerRadius="0,0,10,10" Background="{Binding Path=Background}" BorderBrush="{Binding BorderColor}">
                 <StackPanel x:Name="stpMainPanelItems" Orientation="Horizontal" Margin="5,0">
                     <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" ItemContainerStyle="{StaticResource shortcutsItem}" Style="{StaticResource shortcutsListView}" ClipToBounds="False" Grid.Row="0">
                         <ListView.ItemsPanel>

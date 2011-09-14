@@ -251,11 +251,13 @@ namespace WindowsDock.GUI
             if (e.Key == Helper.Manager.CloseKey)
                 Close();
             else if (e.Key == Helper.Manager.ConfigKey)
-                btnConfig_Click(sender, e); 
+                btnConfig_Click(sender, e);
             else if (e.Key == Helper.Manager.FolderBrowserKey && Helper.Manager.BrowserEnabled)
                 Helper.ToggleExtension(ExtensionType.Browser);
             else if (e.Key == Helper.Manager.DesktopBrowserKey && Helper.Manager.DesktopEnabled)
                 Helper.ToggleExtension(ExtensionType.Desktop);
+            else if (e.Key == Helper.Manager.DesktopExplorerKey)
+                Helper.RunExplorerWithDesktop();
             else if (e.Key == Helper.Manager.TextNotesKey && Helper.Manager.TextNotesEnabled)
                 Helper.ToggleExtension(ExtensionType.TextNotes);
             else if (e.Key == Helper.Manager.ScriptsKey && Helper.Manager.ScriptsEnabled)
@@ -270,11 +272,7 @@ namespace WindowsDock.GUI
 
         private void btnDesktopGo_Click(object sender, RoutedEventArgs e)
         {
-            Process p = new Process();
-            p.StartInfo.FileName = "explorer";
-            p.StartInfo.Arguments = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            p.Start();
-            Helper.ToggleExtension(ExtensionType.Desktop, true);
+            Helper.RunExplorerWithDesktop(true);
         }
     }
 }

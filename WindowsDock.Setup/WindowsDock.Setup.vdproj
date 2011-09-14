@@ -118,19 +118,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +130,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -257,11 +257,6 @@
             "AssemblyAsmDisplayName" = "8:WindowsDock.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_33C1163534C140CD878BF75598624B23"
-                    {
-                    "Name" = "8:WindowsDock.Core.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:WindowsDock.Core.dll"
             "TargetName" = "8:"
@@ -348,11 +343,6 @@
             "AssemblyAsmDisplayName" = "8:Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_9002C88155E808A676B00369C6AC5BCF"
-                    {
-                    "Name" = "8:Interop.IWshRuntimeLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Interop.IWshRuntimeLibrary.dll"
             "TargetName" = "8:"
@@ -399,11 +389,6 @@
             "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_9F5BA9E22305212213663D034A1BAD13"
-                    {
-                    "Name" = "8:Interop.Shell32.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Interop.Shell32.dll"
             "TargetName" = "8:"
@@ -430,11 +415,6 @@
             "AssemblyAsmDisplayName" = "8:DesktopCore.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
-                    {
-                    "Name" = "8:DesktopCore.Resources.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DesktopCore.Resources.dll"
             "TargetName" = "8:"
@@ -481,11 +461,6 @@
             "AssemblyAsmDisplayName" = "8:DesktopCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B8A3C0448DC9535924DF1E9DC8E65F18"
-                    {
-                    "Name" = "8:DesktopCore.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DesktopCore.dll"
             "TargetName" = "8:"
@@ -614,15 +589,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
-        "ProductCode" = "8:{14695C19-EAD8-4FAD-9E7E-631705944068}"
-        "PackageCode" = "8:{DA7D9F5B-E2C5-4534-B047-9709D4EE55DA}"
+        "ProductCode" = "8:{2B9BA420-822D-4005-A90C-74CB851A1423}"
+        "PackageCode" = "8:{5845CAAB-5AE1-411C-8F76-222086501EC5}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.15"
+        "ProductVersion" = "8:1.0.16"
         "Manufacturer" = "8:Neptuo DEV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://dev.neptuo.com/support"
@@ -1136,7 +1111,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_44781DCADD474DBA830A9D754AA59DE3"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\WindowsDock.GUI\\obj\\x86\\Release\\WindowsDock.GUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"

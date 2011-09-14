@@ -11,6 +11,7 @@ Edit.Ext.TextNotes=Enable TextNotes (Changing this setting, doesn't delete your 
 Edit.Ext.Scripts=Enable Scripts (Changing this setting, doesn't delete your scripts, it only hiddens button with scripts).
 Edit.Ext.FolderBrowser=Enable Browser.
 Edit.Ext.DesktopBrowser=Enable Desktop browser.
+Edit.Ext.DesktopExplorer=KeyShortcut to show desktop in Explorer
 Edit.Commands=Commands
 Edit.DefaultCommand=Default command:
 Edit.Misc=Miscelaneous

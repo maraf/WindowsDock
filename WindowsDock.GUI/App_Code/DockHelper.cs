@@ -568,5 +568,16 @@ namespace WindowsDock.GUI
 
             HideMainPanel();
         }
+
+        public void RunExplorerWithDesktop(bool toggleDesktopExtension = false)
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = "explorer";
+            p.StartInfo.Arguments = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            p.Start();
+
+            if (toggleDesktopExtension)
+                ToggleExtension(ExtensionType.Desktop, true);
+        }
     }
 }

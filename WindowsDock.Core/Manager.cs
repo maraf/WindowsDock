@@ -81,6 +81,7 @@ namespace WindowsDock.Core
         Key ScriptsKey { get; set; }
         Key FolderBrowserKey { get; set; }
         Key DesktopBrowserKey { get; set; }
+        Key DesktopExplorerKey { get; set; }
 
 
         string DefaultLocation { get; }
@@ -137,6 +138,7 @@ namespace WindowsDock.Core
         private Key scriptsKey = Key.S;
         private Key folderBrowserKey = Key.B;
         private Key desktopBrowserKey = Key.D;
+        private Key desktopExplorerKey = Key.None;
 
         public Shortcuts Shortcuts { get { return shortcuts; } set { shortcuts = value; } }
 
@@ -446,6 +448,17 @@ namespace WindowsDock.Core
             {
                 desktopBrowserKey = value;
                 FirePropertyChanged("DesktopBrowserKey");
+            }
+        }
+
+        [Config("DesktopExplorerKey")]
+        public Key DesktopExplorerKey
+        {
+            get { return desktopExplorerKey; }
+            set
+            {
+                desktopExplorerKey = value;
+                FirePropertyChanged("DesktopExplorerKey");
             }
         }
 

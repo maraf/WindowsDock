@@ -39,3 +39,6 @@
 
 1.0.15
  - Added support for pin to right and bottom edge of primary screen
+
+1.0.16
+ - KeyShortcut to show desktop in Explorer

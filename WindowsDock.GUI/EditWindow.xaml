@@ -65,6 +65,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <CheckBox Content="{c:Resource Edit.Ext.TextNotes}" IsChecked="{Binding TextNotesEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" />
@@ -78,6 +79,9 @@
 
                         <CheckBox Content="{c:Resource Edit.Ext.DesktopBrowser}" IsChecked="{Binding DesktopEnabled}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" />
                         <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding DesktopBrowserKey}" Margin="0,4" IsEnabled="{Binding DesktopEnabled}" Grid.Column="1" Grid.Row="3" />
+
+                        <Label Content="{c:Resource Edit.Ext.DesktopExplorer}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" />
+                        <ComboBox ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding DesktopExplorerKey}" Margin="0,4" Grid.Column="1" Grid.Row="4" />
                     </Grid>
                 </Expander>
                 <Expander x:Name="expComands" Header="{c:Resource Edit.Commands}" Expanded="Expander_Expanded">

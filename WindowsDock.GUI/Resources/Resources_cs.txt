@@ -11,6 +11,7 @@ Edit.Ext.TextNotes=Povolit poznámky (změna tohoto nastavení existující pozn
 Edit.Ext.Scripts=Povolit skripty (změna tohoto nastavení existující skripty neovlivní).
 Edit.Ext.FolderBrowser=Aktivuj prohlížeč složek.
 Edit.Ext.DesktopBrowser=Aktivuj prohlížeč plochy.
+Edit.Ext.DesktopExplorer=Zkratka pro zobrazení plochy v Průzkumníku
 Edit.Commands=Příkazy
 Edit.DefaultCommand=Výchozí příkaz:
 Edit.Misc=Různé

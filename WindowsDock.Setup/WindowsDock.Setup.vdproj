@@ -118,19 +118,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +130,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "OwnerKey" = "8:_9002C88155E808A676B00369C6AC5BCF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -589,15 +589,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
-        "ProductCode" = "8:{2B9BA420-822D-4005-A90C-74CB851A1423}"
-        "PackageCode" = "8:{5845CAAB-5AE1-411C-8F76-222086501EC5}"
+        "ProductCode" = "8:{CC749ADD-8553-43D0-BB94-39FAE3EB23C7}"
+        "PackageCode" = "8:{0FE1E805-9FF0-4200-BF2B-1DDCE3BB4A50}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.16"
+        "ProductVersion" = "8:1.1.20"
         "Manufacturer" = "8:Neptuo DEV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://dev.neptuo.com/support"

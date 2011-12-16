@@ -51,11 +51,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DesktopCore">
-      <HintPath>..\..\DesktopCore\DesktopCore\bin\Release\DesktopCore.dll</HintPath>
+    <Reference Include="DesktopCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Resources\References\DesktopCore.dll</HintPath>
     </Reference>
-    <Reference Include="DesktopCore.Resources">
-      <HintPath>..\..\DesktopCore\DesktopCore.Resources\bin\Release\DesktopCore.Resources.dll</HintPath>
+    <Reference Include="DesktopCore.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Resources\References\DesktopCore.Resources.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

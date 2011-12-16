@@ -7,10 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" d:DesignHeight="200" d:DesignWidth="500" WindowStyle="None" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         Topmost="True" AllowsTransparency="True" x:Name="window" Background="Transparent" ShowInTaskbar="False" ClipToBounds="False" AllowDrop="True"
-        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closed="window_Closed" PreviewKeyDown="window_PreviewKeyDown">
+        MouseEnter="window_MouseEnter" MouseLeave="window_MouseLeave" SizeChanged="window_SizeChanged" Drop="window_Drop" Closing="window_Closing" PreviewKeyDown="window_PreviewKeyDown">
     <StackPanel x:Name="stpMain">
         <Grid VerticalAlignment="Top" ClipToBounds="False">
             <Border x:Name="brdBackground" CornerRadius="0,0,10,10" Background="{Binding Path=Background}" BorderBrush="{Binding BorderColor}">
+                <Border.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{c:Resource Main.Config}" Click="btnConfig_Click" />
+                        <MenuItem Header="{c:Resource Main.Close}" Click="btnClose_Click" />
+                    </ContextMenu>
+                </Border.ContextMenu>
                 <StackPanel x:Name="stpMainPanelItems" Orientation="Horizontal" Margin="5,0">
                     <ListView x:Name="lvwShortcuts" ItemsSource="{Binding Path=Shortcuts}" ItemContainerStyle="{StaticResource shortcutsItem}" Style="{StaticResource shortcutsListView}" ClipToBounds="False" Grid.Row="0">
                         <ListView.ItemsPanel>
@@ -24,10 +30,12 @@
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Grid>
-                                                <Image Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
-                                                <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="2" Background="White" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Path=Key, Converter={StaticResource keyToVisibility}}">
-                                                    <TextBlock Margin="2,0" Text="{Binding Path=Key, Converter={StaticResource keyToString}}" Foreground="Black" FontSize="8" />
-                                                </Border>
+                                                <Image Width="{Binding DataContext.ShortcutIconSize, ElementName=window}" Source="{Binding Path=ImageSource}" ToolTip="{Binding Path=Path}" Cursor="Hand" Style="{StaticResource shortcut}" />
+                                                <Grid Visibility="{Binding DataContext.ShowShortcutBubble, ElementName=window, Converter={StaticResource boolToVisibility}}">
+                                                    <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="2" Background="White" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Path=Key, Converter={StaticResource keyToVisibility}}">
+                                                        <TextBlock Margin="2,0" Text="{Binding Path=Key, Converter={StaticResource keyToString}}" Foreground="Black" FontSize="{Binding DataContext.ShortcutBubbleFontSize, ElementName=window}" />
+                                                    </Border>
+                                                </Grid>
                                             </Grid>
                                         </ControlTemplate>
                                     </Button.Template>
@@ -40,8 +48,10 @@
                     <Button x:Name="btnScripts" Content="{StaticResource paperCanvas}" ToolTip="{c:Resource Main.Scripts}" Click="btnScripts_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=ScriptsEnabled, Converter={StaticResource boolToVisibility}}" />
                     <Button x:Name="btnDesktop" Content="{StaticResource desktopCanvas}" ToolTip="{c:Resource Main.DesktopBrowser}" Click="btnDesktop_Click" Style="{StaticResource extensionButton}" Visibility="{Binding Path=DesktopEnabled, Converter={StaticResource boolToVisibility}}" />
                     <StackPanel x:Name="stpApplicationButtons" Margin="4,8,0,0">
-                        <Button x:Name="btnClose" Style="{StaticResource closeButton}" Click="btnClose_Click" ToolTip="{c:Resource Main.Close}" />
-                        <Button x:Name="btnConfig" Style="{StaticResource configButton}" Click="btnConfig_Click" ToolTip="{c:Resource Main.Config}" Margin="0,2,0,0" />
+                        <Button x:Name="btnClose" Style="{StaticResource closeButton}" Click="btnClose_Click" ToolTip="{c:Resource Main.Close}" 
+                         Foreground="{Binding AppButtonColor}" Visibility="{Binding ShowCloseButton, Converter={StaticResource boolToVisibility}}" />
+                        <Button x:Name="btnConfig" Style="{StaticResource configButton}" Click="btnConfig_Click" ToolTip="{c:Resource Main.Config}" 
+                         Foreground="{Binding AppButtonColor}" Margin="0,2,0,0" Visibility="{Binding ShowConfigButton, Converter={StaticResource boolToVisibility}}" />
                     </StackPanel>
                 </StackPanel>
             </Border>

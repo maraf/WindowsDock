@@ -31,6 +31,10 @@ namespace WindowsDock.GUI
 
         public IManager Manager { get; protected set; }
 
+        public DockBarHelper DockBar { get; protected set; }
+
+        public bool IsSourceInitialized { get; protected set; }
+
         public bool IsShown
         {
             //get { return PositionHelper.GetEdgeValue(Window, Manager.Position) == PositionHelper.GetComputedEgdeValue(Manager.Position, NormalTop); }
@@ -47,6 +51,7 @@ namespace WindowsDock.GUI
         {
             Manager = ManagerFacory.Create();
             Window = window;
+            DockBar = new DockBarHelper(Window);
             CurrentAutoHiding = true;
             IsNewTextNote = false;
             IsNewScript = false;
@@ -68,6 +73,13 @@ namespace WindowsDock.GUI
 
             DesktopHelper.ShowIcons(Manager.DesktopIconsEnabled);
 
+            //Style style = Window.FindResource("miniButtonBase") as Style;
+            //if (style != null)
+            //{
+            //    Trigger trigger = style.Triggers.First(t => (t as Trigger).Property == Button.IsMouseOverProperty) as Trigger;
+            //    (trigger.Setters[0] as Setter).Value = Manager.AppButtonColor;
+            //}
+
             LoadDefaults();
             RunDispatcher();
             FindHotkeyIgnorables();
@@ -79,8 +91,23 @@ namespace WindowsDock.GUI
         /// <param name="e">EventArgs</param>
         public void OnSourceInitialized(EventArgs e)
         {
+            IsSourceInitialized = true;
+
             DesktopCore.WindowHelper.HideFromWindowList(Window);
             RegisterActivationHotkey(Manager.ActivationKey);
+
+            if (Manager.DockWindow)
+                PositionHelper.DockWindow(Manager.Position, DockBar, Window.brdBackground, Manager.TaskbarHeight);
+        }
+
+        /// <summary>
+        /// Called on window Closing
+        /// </summary>
+        public void OnClosing()
+        {
+            Manager.SaveTo(Manager.DefaultLocation);
+
+            PositionHelper.UnDockWindow(DockBar, Window.brdBackground);
         }
 
         /// <summary>
@@ -110,8 +137,12 @@ namespace WindowsDock.GUI
         /// <param name="e">EventArgs</param>
         public void Manager_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Position" || e.PropertyName == "CornerRadius" || e.PropertyName == "BorderThickness")
+            if (e.PropertyName == "Position" || e.PropertyName == "CornerRadius" || e.PropertyName == "BorderThickness" 
+                || e.PropertyName == "DockWindow" || e.PropertyName == "UseTaskBarHeightWhenBottom")
             {
+                if (!Manager.DockWindow || e.PropertyName == "Position")
+                    PositionHelper.UnDockWindow(DockBar, Window.brdBackground);
+
                 SetupView();
             }
             else if (e.PropertyName == "Align" || e.PropertyName == "AlignOffset")
@@ -169,9 +200,9 @@ namespace WindowsDock.GUI
         {
             double position;
             if (Manager.StartHidden && CurrentAutoHiding)
-                position = PositionHelper.GetComputedEgdeValue(Manager.Position, HiddenTop, NormalTop);
+                position = PositionHelper.GetComputedEgdeValue(Manager.Position, HiddenTop, NormalTop, Manager.UseTaskBarHeightWhenBottom, Manager.TaskbarHeight);
             else
-                position = PositionHelper.GetComputedEgdeValue(Manager.Position, NormalTop, HiddenTop);
+                position = PositionHelper.GetComputedEgdeValue(Manager.Position, NormalTop, HiddenTop, Manager.UseTaskBarHeightWhenBottom, Manager.TaskbarHeight);
 
             PositionHelper.SetPosition(position, NormalHeight, Manager.Position, Window, Window.stpMainPanelItems);
             DoCentralization();
@@ -182,10 +213,18 @@ namespace WindowsDock.GUI
         /// </summary>
         public void DoCentralization()
         {
-            if (Manager.Align == WindowAlign.Center)
-                PositionHelper.SetToCenter(Manager.Position, Window);
+            if (Manager.DockWindow)
+            {
+                if (IsSourceInitialized)
+                    PositionHelper.DockWindow(Manager.Position, DockBar, Window.brdBackground, Manager.TaskbarHeight);
+            }
             else
-                PositionHelper.SetAlign(Manager.Position, Manager.Align, Manager.AlignOffset, Window);
+            {
+                if (Manager.Align == WindowAlign.Center)
+                    PositionHelper.SetToCenter(Manager.Position, Window);
+                else
+                    PositionHelper.SetAlign(Manager.Position, Manager.Align, Manager.AlignOffset, Window);
+            }
         }
 
         /// <summary>
@@ -336,6 +375,14 @@ namespace WindowsDock.GUI
         #region MainPanel and extension show/hide
 
         /// <summary>
+        /// Return <code>true</code> if auto hiding is enabled and main panel isn't docked.
+        /// </summary>
+        public bool CanHideMainPanel()
+        {
+            return Manager.AutoHiding && !Manager.DockWindow;
+        }
+
+        /// <summary>
         /// Toggle main panel
         /// </summary>
         public void ToggleMainPanel()
@@ -351,9 +398,8 @@ namespace WindowsDock.GUI
         /// </summary>
         public void ShowMainPanel()
         {
-            //TODO: Crashes SetupView !!!
             DoCentralization();
-            DoubleAnimation d = new DoubleAnimation(PositionHelper.GetComputedEgdeValue(Manager.Position, NormalTop, HiddenTop), Manager.HideDuration);
+            DoubleAnimation d = new DoubleAnimation(PositionHelper.GetComputedEgdeValue(Manager.Position, NormalTop, HiddenTop, Manager.UseTaskBarHeightWhenBottom, Manager.TaskbarHeight), Manager.HideDuration);
             Window.BeginAnimation(PositionHelper.GetEdgeProperty(Manager.Position), d);
 
             Window.Focus();
@@ -365,9 +411,12 @@ namespace WindowsDock.GUI
         /// </summary>
         public void HideMainPanel()
         {
+            if (!CanHideMainPanel())
+                return;
+
             if (!IsSubWindowOpened && CurrentExtension == ExtensionType.None)
             {
-                double top = PositionHelper.GetComputedEgdeValue(Manager.Position, HiddenTop, NormalTop) + Manager.HiddenOffset;
+                double top = PositionHelper.GetComputedEgdeValue(Manager.Position, HiddenTop, NormalTop, Manager.UseTaskBarHeightWhenBottom, Manager.TaskbarHeight) + Manager.HiddenOffset;
                 DoubleAnimation d = new DoubleAnimation(top, Manager.HideDuration);
                 d.BeginTime = Manager.HideDelay;
                 Window.BeginAnimation(PositionHelper.GetEdgeProperty(Manager.Position), d);
@@ -566,7 +615,8 @@ namespace WindowsDock.GUI
             p.StartInfo.WorkingDirectory = shortcut.WorkingDirectory;
             p.Start();
 
-            HideMainPanel();
+            if (Manager.AutoHiding)
+                HideMainPanel();
         }
 
         public void RunExplorerWithDesktop(bool toggleDesktopExtension = false)
@@ -578,6 +628,8 @@ namespace WindowsDock.GUI
 
             if (toggleDesktopExtension)
                 ToggleExtension(ExtensionType.Desktop, true);
+            else
+                HideExtension(true);
         }
     }
 }

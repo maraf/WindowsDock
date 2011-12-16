@@ -52,6 +52,8 @@ namespace WindowsDock.GUI
             coxPosition.ItemsSource = ResourceHelper.GetEnum<WindowPosition>(Resource.Resources);
             coxAlign.ItemsSource = ResourceHelper.GetEnum<WindowAlign>(Resource.Resources);
             coxLanguages.ItemsSource = DesktopCore.Resources.GetSupportedLocales("Resources/Resources", "en-US");
+            coxShortcutBubbleFontSize.ItemsSource = new List<int> { 6, 7, 8, 9, 10, 11, 12 };
+            coxShortcutIconSize.ItemsSource = new List<int> { 24, 32 };
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -274,9 +276,7 @@ namespace WindowsDock.GUI
 
         private void btnCopyConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            StringCollection collection = new StringCollection();
-            collection.Add(Manager.GetFullFilePath());
-            Clipboard.SetFileDropList(collection);
+            ClipboardHelper.CopyFiles(Manager.GetFullFilePath());
             tbcConfigurationMessage.Text = Resource.Get("Edit.Copied");
         }
 
@@ -372,6 +372,13 @@ namespace WindowsDock.GUI
         private void btnDev_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void btnPickAppButtonColor_Click(object sender, RoutedEventArgs e)
+        {
+            string color = PickColor();
+            if (color != null)
+                Manager.BorderColor = color;
         }
     }
 }

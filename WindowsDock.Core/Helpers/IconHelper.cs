@@ -17,9 +17,7 @@ namespace WindowsDock.Core
             ImageSource imgs;
 
             using (System.Drawing.Icon i = System.Drawing.Icon.FromHandle(extractedIcon.ToBitmap().GetHicon()))
-            {
                 imgs = Imaging.CreateBitmapSourceFromHIcon(i.Handle, new Int32Rect(0, 0, 32, 32), BitmapSizeOptions.FromEmptyOptions());
-            }
 
             return imgs;
         }

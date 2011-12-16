@@ -42,3 +42,19 @@
 
 1.0.16
  - KeyShortcut to show desktop in Explorer
+
+1.0.17
+ - Colors for application buttons (Config+Close)
+ - Posibility to hide them from main panel
+ - Context menu on main panel as substitute from these buttons
+
+1.1.18
+ - Dockable WindowsDock, you can dock main panel to one edge of screen and make i always visible
+ - Some minor fixes
+
+1.1.19
+ - Taskbar height + posibility to use this as offset from bottom
+
+1.1.20
+ - Configuration for small bubbles on top of shortcuts on main panel
+ - Basic setting for shortcut icon size

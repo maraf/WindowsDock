@@ -1,15 +1,16 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using DesktopCore;
 
 namespace WindowsDock.Core
 {
     public class PositionHelper
     {
-        public static bool IsShown(Window window, WindowPosition position, double edgeValue, double hiddenOffset) 
+        public static bool IsShown(Window window, WindowPosition position, double edgeValue, double hiddenOffset)
         {
             switch (position)
             {
@@ -43,8 +44,11 @@ namespace WindowsDock.Core
             }
         }
 
-        public static double GetComputedEgdeValue(WindowPosition position, double normalEdge, double hiddenEdge)
+        public static double GetComputedEgdeValue(WindowPosition position, double normalEdge, double hiddenEdge, bool addTaskbarHeight, double taskbarHeight)
         {
+            if (!addTaskbarHeight)
+                taskbarHeight = 0;
+
             switch (position)
             {
                 case WindowPosition.Top:
@@ -53,7 +57,7 @@ namespace WindowsDock.Core
                 case WindowPosition.Right:
                     return SystemParameters.PrimaryScreenWidth + hiddenEdge;
                 case WindowPosition.Bottom:
-                    return SystemParameters.PrimaryScreenHeight + hiddenEdge;
+                    return SystemParameters.PrimaryScreenHeight + hiddenEdge - taskbarHeight;
                 default:
                     return Double.NaN;
             }
@@ -128,6 +132,35 @@ namespace WindowsDock.Core
                 else
                     window.Top = SystemParameters.PrimaryScreenHeight - window.ActualHeight - offset;
             }
+        }
+
+        public static void DockWindow(WindowPosition position, DockBarHelper dockBar, FrameworkElement element, int offset)
+        {
+            if (position == WindowPosition.Top || position == WindowPosition.Bottom)
+            {
+                element.Width = SystemParameters.PrimaryScreenWidth;
+                dockBar.Window.Left = 0;
+                if (position == WindowPosition.Top)
+                    dockBar.Register(DockEdge.Top);
+                else
+                    dockBar.Register(DockEdge.Bottom);
+            }
+            else
+            {
+                element.Height = SystemParameters.PrimaryScreenHeight - offset;
+                dockBar.Window.Top = 0;
+                if (position == WindowPosition.Left)
+                    dockBar.Register(DockEdge.Left);
+                else
+                    dockBar.Register(DockEdge.Right);
+            }
+        }
+
+        public static void UnDockWindow(DockBarHelper dockBar, FrameworkElement element)
+        {
+            dockBar.UnRegister();
+            element.Width = Double.NaN;
+            element.Height = Double.NaN;
         }
     }
 }

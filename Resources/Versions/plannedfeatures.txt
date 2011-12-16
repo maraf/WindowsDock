@@ -1,0 +1,2 @@
+-Icon hover affect
+-Custom icons for extension

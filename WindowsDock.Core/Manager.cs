@@ -36,6 +36,8 @@ namespace WindowsDock.Core
 
         WindowPosition Position { get; set; }
 
+        bool DockWindow { get; set; }
+
         WindowAlign Align { get; set; }
 
         int AlignOffset { get; set; }
@@ -54,9 +56,15 @@ namespace WindowsDock.Core
 
         string BorderColor { get; set; }
 
+        string AppButtonColor { get; set; }
+
         bool AutoHiding { get; set; }
 
         bool StartHidden { get; set; }
+
+        int TaskbarHeight { get; set; }
+
+        bool UseTaskBarHeightWhenBottom { get; set; }
 
         int HiddenOffset { get; set; }
 
@@ -73,6 +81,16 @@ namespace WindowsDock.Core
         bool DesktopIconsEnabled { get; set; }
 
         CultureInfo Locale { get; set; }
+
+        bool ShowConfigButton { get; set; }
+
+        bool ShowCloseButton { get; set; }
+
+        bool ShowShortcutBubble { get; set; }
+
+        int ShortcutBubbleFontSize { get; set; }
+
+        int ShortcutIconSize { get; set; }
 
         Key ActivationKey { get; set; }
         Key ConfigKey { get; set; }
@@ -111,6 +129,7 @@ namespace WindowsDock.Core
         private Scripts scripts = new Scripts();
         private DesktopItems desktopItems = new DesktopItems();
         private WindowPosition position = WindowPosition.Top;
+        private bool dockWindow = false;
         private WindowAlign align = WindowAlign.Center;
         private int alignOffset = 0;
         private int cornerRadius = 10;
@@ -120,8 +139,11 @@ namespace WindowsDock.Core
         private string background = "#FFF0FFFF";
         private int borderThickness = 0;
         private string borderColor = "#FFFFFFFF";
+        private string appButtonColor = "#80000000";
         private bool autoHiding = true;
         private bool startHidden = false;
+        private int taskbarHeight = 40;
+        private bool useTaskBarHeightWhenBottom = false;
         private int hiddenOffset = 2;
         private bool textNotesEnabled = true;
         private bool scriptsEnabled = true;
@@ -130,6 +152,11 @@ namespace WindowsDock.Core
         private string alarmSound = "Sounds/alarm.wav";
         private bool desktopIconsEnabled = true;
         private CultureInfo locale = Thread.CurrentThread.CurrentCulture;
+        private bool showConfigButton = true;
+        private bool showCloseButton = true;
+        private bool showShortcutBubble = true;
+        private int shortcutBubbleFontSize = 8;
+        private int shortcutIconSize = 32;
 
         private Key activationKey = Key.W;
         private Key configKey = Key.Z;
@@ -160,6 +187,17 @@ namespace WindowsDock.Core
             {
                 position = value;
                 FirePropertyChanged("Position");
+            }
+        }
+
+        [Config("DockWindow")]
+        public bool DockWindow
+        {
+            get { return dockWindow; }
+            set
+            {
+                dockWindow = value;
+                FirePropertyChanged("DockWindow");
             }
         }
 
@@ -262,6 +300,17 @@ namespace WindowsDock.Core
             }
         }
 
+        [Config("AppButtonColor")]
+        public string AppButtonColor
+        {
+            get { return appButtonColor; }
+            set
+            {
+                appButtonColor = value;
+                FirePropertyChanged("AppButtonColor");
+            }
+        }
+
         [Config("AutoHiding")]
         public bool AutoHiding
         {
@@ -281,6 +330,28 @@ namespace WindowsDock.Core
             {
                 startHidden = value;
                 FirePropertyChanged("StartHidden");
+            }
+        }
+
+        [Config("TaskbarHeight")]
+        public int TaskbarHeight
+        {
+            get { return taskbarHeight; }
+            set
+            {
+                taskbarHeight = value;
+                FirePropertyChanged("TaskbarHeight");
+            }
+        }
+
+        [Config("UseTaskBarHeightWhenBottom")]
+        public bool UseTaskBarHeightWhenBottom
+        {
+            get { return useTaskBarHeightWhenBottom; }
+            set
+            {
+                useTaskBarHeightWhenBottom = value;
+                FirePropertyChanged("UseTaskBarHeightWhenBottom");
             }
         }
 
@@ -369,6 +440,61 @@ namespace WindowsDock.Core
             {
                 locale = value;
                 FirePropertyChanged("Locale");
+            }
+        }
+
+        [Config("ShowConfigButton")]
+        public bool ShowConfigButton
+        {
+            get { return showConfigButton; }
+            set
+            {
+                showConfigButton = value;
+                FirePropertyChanged("ShowConfigButton");
+            }
+        }
+
+        [Config("ShowCloseButton")]
+        public bool ShowCloseButton
+        {
+            get { return showCloseButton; }
+            set
+            {
+                showCloseButton = value;
+                FirePropertyChanged("ShowCloseButton");
+            }
+        }
+
+        [Config("ShowShortcutBubble")]
+        public bool ShowShortcutBubble
+        {
+            get { return showShortcutBubble; }
+            set
+            {
+                showShortcutBubble = value;
+                FirePropertyChanged("ShowShortcutBubble");
+            }
+        }
+
+        [Config("ShortcutBubbleFontSize")]
+        public int ShortcutBubbleFontSize
+        {
+            get { return shortcutBubbleFontSize; }
+            set
+            {
+                shortcutBubbleFontSize = value;
+                FirePropertyChanged("ShortcutBubbleFontSize");
+            }
+        }
+
+        [Config("ShortcutIconSize")]
+        public int ShortcutIconSize
+        {
+            get { return shortcutIconSize; }
+            set
+            {
+                shortcutIconSize = value;
+                FirePropertyChanged("ShortcutIconSize");
             }
         }
 

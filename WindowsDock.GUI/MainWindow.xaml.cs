@@ -170,8 +170,10 @@ namespace WindowsDock.GUI
         private void tbxBrowsePath_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Back)
+            {
                 if (BrowseHelper.HandleBack(tbxBrowsePath, Helper.Manager))
                     e.Handled = true;
+            }
         }
 
         private void btnCommandOpen_Click(object sender, RoutedEventArgs e)
@@ -238,9 +240,9 @@ namespace WindowsDock.GUI
                 Helper.FilterDesktop();
         }
 
-        private void window_Closed(object sender, EventArgs e)
+        private void window_Closing(object sender, EventArgs e)
         {
-            Helper.Manager.SaveTo(Helper.Manager.DefaultLocation);
+            Helper.OnClosing();
         }
 
         private void window_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -603,7 +603,7 @@ namespace WindowsDock.Core
                 int i = 0;
                 foreach (Shortcut item in Shortcuts)
                 {
-                    rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path, Key = item.Key, WorkingDirectory = item.WorkingDirectory });
+                    rw.AddResource(String.Format("Shortcut[{0}]", i), new SimpleShortcut() { Args = item.Args, Path = item.Path, Key = item.Key, GlobalKey = item.GlobalKey, GlobalModifiers = item.GlobalModifiers, WorkingDirectory = item.WorkingDirectory });
                     i++;
                 }
                 i = 0;
@@ -672,7 +672,12 @@ namespace WindowsDock.Core
                             {
                                 SimpleShortcut ss = (SimpleShortcut)en.Value;
                                 if (File.Exists(ss.Path))
-                                    Shortcuts.Add(new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key, WorkingDirectory = ss.WorkingDirectory });
+                                {
+                                    Shortcut shortcut = new Shortcut(ss.Path) { Args = ss.Args, Key = ss.Key, GlobalKey = ss.GlobalKey, GlobalModifiers = ss.GlobalModifiers, WorkingDirectory = ss.WorkingDirectory };
+                                    if (shortcut.GlobalModifiers == ModifierKeys.None)
+                                        shortcut.GlobalModifiers = ModifierKeys.Windows;
+                                    Shortcuts.Add(shortcut);
+                                }
                             }
                             else if (key.Contains("TextNote["))
                             {
@@ -786,6 +791,8 @@ namespace WindowsDock.Core
         public string Args;
         public string WorkingDirectory;
         public Key Key;
+        public Key GlobalKey;
+        public ModifierKeys GlobalModifiers;
     }
 
     [Serializable]

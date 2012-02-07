@@ -58,3 +58,6 @@
 1.1.20
  - Configuration for small bubbles on top of shortcuts on main panel
  - Basic setting for shortcut icon size
+
+1.2.21
+ - Global hotkeys for shortcuts (for only in combination with Windows key)

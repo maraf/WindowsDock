@@ -69,7 +69,7 @@ namespace WindowsDock.GUI
 
         protected void OpenDetail(Shortcut shortcut)
         {
-            EditShortcutWindow edit = new EditShortcutWindow(shortcut);
+            EditShortcutWindow edit = new EditShortcutWindow(MainWindow.Helper, shortcut);
             edit.Closed += delegate {
                 if(isNew && edit.Shortcut.Path != null) {
                     Manager.Shortcuts.Add(edit.Shortcut);
@@ -228,8 +228,7 @@ namespace WindowsDock.GUI
         private void btnRestoreDefaults_Click(object sender, RoutedEventArgs e)
         {
             Manager.Restore(cbxShotcuts.IsChecked.Value, cbxTextNotes.IsChecked.Value, cbxScripts.IsChecked.Value, cbxSettings.IsChecked.Value);
-            
-            HotkeyHelper.UnRegisterHotKey(MainWindow);
+
             MainWindow.Helper.RegisterActivationHotkey(Manager.ActivationKey);
 
             tblRestoredInfo.Visibility = Visibility.Visible;
@@ -363,7 +362,6 @@ namespace WindowsDock.GUI
 
         private void btnApplyActivation_Click(object sender, RoutedEventArgs e)
         {
-            HotkeyHelper.UnRegisterHotKey(MainWindow);
             Key newKey = (Key)coxActivationKey.SelectedItem;
             if (MainWindow.Helper.RegisterActivationHotkey(newKey))
                 Manager.ActivationKey = newKey;

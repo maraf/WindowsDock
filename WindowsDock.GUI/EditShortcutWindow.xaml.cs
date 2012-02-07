@@ -24,10 +24,13 @@ namespace WindowsDock.GUI
 
         public Shortcut Shortcut { get { return shortcut; } protected set { shortcut = value; } }
 
-        public EditShortcutWindow(Shortcut shortcut)
+        public DockHelper DockHelper { get; protected set; }
+
+        public EditShortcutWindow(DockHelper dockHelper, Shortcut shortcut)
         {
             InitializeComponent();
 
+            DockHelper = dockHelper;
             Shortcut = shortcut;
 
             DataContext = shortcut;
@@ -53,6 +56,20 @@ namespace WindowsDock.GUI
                 Shortcut.Path = file.FileName;
                 if (String.IsNullOrEmpty(Shortcut.WorkingDirectory))
                     Shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(file.FileName);
+            }
+        }
+
+        private void btnApplyGlobal_Click(object sender, RoutedEventArgs e)
+        {
+            Key newKey = (Key)coxActivationKey.SelectedItem;
+            if (newKey != Key.None)
+            {
+                if (DockHelper.RegisterShortcutHotkey(Shortcut, newKey, ModifierKeys.Windows))
+                    Shortcut.GlobalKey = newKey;
+            }
+            else
+            {
+                DockHelper.UnRegisterShortcutHotkey(Shortcut);
             }
         }
     }

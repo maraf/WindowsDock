@@ -30,6 +30,7 @@
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Key, Converter={StaticResource keyToString}, StringFormat=[{0}]}" Foreground="DarkGray" />
+                                                <TextBlock Text="{Binding GlobalKey, Converter={StaticResource keyToString}, StringFormat=[{0}]}" Foreground="Orange" />
                                                 <TextBlock Text=" " />
                                                 <TextBlock Text="{Binding Path}" />
                                                 <TextBlock Text=" " />

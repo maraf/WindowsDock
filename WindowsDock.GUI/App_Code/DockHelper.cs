@@ -25,6 +25,8 @@ namespace WindowsDock.GUI
         private const double NormalTop = 0;
         private const double HiddenTop = -44;
 
+        private const string ActivationIdentifier = "WindowsDock_Actiovation";
+
         private IList<UIElement> hotkeyIgnorables = new List<UIElement>();
 
         public MainWindow Window { get; protected set; }
@@ -32,6 +34,8 @@ namespace WindowsDock.GUI
         public IManager Manager { get; protected set; }
 
         public DockBarHelper DockBar { get; protected set; }
+
+        public HotkeyHelper HotkeyHelper { get; protected set; }
 
         public bool IsSourceInitialized { get; protected set; }
 
@@ -94,10 +98,18 @@ namespace WindowsDock.GUI
             IsSourceInitialized = true;
 
             DesktopCore.WindowHelper.HideFromWindowList(Window);
+
+            HotkeyHelper = new HotkeyHelper(Window);
             RegisterActivationHotkey(Manager.ActivationKey);
 
             if (Manager.DockWindow)
                 PositionHelper.DockWindow(Manager.Position, DockBar, Window.brdBackground, Manager.TaskbarHeight);
+
+            foreach (Shortcut item in Manager.Shortcuts)
+            {
+                if (item.GlobalKey != Key.None)
+                    RegisterShortcutHotkey(item, item.GlobalKey, item.GlobalModifiers);
+            }
         }
 
         /// <summary>
@@ -120,7 +132,8 @@ namespace WindowsDock.GUI
             DesktopCore.WindowHelper.HideFromWindowList(Window);
             try
             {
-                HotkeyHelper.RegisterHotKey(Window, key, HotkeyHelper.Win, delegate { ToggleMainPanel(); });
+                UnRegisterActivationHotkey();
+                HotkeyHelper.Register(key, ModifierKeys.Windows, delegate { ToggleMainPanel(); }, ActivationIdentifier);
                 return true;
             }
             catch (Win32Exception)
@@ -128,6 +141,46 @@ namespace WindowsDock.GUI
                 MessageBox.Show(String.Format(Resource.Get("Error.UnableToBindGlobalHotkeyFormat"), key), "WindowsDock");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Tries to unregister activation hotkey.
+        /// </summary>
+        public void UnRegisterActivationHotkey()
+        {
+            HotkeyHelper.UnRegister(ActivationIdentifier);
+        }
+
+        /// <summary>
+        /// Tries to register shortcut global hotkey.
+        /// </summary>
+        /// <param name="shortcut">Shortcut</param>
+        /// <param name="key">Hotkey</param>
+        /// <param name="modifiers">Modifiers for hotkey</param>
+        /// <returns>If succeed true, otherwise false</returns>
+        public bool RegisterShortcutHotkey(Shortcut shortcut, Key key, ModifierKeys modifiers)
+        {
+            try
+            {
+                UnRegisterShortcutHotkey(shortcut);
+                HotkeyHelper.Register(key, modifiers, delegate { RunShortcut(shortcut); }, shortcut.Path);
+                //HotkeyHelper.Register(key, ModifierKeys.Windows, delegate { ToggleMainPanel(); }, ActivationIdentifier);
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                MessageBox.Show(String.Format(Resource.Get("Error.UnableToBindGlobalHotkeyFormat"), key), "WindowsDock");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to unregister shortcut global hotkey.
+        /// </summary>
+        /// <param name="shortcut">Shortcut</param>
+        public void UnRegisterShortcutHotkey(Shortcut shortcut)
+        {
+            HotkeyHelper.UnRegister(shortcut.Path);
         }
 
         /// <summary>

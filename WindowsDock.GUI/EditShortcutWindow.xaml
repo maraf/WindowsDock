@@ -32,7 +32,20 @@
             </DockPanel>
             <TextBox x:Name="tbxArgs" Height="22" Text="{Binding Path=Args}" Margin="0,0,0,4" Grid.Column="1" Grid.Row="1" />
             <TextBox x:Name="tbxWorkingDirectory" Margin="0,4" Text="{Binding Path=WorkingDirectory}" Grid.Column="1" Grid.Row="2" />
-            <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" Grid.Column="1" Grid.Row="3" />
+            <Grid Height="26" Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ComboBox Width="60" Height="22" ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding Path=Key, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,4" />
+
+                <Label Content="{c:Resource Shortcut.GlobalKey}" Margin="2,0,0,0" Grid.Column="1" />
+                <ComboBox x:Name="coxActivationKey" ItemsSource="{Binding Source={StaticResource keys}}" SelectedItem="{Binding GlobalKey, Mode=OneTime}" Margin="4,0,0,4" Grid.Column="2" />
+                <Button x:Name="btnApplyGlobal" Click="btnApplyGlobal_Click" Content="{c:Resource Apply}" Margin="4,0,0,4" Grid.Column="4" />
+            </Grid>
         </Grid>
     </Border>
 </Window>

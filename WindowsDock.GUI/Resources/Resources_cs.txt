@@ -111,6 +111,7 @@ Shortcut.Path=Cesta:
 Shortcut.Args=Argumenty:
 Shortcut.Dir=Pracovní složka:
 Shortcut.Key=Klávesa:
+Shortcut.GlobalKey=Globální klávesa: (Win+)
 Shortcut.SelectFile=Vyberte soubor
 
 TextNote.Title=WindowsDock :: Konfigurace :: Poznámky

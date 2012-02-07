@@ -111,6 +111,7 @@ Shortcut.Path=Path:
 Shortcut.Args=Args:
 Shortcut.Dir=Working dir:
 Shortcut.Key=Key:
+Shortcut.GlobalKey=Global hotkey: (Win+)
 Shortcut.SelectFile=Select file (any) to add
 
 TextNote.Title=WindowsDock :: Configuration :: TextNote

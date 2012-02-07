@@ -38,17 +38,21 @@ namespace WindowsDock.Core
 
         public Shortcut Swap(Shortcut item1, Shortcut item2)
         {
-            Shortcut item = new Shortcut(item1.Path, item1.ImageSource, item1.Args, item1.WorkingDirectory, item1.Key);
+            Shortcut item = new Shortcut(item1.Path, item1.ImageSource, item1.Args, item1.WorkingDirectory, item1.Key, item1.GlobalKey, item1.GlobalModifiers);
             item1.Path = item2.Path;
             item1.ImageSource = item2.ImageSource;
             item1.Args = item2.Args;
             item1.WorkingDirectory = item2.WorkingDirectory;
             item1.Key = item2.Key;
+            item1.GlobalKey = item2.GlobalKey;
+            item1.GlobalModifiers = item2.GlobalModifiers;
             item2.Path = item.Path;
             item2.ImageSource = item.ImageSource;
             item2.Args = item.Args;
             item2.WorkingDirectory = item.WorkingDirectory;
             item2.Key = item.Key;
+            item2.GlobalKey = item.GlobalKey;
+            item2.GlobalModifiers = item.GlobalModifiers;
 
             return item2;
         }
@@ -61,6 +65,8 @@ namespace WindowsDock.Core
         private string workingDirectory;
         private ImageSource imageSource;
         private Key key = Key.None;
+        private Key globalKey = Key.None;
+        private ModifierKeys globalModifiers = ModifierKeys.Windows;
 
         public Shortcut() { }
 
@@ -70,13 +76,15 @@ namespace WindowsDock.Core
             WorkingDirectory = System.IO.Path.GetDirectoryName(Path);
         }
 
-        public Shortcut(string path, ImageSource icon, string args, string workingDirectory, Key key)
+        public Shortcut(string path, ImageSource icon, string args, string workingDirectory, Key key, Key globalKey, ModifierKeys globalModifiers)
         {
             Path = path;
             WorkingDirectory = workingDirectory;
             ImageSource = icon;
             Args = args;
             Key = key;
+            GlobalKey = globalKey;
+            GlobalModifiers = globalModifiers;
         }
 
         public string Path
@@ -117,6 +125,26 @@ namespace WindowsDock.Core
             {
                 key = value;
                 FirePropertyChanged("Key");
+            }
+        }
+
+        public Key GlobalKey
+        {
+            get { return globalKey; }
+            set
+            {
+                globalKey = value;
+                FirePropertyChanged("GlobalKey");
+            }
+        }
+
+        public ModifierKeys GlobalModifiers
+        {
+            get { return globalModifiers; }
+            set
+            {
+                globalModifiers = value;
+                FirePropertyChanged("GlobalModifiers");
             }
         }
 

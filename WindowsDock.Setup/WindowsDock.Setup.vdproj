@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0D8A86E14B0E6064416C9759C1D4B008"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0D8A86E14B0E6064416C9759C1D4B008"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_33C1163534C140CD878BF75598624B23"
         "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
         "MsmSig" = "8:_UNDEFINED"
@@ -75,32 +87,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
-        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
-        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B75680D1D76848759EFB0B2AC03BD9FD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
-        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
-        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -111,6 +99,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E5FF1087F52B817E732CBFF7688E40D0"
+        "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E5FF1087F52B817E732CBFF7688E40D0"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_44781DCADD474DBA830A9D754AA59DE3"
         "MsmSig" = "8:_UNDEFINED"
@@ -118,13 +118,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
+        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B8A3C0448DC9535924DF1E9DC8E65F18"
+        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F5BA9E22305212213663D034A1BAD13"
+        "OwnerKey" = "8:_E5FF1087F52B817E732CBFF7688E40D0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_33C1163534C140CD878BF75598624B23"
+        "OwnerKey" = "8:_0D8A86E14B0E6064416C9759C1D4B008"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -250,6 +250,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0D8A86E14B0E6064416C9759C1D4B008"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DesktopCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_0D8A86E14B0E6064416C9759C1D4B008"
+                    {
+                    "Name" = "8:DesktopCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DesktopCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_33C1163534C140CD878BF75598624B23"
             {
             "AssemblyRegister" = "3:1"
@@ -257,6 +288,11 @@
             "AssemblyAsmDisplayName" = "8:WindowsDock.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_33C1163534C140CD878BF75598624B23"
+                    {
+                    "Name" = "8:WindowsDock.Core.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:WindowsDock.Core.dll"
             "TargetName" = "8:"
@@ -343,6 +379,11 @@
             "AssemblyAsmDisplayName" = "8:Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_9002C88155E808A676B00369C6AC5BCF"
+                    {
+                    "Name" = "8:Interop.IWshRuntimeLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Interop.IWshRuntimeLibrary.dll"
             "TargetName" = "8:"
@@ -389,34 +430,13 @@
             "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_9F5BA9E22305212213663D034A1BAD13"
+                    {
+                    "Name" = "8:Interop.Shell32.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Interop.Shell32.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AB780CE311BF0FCBB8D5AB02AFD6FCE6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DesktopCore.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:DesktopCore.Resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
@@ -454,16 +474,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B8A3C0448DC9535924DF1E9DC8E65F18"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8EE37C97047AB3EB1D80447C71E870D"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DesktopCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:DesktopCore.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:shell32.dll"
+            "TargetName" = "8:shell32.dll"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
             "Condition" = "8:"
@@ -480,10 +494,21 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8EE37C97047AB3EB1D80447C71E870D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E5FF1087F52B817E732CBFF7688E40D0"
             {
-            "SourcePath" = "8:shell32.dll"
-            "TargetName" = "8:shell32.dll"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DesktopCore.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E5FF1087F52B817E732CBFF7688E40D0"
+                    {
+                    "Name" = "8:DesktopCore.Resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DesktopCore.Resources.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BD53B30586F94206A02118F1FA4595AD"
             "Condition" = "8:"
@@ -589,15 +614,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WindowsDock"
-        "ProductCode" = "8:{697E3396-D43D-4C9A-8EB2-6B6E1F41FF23}"
-        "PackageCode" = "8:{FA20857D-9A36-4E97-89BE-88EB114E9F78}"
+        "ProductCode" = "8:{AEDCBE3E-93FB-4B18-AB0D-4CCECBE864F5}"
+        "PackageCode" = "8:{164CB8CB-BF30-4D4E-8F4C-02974C99AF6C}"
         "UpgradeCode" = "8:{50648972-B11C-49B7-9718-199A601D8CD6}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.21"
+        "ProductVersion" = "8:1.2.22"
         "Manufacturer" = "8:Neptuo DEV"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://dev.neptuo.com/support"

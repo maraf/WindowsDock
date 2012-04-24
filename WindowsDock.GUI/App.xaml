@@ -142,6 +142,7 @@
             </Setter>
         </Style>
         <Style x:Key="shortcutsItem" TargetType="ListViewItem">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">

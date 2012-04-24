@@ -61,3 +61,6 @@
 
 1.2.21
  - Global hotkeys for shortcuts (for only in combination with Windows key)
+
+1.2.22
+ - Minor fix

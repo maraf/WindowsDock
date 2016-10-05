@@ -2,7 +2,7 @@
 
 Mac OS X like application launcher.
 
-[http://i51.tinypic.com/2mot25u.png]
+![Preview](http://www.neptuo.com/Content/Images/Projects/windows-dock-01.jpg)
 
 ### Build 1.2.22
   * Minor fix (that ugly border around shortcut on main panel vanished)

@@ -152,12 +152,12 @@ Mac OS X like application launcher.
 
 ### Build 1.0.12
 
-[http://i51.tinypic.com/2mot25u.png]
+![Build 1.0.12](http://i51.tinypic.com/2mot25u.png)
 
 ### Build 1.0.1
 
-[http://i55.tinypic.com/2mo5bh3.png]
+![Build 1.0.1](http://i55.tinypic.com/2mo5bh3.png)
 
 ### Build 1.0.0
 
-[http://i55.tinypic.com/9ap7pv.png]
+![Build 1.0.0](http://i55.tinypic.com/9ap7pv.png)
